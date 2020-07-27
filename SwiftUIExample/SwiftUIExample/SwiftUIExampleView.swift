@@ -47,6 +47,7 @@ private extension SwiftUIExampleView {
         }
     }
 
+    // TODO: add the underline effect that also switches depending on which is selected. use geometryreader
     var paletteSegmentedView: some View {
         HStack(spacing: 16) {
             Text("COLOR")

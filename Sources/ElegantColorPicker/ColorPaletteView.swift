@@ -29,7 +29,7 @@ public class ColorPaletteView: SKView {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
-        paletteScene.size = bounds.size
+        _ = paletteScene
     }
 
 }

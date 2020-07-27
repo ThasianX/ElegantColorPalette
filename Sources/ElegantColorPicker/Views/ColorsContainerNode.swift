@@ -28,41 +28,55 @@ class ColorsContainerNode: SKNode {
         }
     }
 
-    func randomizeColorNodesPositions(within size: CGSize) {
+    func randomizeColorNodesPositionsWithBubbleAnimation(within size: CGSize) {
         guard size != .zero else { return }
 
         for child in children {
+            // TODO: refine the positioning such that they aren't spawning on top of each other at times
             child.position = CGPoint(
                 x: Int.random(in: -Int(size.width)..<Int(size.width)),
                 y: Int.random(in: -Int(size.height)..<Int(size.height)))
+
+            child.setScale(0)
+
+            let animationDuration: TimeInterval = .random(in: 0.4...0.6)
+            let fadeInAction = SKAction.fadeIn(withDuration: animationDuration)
+            let scaleUpAction = SKAction.scale(to: 1.1, duration: animationDuration)
+            let scaleDownAction = SKAction.scale(to: 1, duration: 0.2)
+            let rotationAction = SKAction.applyForce(circularVector(for: child), duration: 0.4)
+
+            let actionSequence = SKAction.sequence([.group([fadeInAction, scaleUpAction]), scaleDownAction, rotationAction])
+
+            child.run(actionSequence)
         }
     }
 
-    // TODO: refine this logic and make the rotation more variable
-    func updateGravity() {
+    func rotateNodes() {
         for child in children {
-            let xPos = child.position.x
-            let yPos = child.position.y
-
-            let newX = Double(xPos)*cos(circularShiftRadians) - Double(yPos)*sin(circularShiftRadians)
-            let newY = Double(xPos)*sin(circularShiftRadians) + Double(yPos)*cos(circularShiftRadians)
-
-            let magnitude = hypot(newX, newY)
-
-            let unitVector = CGVector(dx: CGFloat(newX / magnitude),
-                                      dy: CGFloat(newY / magnitude))
-            let radiusVector = CGVector(dx: unitVector.dx * innerRadius,
-                                        dy: unitVector.dy * innerRadius)
-
-            let invertedDistanceVector = CGVector(dx: position.x - xPos,
-                                                  dy: position.y - yPos)
-
-            let circularVector = CGVector(dx: (invertedDistanceVector.dx + radiusVector.dx) * gravityMultiplier,
-                                          dy: (invertedDistanceVector.dy + radiusVector.dy) * gravityMultiplier)
-            // TODO: make this more variable such that it's not just the same circular pattern
-            // TODO: fix some nodes in the beginning that don't move
-            child.physicsBody?.applyForce(circularVector)
+            child.physicsBody?.applyForce(circularVector(for: child))
         }
+    }
+
+    // TODO: make this more variable such that it's not just the same circular pattern
+    private func circularVector(for child: SKNode) -> CGVector {
+        let xPos = child.position.x
+        let yPos = child.position.y
+
+        let newX = Double(xPos)*cos(circularShiftRadians) - Double(yPos)*sin(circularShiftRadians)
+        let newY = Double(xPos)*sin(circularShiftRadians) + Double(yPos)*cos(circularShiftRadians)
+
+        let magnitude = hypot(newX, newY)
+
+        let unitVector = CGVector(dx: CGFloat(newX / magnitude),
+                                  dy: CGFloat(newY / magnitude))
+        let radiusVector = CGVector(dx: unitVector.dx * innerRadius,
+                                    dy: unitVector.dy * innerRadius)
+
+        let invertedDistanceVector = CGVector(dx: position.x - xPos,
+                                              dy: position.y - yPos)
+
+        return CGVector(dx: (invertedDistanceVector.dx + radiusVector.dx) * gravityMultiplier,
+                                      dy: (invertedDistanceVector.dy + radiusVector.dy) * gravityMultiplier)
     }
 
 }

@@ -28,13 +28,6 @@ class ColorPaletteScene: SKScene {
 
     private var state: InteractionState = .init()
 
-    override var size: CGSize {
-        didSet {
-            // TODO: add animation of bubbling up when size is set
-            containerNode.randomizeColorNodesPositions(within: size/4)
-        }
-    }
-
     init(colors: [PaletteColor]) {
         paletteColors = colors
         super.init(size: .zero)
@@ -48,6 +41,8 @@ class ColorPaletteScene: SKScene {
         configureScenePhysics()
 
         addChild(containerNode)
+
+        containerNode.randomizeColorNodesPositionsWithBubbleAnimation(within: size/4)
     }
 
     private func configureScenePhysics() {
@@ -61,7 +56,7 @@ class ColorPaletteScene: SKScene {
 extension ColorPaletteScene {
 
     override func update(_ currentTime: TimeInterval) {
-        containerNode.updateGravity()
+        containerNode.rotateNodes()
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
