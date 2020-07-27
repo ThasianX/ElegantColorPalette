@@ -42,7 +42,8 @@ class ColorPaletteScene: SKScene {
 
         addChild(containerNode)
 
-        containerNode.randomizeColorNodesPositionsWithBubbleAnimation(within: size/4)
+        let spawnSize = CGSize(width: (size.width/2)-40, height: size.height/4)
+        containerNode.randomizeColorNodesPositionsWithBubbleAnimation(within: spawnSize)
     }
 
     private func configureScenePhysics() {
