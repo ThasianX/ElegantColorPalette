@@ -39,13 +39,18 @@ class ColorsContainerNode: SKNode {
 
             child.setScale(0)
 
-            let animationDuration: TimeInterval = .random(in: 0.4...0.6)
-            let fadeInAction = SKAction.fadeIn(withDuration: animationDuration)
-            let scaleUpAction = SKAction.scale(to: 1.1, duration: animationDuration)
-            let scaleDownAction = SKAction.scale(to: 1, duration: 0.2)
-            let rotationAction = SKAction.applyForce(circularVector(for: child), duration: 0.4)
+            let waitDuration: TimeInterval = .random(in: 0...0.4)
+            let waitAction = SKAction.wait(forDuration: waitDuration)
 
-            let actionSequence = SKAction.sequence([.group([fadeInAction, scaleUpAction]), scaleDownAction, rotationAction])
+            let fadeInAction = SKAction.fadeIn(withDuration: 0.4)
+            let scaleUpAction = SKAction.scale(to: 1.1, duration: 0.4)
+            let scaleDownAction = SKAction.scale(to: 1, duration: 0.2)
+
+            let rotationVector = circularVector(for: child)
+            let magnifiedRotationVector = CGVector(dx: rotationVector.dx*3, dy: rotationVector.dy*3)
+            let rotationAction = SKAction.applyForce(magnifiedRotationVector, duration: 0.4)
+
+            let actionSequence = SKAction.sequence([waitAction, .group([fadeInAction, scaleUpAction]), scaleDownAction, rotationAction])
 
             child.run(actionSequence)
         }
