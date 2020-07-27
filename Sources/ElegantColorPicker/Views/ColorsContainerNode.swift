@@ -31,11 +31,13 @@ class ColorsContainerNode: SKNode {
     func randomizeColorNodesPositionsWithBubbleAnimation(within size: CGSize) {
         guard size != .zero else { return }
 
+        var spawnPositions = validPositions(within: size)
+
         for child in children {
-            // TODO: refine the positioning such that they aren't spawning on top of each other at times
-            child.position = CGPoint(
-                x: Int.random(in: -Int(size.width)..<Int(size.width)),
-                y: Int.random(in: -Int(size.height)..<Int(size.height)))
+            let spawnIndex = Int.random(in: 0..<spawnPositions.count)
+            let spawnPosition = spawnPositions[spawnIndex]
+            spawnPositions.remove(at: spawnIndex)
+            child.position = spawnPosition
 
             child.setScale(0)
 
@@ -54,6 +56,26 @@ class ColorsContainerNode: SKNode {
 
             child.run(actionSequence)
         }
+    }
+
+    private func validPositions(within size: CGSize) -> [CGPoint] {
+        var validPositions = [CGPoint]()
+
+        let numberOfRows = Int(size.height*2 / circleLength)
+        let numberOfCols = Int(size.width*2 / circleLength)
+
+        let startingXPos = -size.width
+        let startingYPos = -size.height
+
+        for row in 0..<numberOfRows {
+            for col in 0..<numberOfCols {
+                let point = CGPoint(x: startingXPos + circleLength*CGFloat(row),
+                                    y: startingYPos + circleLength*CGFloat(col))
+                validPositions.append(point)
+            }
+        }
+
+        return validPositions
     }
 
     func rotateNodes() {

@@ -5,6 +5,7 @@ import UIKit
 
 // TODO: Add support for custom circle radius and custom circle count. circleradius should be up to user to provide
 let circleRadius: CGFloat = 25
+let circleLength = circleRadius*2
 
 fileprivate let dragVelocityMultiplier: CGFloat = 10
 fileprivate let snapVelocityMultiplier: CGFloat = 5
