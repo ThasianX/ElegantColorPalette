@@ -17,7 +17,7 @@ public struct PaletteColor {
 
 }
 
-extension PaletteColor {
+public extension PaletteColor {
 
     static let allColors: [PaletteColor] = [
         .antwerpBlue,
@@ -39,6 +39,13 @@ extension PaletteColor {
         .sunflowerYellow,
         .underwaterBlue,
         .wednesdayPink,
+    ]
+
+    static let allBwColors: [PaletteColor] = [
+        .bonoboGrey,
+        .lunaBlack,
+        .pebbleGrey,
+        .white
     ]
 
 }
@@ -66,6 +73,11 @@ public extension PaletteColor {
     static let underwaterBlue = PaletteColor(name: "Underwater Blue", uiColor: .underwaterBlue)
     static let wednesdayPink = PaletteColor(name: "Wednesday Pink", uiColor: .wednesdayPink)
 
+    static let bonoboGrey = PaletteColor(name: "Bonobo Grey", uiColor: .bonoboGrey)
+    static let lunaBlack = PaletteColor(name: "Luna Black", uiColor: .lunaBlack)
+    static let pebbleGrey = PaletteColor(name: "Pebble Grey", uiColor: .pebbleGrey)
+    static let white = PaletteColor(name: "White", uiColor: .white)
+
 }
 
 private extension UIColor {
@@ -90,6 +102,11 @@ private extension UIColor {
     static let sunflowerYellow = UIColor(red: 196, green: 151, blue: 51)
     static let underwaterBlue = UIColor(red: 25, green: 142, blue: 152)
     static let wednesdayPink = UIColor(red: 179, green: 102, blue: 159)
+
+    static let bonoboGrey = UIColor(red: 40, green: 66, blue: 73)
+    static let lunaBlack = UIColor(red: 24, green: 29, blue: 32)
+    static let pebbleGrey = UIColor(red: 140, green: 140, blue: 122)
+    static let white = UIColor(red: 245, green: 250, blue: 250)
 
 }
 
