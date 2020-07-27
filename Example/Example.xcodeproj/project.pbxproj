@@ -14,6 +14,8 @@
 		1E11917524CE3487007B1FFE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E11917424CE3487007B1FFE /* Preview Assets.xcassets */; };
 		1E11917824CE3487007B1FFE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E11917624CE3487007B1FFE /* LaunchScreen.storyboard */; };
 		1E2C8EE524CE636400BC7D43 /* ColorPaletteDynamicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C8EE424CE636400BC7D43 /* ColorPaletteDynamicView.swift */; };
+		1E2C8EE724CE9FD400BC7D43 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C8EE624CE9FD400BC7D43 /* CGPoint+Distance.swift */; };
+		1E2C8EE924CEA00A00BC7D43 /* CGSize+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C8EE824CEA00A00BC7D43 /* CGSize+Operators.swift */; };
 		1EA2975A24CE350B00ADC25E /* ColorPaletteScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA2975224CE350B00ADC25E /* ColorPaletteScene.swift */; };
 		1EA2975B24CE350B00ADC25E /* ColorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA2975324CE350B00ADC25E /* ColorNode.swift */; };
 		1EA2975C24CE350B00ADC25E /* ColorPaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EA2975424CE350B00ADC25E /* ColorPaletteView.swift */; };
@@ -32,6 +34,8 @@
 		1E11917724CE3487007B1FFE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1E11917924CE3487007B1FFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E2C8EE424CE636400BC7D43 /* ColorPaletteDynamicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteDynamicView.swift; sourceTree = "<group>"; };
+		1E2C8EE624CE9FD400BC7D43 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Distance.swift"; sourceTree = "<group>"; };
+		1E2C8EE824CEA00A00BC7D43 /* CGSize+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGSize+Operators.swift"; sourceTree = "<group>"; };
 		1EA2975224CE350B00ADC25E /* ColorPaletteScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPaletteScene.swift; sourceTree = "<group>"; };
 		1EA2975324CE350B00ADC25E /* ColorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorNode.swift; sourceTree = "<group>"; };
 		1EA2975424CE350B00ADC25E /* ColorPaletteView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPaletteView.swift; sourceTree = "<group>"; };
@@ -114,8 +118,8 @@
 			isa = PBXGroup;
 			children = (
 				1EA2975224CE350B00ADC25E /* ColorPaletteScene.swift */,
-				1EA2975324CE350B00ADC25E /* ColorNode.swift */,
 				1EA2975524CE350B00ADC25E /* ColorsContainerNode.swift */,
+				1EA2975324CE350B00ADC25E /* ColorNode.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -132,6 +136,8 @@
 		1EA2975824CE350B00ADC25E /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				1E2C8EE624CE9FD400BC7D43 /* CGPoint+Distance.swift */,
+				1E2C8EE824CEA00A00BC7D43 /* CGSize+Operators.swift */,
 				1EA2975924CE350B00ADC25E /* SKShapeNode+Radius.swift */,
 			);
 			path = Extensions;
@@ -208,6 +214,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1E2C8EE924CEA00A00BC7D43 /* CGSize+Operators.swift in Sources */,
 				1EA2975E24CE350B00ADC25E /* PaletteColor.swift in Sources */,
 				1EA2975F24CE350B00ADC25E /* SKShapeNode+Radius.swift in Sources */,
 				1EA2975B24CE350B00ADC25E /* ColorNode.swift in Sources */,
@@ -215,6 +222,7 @@
 				1E2C8EE524CE636400BC7D43 /* ColorPaletteDynamicView.swift in Sources */,
 				1E11916C24CE3484007B1FFE /* AppDelegate.swift in Sources */,
 				1EA2975A24CE350B00ADC25E /* ColorPaletteScene.swift in Sources */,
+				1E2C8EE724CE9FD400BC7D43 /* CGPoint+Distance.swift in Sources */,
 				1EA2975C24CE350B00ADC25E /* ColorPaletteView.swift in Sources */,
 				1E11916E24CE3484007B1FFE /* SceneDelegate.swift in Sources */,
 				1E11917024CE3484007B1FFE /* SwiftUIExampleView.swift in Sources */,

@@ -3,38 +3,51 @@
 import SpriteKit
 import UIKit
 
-let circleCount: Int = 20
-// TODO: Add support for custom circle radius and custom circle count
+// TODO: Add support for custom circle radius and custom circle count. circleradius should be up to user to provide
 let circleRadius: CGFloat = 25
-
-class InteractionState {
-
-    var selectedNode: ColorNode?
-
-    var activeNode: ColorNode?
-    var isDragging: Bool = false
-
-}
 
 fileprivate let dragVelocityMultiplier: CGFloat = 10
 fileprivate let snapVelocityMultiplier: CGFloat = 5
 
+// TODO: add variables, delegates that can track which color is selected and customizability of the colornode like if they want to add extra animations
+// TODO: allow user to pass in initial selected color and configure view off that
 class ColorPaletteScene: SKScene {
 
-    var containerNode: ColorsContainerNode!
+    private class InteractionState {
+        var selectedNode: ColorNode?
 
-    var state: InteractionState = .init()
+        var activeNode: ColorNode?
+        var isDragging: Bool = false
+    }
+
+    let paletteColors: [PaletteColor]
+
+    lazy private var containerNode: ColorsContainerNode = {
+        ColorsContainerNode(colors: paletteColors, gravityMultiplier: 0.5)
+    }()
+
+    private var state: InteractionState = .init()
+
+    override var size: CGSize {
+        didSet {
+            // TODO: add animation of bubbling up when size is set
+            containerNode.randomizeColorNodesPositions(within: size/4)
+        }
+    }
+
+    init(colors: [PaletteColor]) {
+        paletteColors = colors
+        super.init(size: .zero)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func didMove(to view: SKView) {
         configureScenePhysics()
 
-        containerNode = ColorsContainerNode(gravityRange: max(size.width, size.height),
-                                            gravityMultiplier: 0.5)
         addChild(containerNode)
-
-        addColorNodesToContainer()
-
-        // TODO: add animation of bubbling up when first loaded
     }
 
     private func configureScenePhysics() {
@@ -43,16 +56,9 @@ class ColorPaletteScene: SKScene {
         backgroundColor = .clear
     }
 
-    private func addColorNodesToContainer() {
-        for paletteColor in PaletteColor.allColors {
-            let colorNode = ColorNode(circleOfRadius: circleRadius, paletteColor: paletteColor)
-            containerNode.addChild(colorNode)
+}
 
-            colorNode.position = CGPoint(
-                x: Int.random(in: -(Int(size.width) / 4)..<(Int(size.width) / 4)),
-                y: Int.random(in: -(Int(size.height) / 4)..<(Int(size.height) / 4)))
-        }
-    }
+extension ColorPaletteScene {
 
     override func update(_ currentTime: TimeInterval) {
         containerNode.updateGravity()
@@ -66,6 +72,15 @@ class ColorPaletteScene: SKScene {
 
         state.activeNode = node
         node.highlight()
+    }
+
+    private func node(at location: CGPoint) -> ColorNode? {
+        for node in nodes(at: location) {
+            if let colorNode = node as? ColorNode {
+                return colorNode
+            }
+        }
+        return nil
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -117,22 +132,6 @@ class ColorPaletteScene: SKScene {
         state.selectedNode?.run(moveAction) { [unowned self] in
             self.state.selectedNode?.select()
         }
-    }
-
-}
-
-extension ColorPaletteScene {
-
-    func node(at point: CGPoint) -> ColorNode? {
-        nodes(at: point).compactMap { $0 as? ColorNode }.filter { $0.path!.contains(convert(point, to: $0)) }.first
-    }
-
-}
-
-extension CGPoint {
-
-    func distance(from point: CGPoint) -> CGFloat {
-        hypot(point.x - x, point.y - y)
     }
 
 }

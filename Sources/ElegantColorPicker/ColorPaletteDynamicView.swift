@@ -1,30 +1,23 @@
 // Kevin Li - 6:20 PM - 7/26/20
 
-import SpriteKit
 import SwiftUI
 
-public struct ColorPaletteDynamicView: View {
+public struct ColorPaletteDynamicView: UIViewRepresentable {
 
-    public var body: some View {
-        GeometryReader { geometry in
-            ColorPaletteWrapper(frame: geometry.frame(in: .global))
-        }
+    public typealias UIViewType = ColorPaletteView
+
+    // TODO: add like @state options or create a `View` to uses this wrapper
+
+    public let colors: [PaletteColor]
+
+    public init(colors: [PaletteColor]) {
+        self.colors = colors
     }
 
-}
-
-private struct ColorPaletteWrapper: UIViewRepresentable {
-
-    typealias UIViewType = ColorPaletteView
-
-    let frame: CGRect
-
-    func makeUIView(context: Context) -> ColorPaletteView {
-        ColorPaletteView(frame: frame)
+    public func makeUIView(context: Context) -> ColorPaletteView {
+        ColorPaletteView(colors: colors)
     }
 
-    func updateUIView(_ uiView: ColorPaletteView, context: Context) {
-        // TODO: add logic to update frame in here. important part is adding logic to the actual scene view itself
-    }
+    public func updateUIView(_ uiView: ColorPaletteView, context: Context) {}
 
 }

@@ -11,6 +11,7 @@ fileprivate let animationDuration: TimeInterval = 0.2
 
 fileprivate let nameTopPadding: CGFloat = 10
 
+// TODO: maybe let user subclass this? or make a user friendly api
 class ColorNode: SKShapeNode {
 
     var paletteColor: PaletteColor!
@@ -43,6 +44,7 @@ class ColorNode: SKShapeNode {
         strokeColor = .clear
 
         physicsBody = SKPhysicsBody(circleOfRadius: radius)
+        // TODO: density is dependent on radius
         physicsBody?.density = 80
         physicsBody?.allowsRotation = false
     }

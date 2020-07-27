@@ -24,26 +24,30 @@ struct SwiftUIExampleView: View {
         .padding(.top, 32)
     }
 
-    private var headerView: some View {
+}
+
+private extension SwiftUIExampleView {
+
+    var headerView: some View {
         Text("SwiftUI Example")
             .font(.title)
     }
 
-    private var separatorView: some View {
+    var separatorView: some View {
         Rectangle()
             .fill(Color.gray)
             .frame(height: 0.5)
             .padding(.horizontal, 16)
     }
 
-    private var paletteWithSegmentedView: some View {
+    var paletteWithSegmentedView: some View {
         ZStack(alignment: .top) {
             paletteView
             paletteSegmentedView
         }
     }
 
-    private var paletteSegmentedView: some View {
+    var paletteSegmentedView: some View {
         HStack(spacing: 16) {
             Text("COLOR")
                 .foregroundColor(isColorPaletteSelected ? .red : .gray)
@@ -59,16 +63,16 @@ struct SwiftUIExampleView: View {
         .font(.subheadline)
     }
 
-    private func setSelectedPalette(to palette: PaletteSelection) {
+    func setSelectedPalette(to palette: PaletteSelection) {
         paletteSelection = palette
     }
 
-    private var paletteView: some View {
+    var paletteView: some View {
         Group {
             if isColorPaletteSelected {
-                ColorPaletteDynamicView()
+                ColorPaletteDynamicView(colors: PaletteColor.allColors)
             } else {
-                ColorPaletteDynamicView()
+                ColorPaletteDynamicView(colors: PaletteColor.allBwColors)
             }
         }
         .edgesIgnoringSafeArea(.bottom)
