@@ -6,6 +6,7 @@ import UIKit
 fileprivate let circularShiftRadians: Double = -20 * (.pi / 180)
 // TODO: this depends on circleradius
 fileprivate let innerRadius: CGFloat = 70
+fileprivate let rotationSpeed: CGFloat = 30
 
 class ColorsContainerNode: SKNode {
 
@@ -84,26 +85,30 @@ class ColorsContainerNode: SKNode {
         }
     }
 
-    // TODO: make this more variable such that it's not just the same circular pattern
     private func circularVector(for child: SKNode) -> CGVector {
-        let xPos = child.position.x
-        let yPos = child.position.y
+        let positionVector = CGVector(dx: child.position.x,
+                                      dy: child.position.y)
 
-        let newX = Double(xPos)*cos(circularShiftRadians) - Double(yPos)*sin(circularShiftRadians)
-        let newY = Double(xPos)*sin(circularShiftRadians) + Double(yPos)*cos(circularShiftRadians)
+        // Vector formula for rotating a vector theta degrees
+        let newX = Double(positionVector.dx)*cos(circularShiftRadians) - Double(positionVector.dy)*sin(circularShiftRadians)
+        let newY = Double(positionVector.dx)*sin(circularShiftRadians) + Double(positionVector.dy)*cos(circularShiftRadians)
 
-        let magnitude = hypot(newX, newY)
+        let newPositionVector = CGVector(dx: newX, dy: newY)
+        let radiusVector = newPositionVector.asUnitVector * innerRadius
 
-        let unitVector = CGVector(dx: CGFloat(newX / magnitude),
-                                  dy: CGFloat(newY / magnitude))
-        let radiusVector = CGVector(dx: unitVector.dx * innerRadius,
-                                    dy: unitVector.dy * innerRadius)
+        // Invert the position vector to have its tip pointing towards the origin(0,0).
+        // This makes the add operation more intuitive.
+        let rotationVector = CGVector(dx: -positionVector.dx + radiusVector.dx,
+                                      dy: -positionVector.dy + radiusVector.dy)
+        let unitRotationVector = rotationVector.asUnitVector
 
-        let invertedDistanceVector = CGVector(dx: position.x - xPos,
-                                              dy: position.y - yPos)
+        let normalizedRotationVector = CGVector(dx: unitRotationVector.dx * rotationSpeed,
+                                                dy: unitRotationVector.dy * rotationSpeed)
 
-        return CGVector(dx: (invertedDistanceVector.dx + radiusVector.dx) * gravityMultiplier,
-                                      dy: (invertedDistanceVector.dy + radiusVector.dy) * gravityMultiplier)
+        let entropyRotationVector = CGVector(dx: normalizedRotationVector.dx + CGFloat.random(in: -10...10),
+                                             dy: normalizedRotationVector.dy + CGFloat.random(in: -10...10))
+
+        return entropyRotationVector
     }
 
 }

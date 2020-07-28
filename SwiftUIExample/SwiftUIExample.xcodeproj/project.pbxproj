@@ -22,6 +22,8 @@
 		1E2C8F1F24CEA32000BC7D43 /* CGPoint+Distance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C8F1624CEA32000BC7D43 /* CGPoint+Distance.swift */; };
 		1E2C8F2024CEA32000BC7D43 /* SKShapeNode+Radius.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C8F1724CEA32000BC7D43 /* SKShapeNode+Radius.swift */; };
 		1E2C8F2124CEA32000BC7D43 /* CGSize+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C8F1824CEA32000BC7D43 /* CGSize+Operators.swift */; };
+		1EE003FF24CFA245005EC177 /* CGVector+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE003FE24CFA245005EC177 /* CGVector+Operators.swift */; };
+		1EE0040124CFA29B005EC177 /* CGVector+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE0040024CFA29B005EC177 /* CGVector+Additions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +44,8 @@
 		1E2C8F1624CEA32000BC7D43 /* CGPoint+Distance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGPoint+Distance.swift"; sourceTree = "<group>"; };
 		1E2C8F1724CEA32000BC7D43 /* SKShapeNode+Radius.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SKShapeNode+Radius.swift"; sourceTree = "<group>"; };
 		1E2C8F1824CEA32000BC7D43 /* CGSize+Operators.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGSize+Operators.swift"; sourceTree = "<group>"; };
+		1EE003FE24CFA245005EC177 /* CGVector+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+Operators.swift"; sourceTree = "<group>"; };
+		1EE0040024CFA29B005EC177 /* CGVector+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+Additions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,9 +113,9 @@
 		1E2C8F0F24CEA32000BC7D43 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1E2C8F1024CEA32000BC7D43 /* ColorNode.swift */,
 				1E2C8F1124CEA32000BC7D43 /* ColorPaletteScene.swift */,
 				1E2C8F1224CEA32000BC7D43 /* ColorsContainerNode.swift */,
+				1E2C8F1024CEA32000BC7D43 /* ColorNode.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -129,8 +133,10 @@
 			isa = PBXGroup;
 			children = (
 				1E2C8F1624CEA32000BC7D43 /* CGPoint+Distance.swift */,
-				1E2C8F1724CEA32000BC7D43 /* SKShapeNode+Radius.swift */,
 				1E2C8F1824CEA32000BC7D43 /* CGSize+Operators.swift */,
+				1E2C8F1724CEA32000BC7D43 /* SKShapeNode+Radius.swift */,
+				1EE0040024CFA29B005EC177 /* CGVector+Additions.swift */,
+				1EE003FE24CFA245005EC177 /* CGVector+Operators.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -211,12 +217,14 @@
 				1E2C8F0B24CEA31900BC7D43 /* SwiftUIExampleView.swift in Sources */,
 				1E2C8EF924CEA2F900BC7D43 /* SceneDelegate.swift in Sources */,
 				1E2C8F2124CEA32000BC7D43 /* CGSize+Operators.swift in Sources */,
+				1EE003FF24CFA245005EC177 /* CGVector+Operators.swift in Sources */,
 				1E2C8F1B24CEA32000BC7D43 /* ColorNode.swift in Sources */,
 				1E2C8F1A24CEA32000BC7D43 /* ColorPaletteView.swift in Sources */,
 				1E2C8F2024CEA32000BC7D43 /* SKShapeNode+Radius.swift in Sources */,
 				1E2C8F1C24CEA32000BC7D43 /* ColorPaletteScene.swift in Sources */,
 				1E2C8F1924CEA32000BC7D43 /* ColorPaletteDynamicView.swift in Sources */,
 				1E2C8F1D24CEA32000BC7D43 /* ColorsContainerNode.swift in Sources */,
+				1EE0040124CFA29B005EC177 /* CGVector+Additions.swift in Sources */,
 				1E2C8F1E24CEA32000BC7D43 /* PaletteColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
