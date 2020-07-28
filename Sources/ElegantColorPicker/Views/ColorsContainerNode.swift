@@ -27,8 +27,6 @@ class ColorsContainerNode: SKNode {
     }
 
     func randomizeColorNodesPositionsWithBubbleAnimation(within size: CGSize) {
-        guard size != .zero else { return }
-
         var spawnPositions = validPositions(within: size)
 
         for child in children {
