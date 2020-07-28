@@ -3,7 +3,7 @@
 import SwiftUI
 import UIKit
 
-public struct PaletteColor {
+public struct PaletteColor: Equatable {
 
     public let name: String
     public let uiColor: UIColor
@@ -13,7 +13,7 @@ public struct PaletteColor {
         self.uiColor = uiColor
     }
 
-    // TODO: add support for SwiftUI `Color`
+    // TODO: add support for SwiftUI `Color`?
 
 }
 

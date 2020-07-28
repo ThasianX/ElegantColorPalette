@@ -1,5 +1,6 @@
 // Kevin Li - 2:31 PM - 7/26/20
 
+import Combine
 import SpriteKit
 import UIKit
 
@@ -11,7 +12,6 @@ fileprivate let dragVelocityMultiplier: CGFloat = 10
 fileprivate let snapVelocityMultiplier: CGFloat = 5
 
 // TODO: add variables, delegates that can track which color is selected and customizability of the colornode like if they want to add extra animations
-// TODO: allow user to pass in initial selected color and configure view off that
 class ColorPaletteScene: SKScene {
 
     private class InteractionState {
@@ -21,16 +21,16 @@ class ColorPaletteScene: SKScene {
         var isDragging: Bool = false
     }
 
-    let paletteColors: [PaletteColor]
+    let paletteManager: ColorPaletteManager
 
-    lazy private var containerNode: ColorsContainerNode = {
-        ColorsContainerNode(colors: paletteColors)
-    }()
+    private var containerNode: ColorsContainerNode!
 
     private var state: InteractionState = .init()
 
-    init(colors: [PaletteColor]) {
-        paletteColors = colors
+    private var cancellables = Set<AnyCancellable>()
+
+    init(paletteManager: ColorPaletteManager) {
+        self.paletteManager = paletteManager
         super.init(size: .zero)
     }
 
@@ -41,16 +41,37 @@ class ColorPaletteScene: SKScene {
     override func didMove(to view: SKView) {
         configureScenePhysics()
 
-        addChild(containerNode)
+        paletteManager.$colors.sink { colors in
+            self.update(colors: colors)
+        }.store(in: &cancellables)
 
-        let spawnSize = CGSize(width: (size.width/2)-40, height: size.height/4)
-        containerNode.randomizeColorNodesPositionsWithBubbleAnimation(within: spawnSize)
+        paletteManager.$selectedColor.sink { selectedColor in
+            self.update(selectedColor: selectedColor)
+        }.store(in: &cancellables)
     }
 
     private func configureScenePhysics() {
         scene?.physicsBody = SKPhysicsBody(edgeLoopFrom: frame)
         scene?.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         backgroundColor = .clear
+    }
+
+    private func update(colors: [PaletteColor]) {
+        if let containerNode = containerNode, containerNode.parent != nil {
+            containerNode.removeFromParent()
+        }
+
+        containerNode = ColorsContainerNode(colors: colors)
+        addChild(containerNode)
+
+        let spawnSize = CGSize(width: (size.width/2)-40, height: size.height/4)
+        containerNode.randomizeColorNodesPositionsWithBubbleAnimation(within: spawnSize)
+    }
+
+    private func update(selectedColor: PaletteColor?) {
+        // TODO: make the selectedcolor have the highlighted ring around it.
+        // I think the actual color node needs to be updated such that it only sticks to the center
+        // after a user tap, not because its color is selected. So we can decouple the highlight from user interaction
     }
 
 }
@@ -109,9 +130,11 @@ extension ColorPaletteScene {
                 snapSelectedNodeToCenter()
             }
         } else {
-            state.selectedNode?.unselect()
-            state.selectedNode = activeNode
-            snapSelectedNodeToCenter()
+            if activeNode != state.selectedNode {
+                state.selectedNode?.unselect()
+                state.selectedNode = activeNode
+                snapSelectedNodeToCenter()
+            }
         }
 
         state.activeNode = nil
@@ -125,11 +148,17 @@ extension ColorPaletteScene {
                                   dy: offset.y*snapVelocityMultiplier)
         state.selectedNode?.physicsBody?.velocity = snapVector
 
-        // TODO: fix rough moveto animation at times
         let moveAction = SKAction.move(to: .zero, duration: 0.15)
         state.selectedNode?.run(moveAction) { [unowned self] in
             self.state.selectedNode?.select()
+            self.paletteManager.selectedColor = self.state.selectedNode!.paletteColor
         }
     }
+
+}
+
+extension ColorPaletteScene {
+
+
 
 }

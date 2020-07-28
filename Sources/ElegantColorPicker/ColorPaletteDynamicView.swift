@@ -6,18 +6,43 @@ public struct ColorPaletteDynamicView: UIViewRepresentable {
 
     public typealias UIViewType = ColorPaletteView
 
-    // TODO: add like @state options or create a `View` to uses this wrapper
+    let colors: [PaletteColor]
+    @Binding var selectedColor: PaletteColor?
 
-    public let colors: [PaletteColor]
+    var didSelectColor: ((PaletteColor) -> Void)?
 
-    public init(colors: [PaletteColor]) {
+    public init(colors: [PaletteColor], selectedColor: Binding<PaletteColor?> = .constant(nil)) {
         self.colors = colors
+        self._selectedColor = selectedColor
     }
 
     public func makeUIView(context: Context) -> ColorPaletteView {
-        ColorPaletteView(colors: colors)
+        ColorPaletteView(colors: colors, selectedColor: selectedColor)
     }
 
-    public func updateUIView(_ uiView: ColorPaletteView, context: Context) {}
+    private func groupedCallback(_ color: PaletteColor) {
+        bindingCallback(color)
+        didSelectColor?(color)
+    }
+
+    private func bindingCallback(_ color: PaletteColor) {
+        DispatchQueue.main.async {
+            self.selectedColor = color
+        }
+    }
+
+    public func updateUIView(_ uiView: ColorPaletteView, context: Context) {
+        uiView
+            .didSelectColor(groupedCallback)
+            .update(withColors: colors, selectedColor: selectedColor)
+    }
+
+}
+
+extension ColorPaletteDynamicView: Buildable {
+
+    public func didSelectColor(_ callback: ((PaletteColor) -> Void)?) -> Self {
+        mutating(keyPath: \.didSelectColor, value: callback)
+    }
 
 }

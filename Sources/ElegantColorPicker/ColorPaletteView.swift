@@ -5,18 +5,23 @@ import UIKit
 
 public class ColorPaletteView: SKView {
 
-    @objc lazy var paletteScene: ColorPaletteScene = {
-        let scene = ColorPaletteScene(colors: colors)
+    private lazy var paletteScene: ColorPaletteScene = {
+        let scene = ColorPaletteScene(paletteManager: paletteManager)
         scene.scaleMode = .resizeFill
         scene.anchorPoint = .init(x: 0.5, y: 0.5)
         presentScene(scene)
         return scene
     }()
 
-    public let colors: [PaletteColor]
+    private let paletteManager: ColorPaletteManager
 
     public init(colors: [PaletteColor]) {
-        self.colors = colors
+        paletteManager = ColorPaletteManager(colors: colors, selectedColor: nil)
+        super.init(frame: .zero)
+    }
+
+    public init(colors: [PaletteColor], selectedColor: PaletteColor?) {
+        paletteManager = ColorPaletteManager(colors: colors, selectedColor: selectedColor)
         super.init(frame: .zero)
     }
 
@@ -25,11 +30,27 @@ public class ColorPaletteView: SKView {
     }
 
     // https://stackoverflow.com/questions/728372/when-is-layoutsubviews-called
-    // TODO: add support for dynamic sizing. look at Magnetic for howto
     public override func layoutSubviews() {
         super.layoutSubviews()
 
         _ = paletteScene
+    }
+
+    /// Use if you want to update the colors being shown in the view.
+    public func update(withColors colors: [PaletteColor], selectedColor: PaletteColor? = nil) {
+        guard paletteManager.colors != colors else { return }
+        
+        paletteManager.colors = colors
+        paletteManager.selectedColor = selectedColor
+    }
+
+}
+
+public extension ColorPaletteView {
+
+    func didSelectColor(_ callback: ((PaletteColor) -> Void)?) -> Self {
+        paletteManager.didSelectColor = callback
+        return self
     }
 
 }

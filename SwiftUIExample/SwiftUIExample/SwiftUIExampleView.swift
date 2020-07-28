@@ -10,6 +10,7 @@ enum PaletteSelection {
 struct SwiftUIExampleView: View {
 
     @State private var paletteSelection: PaletteSelection = .color
+    @State private var selectedColor: PaletteColor? = nil
 
     private var isColorPaletteSelected: Bool {
         paletteSelection == .color
@@ -51,12 +52,12 @@ private extension SwiftUIExampleView {
     var paletteSegmentedView: some View {
         HStack(spacing: 16) {
             Text("COLOR")
-                .foregroundColor(isColorPaletteSelected ? .red : .gray)
+                .foregroundColor(isColorPaletteSelected ? selectedColor?.uiColor.asColor ?? .gray : .gray)
                 .onTapGesture {
                     self.setSelectedPalette(to: .color)
                 }
             Text("B&W")
-                .foregroundColor(isColorPaletteSelected ? .gray : .red)
+                .foregroundColor(isColorPaletteSelected ? .gray : selectedColor?.uiColor.asColor ?? .gray)
                 .onTapGesture {
                     self.setSelectedPalette(to: .bw)
                 }
@@ -68,15 +69,14 @@ private extension SwiftUIExampleView {
         paletteSelection = palette
     }
 
+    // TODO: make this view match timepage
     var paletteView: some View {
-        Group {
-            if isColorPaletteSelected {
-                ColorPaletteDynamicView(colors: PaletteColor.allColors)
-            } else {
-                ColorPaletteDynamicView(colors: PaletteColor.allBwColors)
-            }
-        }
-        .edgesIgnoringSafeArea(.bottom)
+        ColorPaletteDynamicView(colors: colors, selectedColor: $selectedColor)
+            .edgesIgnoringSafeArea(.bottom)
+    }
+
+    var colors: [PaletteColor] {
+        isColorPaletteSelected ? PaletteColor.allColors : PaletteColor.allBwColors
     }
 
 }
@@ -86,4 +86,3 @@ struct SwiftUIExampleView_Previews: PreviewProvider {
         SwiftUIExampleView()
     }
 }
-
