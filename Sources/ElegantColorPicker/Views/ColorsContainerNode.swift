@@ -5,15 +5,12 @@ import UIKit
 
 fileprivate let circularShiftRadians: Double = -20 * (.pi / 180)
 // TODO: this depends on circleradius
-fileprivate let innerRadius: CGFloat = 70
+fileprivate let innerRadius: CGFloat = circleRadius*3
 fileprivate let rotationSpeed: CGFloat = 30
 
 class ColorsContainerNode: SKNode {
 
-    let gravityMultiplier: CGFloat
-
-    init(colors: [PaletteColor], gravityMultiplier: CGFloat) {
-        self.gravityMultiplier = gravityMultiplier
+    init(colors: [PaletteColor]) {
         super.init()
         addColorNodes(colors: colors)
     }
@@ -50,10 +47,10 @@ class ColorsContainerNode: SKNode {
             let scaleDownAction = SKAction.scale(to: 1, duration: 0.2)
 
             let rotationVector = circularVector(for: child)
-            let magnifiedRotationVector = CGVector(dx: rotationVector.dx*3, dy: rotationVector.dy*3)
+            let magnifiedRotationVector = CGVector(dx: rotationVector.dx*6, dy: rotationVector.dy*6)
             let rotationAction = SKAction.applyForce(magnifiedRotationVector, duration: 0.4)
 
-            let actionSequence = SKAction.sequence([waitAction, .group([fadeInAction, scaleUpAction]), scaleDownAction, rotationAction])
+            let actionSequence = SKAction.sequence([waitAction, .group([fadeInAction, scaleUpAction, rotationAction]), scaleDownAction])
 
             child.run(actionSequence)
         }
@@ -62,16 +59,16 @@ class ColorsContainerNode: SKNode {
     private func validPositions(within size: CGSize) -> [CGPoint] {
         var validPositions = [CGPoint]()
 
-        let numberOfRows = Int(size.height*2 / circleLength)
-        let numberOfCols = Int(size.width*2 / circleLength)
+        let numberOfRows = Int(size.height*2 / (circleLength*1.1))
+        let numberOfCols = Int(size.width*2 / circleLength*1.1)
 
         let startingXPos = -size.width
         let startingYPos = -size.height
 
         for row in 0..<numberOfRows {
             for col in 0..<numberOfCols {
-                let point = CGPoint(x: startingXPos + circleLength*CGFloat(row),
-                                    y: startingYPos + circleLength*CGFloat(col))
+                let point = CGPoint(x: startingXPos + (circleLength*1.1)*CGFloat(row),
+                                    y: startingYPos + (circleLength*1.1)*CGFloat(col))
                 validPositions.append(point)
             }
         }

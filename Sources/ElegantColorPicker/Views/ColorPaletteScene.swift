@@ -24,7 +24,7 @@ class ColorPaletteScene: SKScene {
     let paletteColors: [PaletteColor]
 
     lazy private var containerNode: ColorsContainerNode = {
-        ColorsContainerNode(colors: paletteColors, gravityMultiplier: 0.5)
+        ColorsContainerNode(colors: paletteColors)
     }()
 
     private var state: InteractionState = .init()
@@ -125,6 +125,7 @@ extension ColorPaletteScene {
                                   dy: offset.y*snapVelocityMultiplier)
         state.selectedNode?.physicsBody?.velocity = snapVector
 
+        // TODO: fix rough moveto animation at times
         let moveAction = SKAction.move(to: .zero, duration: 0.15)
         state.selectedNode?.run(moveAction) { [unowned self] in
             self.state.selectedNode?.select()
