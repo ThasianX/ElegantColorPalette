@@ -8,12 +8,16 @@ public struct PaletteColor: Equatable {
     public let name: String
     public let uiColor: UIColor
 
+    public var color: Color {
+        uiColor.asColor
+    }
+
+    /// You must pass in a `UIColor`. If you want to get a `Color`, a modifier
+    /// called `asColor` is exposed for `UIColor`. ex: `UIColor.red.asColor`
     public init(name: String, uiColor: UIColor) {
         self.name = name
         self.uiColor = uiColor
     }
-
-    // TODO: add support for SwiftUI `Color`?
 
 }
 
