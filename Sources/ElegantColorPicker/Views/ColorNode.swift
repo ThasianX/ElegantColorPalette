@@ -10,8 +10,8 @@ class ColorNode: SKShapeNode {
     var paletteColor: PaletteColor!
 
     private lazy var nameNode: SKLabelNode = {
-        let node = SKLabelNode(text: paletteColor.name)
-        node.fontName = "SanFranciscoDisplay-Regular"
+        let node = SKLabelNode(fontNamed: "SanFranciscoDisplay-Regular")
+        node.text = paletteColor.name
         node.fontSize = radius*0.7
         node.fontColor = .white
         node.verticalAlignmentMode = .top
