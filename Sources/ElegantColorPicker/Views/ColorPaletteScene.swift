@@ -4,14 +4,9 @@ import Combine
 import SpriteKit
 import UIKit
 
-// TODO: Add support for custom circle radius and custom circle count. circleradius should be up to user to provide
-let circleRadius: CGFloat = 25
-let circleLength = circleRadius*2
-
 fileprivate let dragVelocityMultiplier: CGFloat = 10
 fileprivate let snapVelocityMultiplier: CGFloat = 5
 
-// TODO: add variables, delegates that can track which color is selected and customizability of the colornode like if they want to add extra animations
 class ColorPaletteScene: SKScene {
 
     private class InteractionState {
@@ -23,6 +18,7 @@ class ColorPaletteScene: SKScene {
     }
 
     let paletteManager: ColorPaletteManager
+    let paletteConfiguration: ColorPaletteConfiguration
 
     private var containerNode: ColorsContainerNode!
 
@@ -30,8 +26,9 @@ class ColorPaletteScene: SKScene {
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(paletteManager: ColorPaletteManager) {
+    init(paletteManager: ColorPaletteManager, paletteConfiguration: ColorPaletteConfiguration) {
         self.paletteManager = paletteManager
+        self.paletteConfiguration = paletteConfiguration
         super.init(size: .zero)
     }
 
@@ -42,9 +39,11 @@ class ColorPaletteScene: SKScene {
     override func didMove(to view: SKView) {
         configureScenePhysics()
 
-        paletteManager.$colors.sink { newColors in
-            self.updateColors(newColors)
-        }.store(in: &cancellables)
+        Publishers.CombineLatest(paletteManager.$colors, paletteConfiguration.$nodeRadius)
+            .eraseToAnyPublisher()
+            .sink { colors, radius in
+                self.updateColors(colors, withRadius: radius)
+            }.store(in: &cancellables)
     }
 
     private func configureScenePhysics() {
@@ -53,14 +52,14 @@ class ColorPaletteScene: SKScene {
         backgroundColor = .clear
     }
 
-    private func updateColors(_ colors: [PaletteColor]) {
+    private func updateColors(_ colors: [PaletteColor], withRadius radius: CGFloat) {
         if let containerNode = containerNode, containerNode.parent != nil {
             containerNode.removeFromParent()
         }
 
         state = .init()
 
-        containerNode = ColorsContainerNode(colors: colors)
+        containerNode = ColorsContainerNode(colors: colors, radius: radius)
         addChild(containerNode)
 
         if let selectedNode = containerNode.node(with: paletteManager.selectedColor) {

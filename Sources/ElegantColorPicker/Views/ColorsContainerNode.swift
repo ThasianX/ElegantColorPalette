@@ -4,13 +4,23 @@ import SpriteKit
 import UIKit
 
 fileprivate let circularShiftRadians: Double = -20 * (.pi / 180)
-// TODO: this depends on circleradius
-fileprivate let innerRadius: CGFloat = circleRadius*3
-fileprivate let rotationSpeed: CGFloat = 30
 
 class ColorsContainerNode: SKNode {
 
-    init(colors: [PaletteColor]) {
+    private let nodeRadius: CGFloat
+
+    private lazy var nodeLength: CGFloat = {
+        nodeRadius*2
+    }()
+    private lazy var innerRadius: CGFloat = {
+        nodeLength*1.5
+    }()
+    private lazy var rotationSpeed: CGFloat = {
+        nodeRadius
+    }()
+
+    init(colors: [PaletteColor], radius: CGFloat) {
+        nodeRadius = radius
         super.init()
         addColorNodes(colors: colors)
     }
@@ -21,7 +31,7 @@ class ColorsContainerNode: SKNode {
 
     private func addColorNodes(colors: [PaletteColor]) {
         for paletteColor in colors {
-            let colorNode = ColorNode(circleOfRadius: circleRadius, paletteColor: paletteColor)
+            let colorNode = ColorNode(circleOfRadius: nodeRadius, paletteColor: paletteColor)
             addChild(colorNode)
         }
     }
@@ -57,16 +67,16 @@ class ColorsContainerNode: SKNode {
     private func validPositions(within size: CGSize) -> [CGPoint] {
         var validPositions = [CGPoint]()
 
-        let numberOfRows = Int(size.height*2 / (circleLength*1.1))
-        let numberOfCols = Int(size.width*2 / circleLength*1.1)
+        let numberOfRows = Int(size.height*2 / (nodeLength*1.1))
+        let numberOfCols = Int(size.width*2 / nodeLength*1.1)
 
         let startingXPos = -size.width
         let startingYPos = -size.height
 
         for row in 0..<numberOfRows {
             for col in 0..<numberOfCols {
-                let point = CGPoint(x: startingXPos + (circleLength*1.1)*CGFloat(row),
-                                    y: startingYPos + (circleLength*1.1)*CGFloat(col))
+                let point = CGPoint(x: startingXPos + (nodeLength*1.1)*CGFloat(row),
+                                    y: startingYPos + (nodeLength*1.1)*CGFloat(col))
                 validPositions.append(point)
             }
         }

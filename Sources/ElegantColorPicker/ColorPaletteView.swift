@@ -6,7 +6,7 @@ import UIKit
 public class ColorPaletteView: SKView {
 
     private lazy var paletteScene: ColorPaletteScene = {
-        let scene = ColorPaletteScene(paletteManager: paletteManager)
+        let scene = ColorPaletteScene(paletteManager: paletteManager, paletteConfiguration: paletteConfiguration)
         scene.scaleMode = .resizeFill
         scene.anchorPoint = .init(x: 0.5, y: 0.5)
         presentScene(scene)
@@ -14,6 +14,7 @@ public class ColorPaletteView: SKView {
     }()
 
     private let paletteManager: ColorPaletteManager
+    private let paletteConfiguration: ColorPaletteConfiguration = .init()
 
     public init(colors: [PaletteColor]) {
         paletteManager = ColorPaletteManager(colors: colors, selectedColor: nil)
@@ -50,6 +51,13 @@ public extension ColorPaletteView {
 
     func didSelectColor(_ callback: ((PaletteColor) -> Void)?) -> Self {
         paletteManager.didSelectColor = callback
+        return self
+    }
+
+    func nodeRadius(_ radius: CGFloat) -> Self {
+        if paletteConfiguration.nodeRadius != radius {
+            paletteConfiguration.nodeRadius = radius
+        }
         return self
     }
 

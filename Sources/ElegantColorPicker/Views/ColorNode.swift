@@ -5,7 +5,6 @@ import UIKit
 
 fileprivate let nameTopPadding: CGFloat = 10
 
-// TODO: maybe let user subclass this? or make a user friendly api
 class ColorNode: SKShapeNode {
 
     var paletteColor: PaletteColor!
@@ -13,7 +12,7 @@ class ColorNode: SKShapeNode {
     private lazy var nameNode: SKLabelNode = {
         let node = SKLabelNode(text: paletteColor.name)
         node.fontName = "SanFranciscoDisplay-Regular"
-        node.fontSize = 17
+        node.fontSize = radius*0.7
         node.fontColor = .white
         node.verticalAlignmentMode = .top
         node.position.y -= (radius + nameTopPadding)
@@ -38,8 +37,7 @@ class ColorNode: SKShapeNode {
         strokeColor = .clear
 
         physicsBody = SKPhysicsBody(circleOfRadius: radius)
-        // TODO: density is dependent on radius
-        physicsBody?.density = 80
+        physicsBody?.density = radius * 3
         physicsBody?.allowsRotation = false
     }
 

@@ -27,6 +27,7 @@
 		1EE0044524CFF65A005EC177 /* Buildable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE0044424CFF65A005EC177 /* Buildable.swift */; };
 		1EE0044724CFF99D005EC177 /* ColorPaletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE0044624CFF99D005EC177 /* ColorPaletteManager.swift */; };
 		1EE0044924CFFF7B005EC177 /* UIColor+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE0044824CFFF7B005EC177 /* UIColor+Color.swift */; };
+		1EF02ACD24D10F9500FE3F27 /* ColorPaletteConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF02ACC24D10F9500FE3F27 /* ColorPaletteConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		1EE0044424CFF65A005EC177 /* Buildable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buildable.swift; sourceTree = "<group>"; };
 		1EE0044624CFF99D005EC177 /* ColorPaletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteManager.swift; sourceTree = "<group>"; };
 		1EE0044824CFFF7B005EC177 /* UIColor+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Color.swift"; sourceTree = "<group>"; };
+		1EF02ACC24D10F9500FE3F27 /* ColorPaletteConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteConfiguration.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -162,6 +164,7 @@
 			children = (
 				1E2C8F1424CEA32000BC7D43 /* PaletteColor.swift */,
 				1EE0044624CFF99D005EC177 /* ColorPaletteManager.swift */,
+				1EF02ACC24D10F9500FE3F27 /* ColorPaletteConfiguration.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 				1EE003FF24CFA245005EC177 /* CGVector+Operators.swift in Sources */,
 				1E2C8F1B24CEA32000BC7D43 /* ColorNode.swift in Sources */,
 				1E2C8F1A24CEA32000BC7D43 /* ColorPaletteView.swift in Sources */,
+				1EF02ACD24D10F9500FE3F27 /* ColorPaletteConfiguration.swift in Sources */,
 				1E2C8F2024CEA32000BC7D43 /* SKShapeNode+Radius.swift in Sources */,
 				1E2C8F1C24CEA32000BC7D43 /* ColorPaletteScene.swift in Sources */,
 				1E2C8F1924CEA32000BC7D43 /* ColorPaletteDynamicView.swift in Sources */,
