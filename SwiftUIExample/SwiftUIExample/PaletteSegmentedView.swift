@@ -53,6 +53,7 @@ struct PaletteView: View {
             .font(.system(size: 13, weight: .semibold))
             .tracking(1)
             .foregroundColor(paletteColor)
+            .opacity(isPaletteSelected ? 1 : 0.5)
             .padding(.top, 20)
             .padding(.bottom, 2)
             .contentShape(Rectangle())

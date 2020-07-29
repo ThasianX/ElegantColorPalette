@@ -36,7 +36,8 @@ private extension SwiftUIExampleView {
     var separatorView: some View {
         Rectangle()
             .fill(Color.gray)
-            .frame(height: 0.5)
+            .opacity(0.3)
+            .frame(height: 1)
             .padding(.horizontal, 32)
     }
 
