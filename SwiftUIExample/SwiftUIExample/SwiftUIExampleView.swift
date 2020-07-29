@@ -13,8 +13,9 @@ struct SwiftUIExampleView: View {
     @State private var selectedColor: PaletteColor? = nil
 
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             headerView
+                .padding(.bottom, 20)
             separatorView
             paletteWithSegmentedView
                 .edgesIgnoringSafeArea(.bottom)
@@ -27,8 +28,9 @@ struct SwiftUIExampleView: View {
 private extension SwiftUIExampleView {
 
     var headerView: some View {
-        Text("SwiftUI Example")
-            .font(.title)
+        Text("THEMES")
+            .font(.headline)
+            .tracking(2)
     }
 
     var separatorView: some View {

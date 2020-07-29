@@ -50,9 +50,12 @@ struct PaletteView: View {
 
     var body: some View {
         Text(palette.rawValue)
-            .font(.system(size: 13, weight: .light))
+            .font(.system(size: 13, weight: .semibold))
+            .tracking(1)
             .foregroundColor(paletteColor)
+            .padding(.top, 20)
             .padding(.bottom, 2)
+            .contentShape(Rectangle())
             .anchorPreference(
                 key: PalettePreferenceKey.self,
                 value: .bounds,
