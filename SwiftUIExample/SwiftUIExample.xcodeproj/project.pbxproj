@@ -29,6 +29,7 @@
 		1EE0044924CFFF7B005EC177 /* UIColor+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE0044824CFFF7B005EC177 /* UIColor+Color.swift */; };
 		1EF02ACD24D10F9500FE3F27 /* ColorPaletteConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF02ACC24D10F9500FE3F27 /* ColorPaletteConfiguration.swift */; };
 		1EF02AD124D1394600FE3F27 /* PaletteSegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF02AD024D1394600FE3F27 /* PaletteSegmentedView.swift */; };
+		1EF02AD324D149B500FE3F27 /* Comparable+Clamped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF02AD224D149B500FE3F27 /* Comparable+Clamped.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		1EE0044824CFFF7B005EC177 /* UIColor+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Color.swift"; sourceTree = "<group>"; };
 		1EF02ACC24D10F9500FE3F27 /* ColorPaletteConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteConfiguration.swift; sourceTree = "<group>"; };
 		1EF02AD024D1394600FE3F27 /* PaletteSegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSegmentedView.swift; sourceTree = "<group>"; };
+		1EF02AD224D149B500FE3F27 /* Comparable+Clamped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comparable+Clamped.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 				1EE003FE24CFA245005EC177 /* CGVector+Operators.swift */,
 				1E2C8F1724CEA32000BC7D43 /* SKShapeNode+Radius.swift */,
 				1EE0044824CFFF7B005EC177 /* UIColor+Color.swift */,
+				1EF02AD224D149B500FE3F27 /* Comparable+Clamped.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				1EE0044524CFF65A005EC177 /* Buildable.swift in Sources */,
 				1EE0044924CFFF7B005EC177 /* UIColor+Color.swift in Sources */,
 				1E2C8EF924CEA2F900BC7D43 /* SceneDelegate.swift in Sources */,
+				1EF02AD324D149B500FE3F27 /* Comparable+Clamped.swift in Sources */,
 				1E2C8F2124CEA32000BC7D43 /* CGSize+Operators.swift in Sources */,
 				1EF02AD124D1394600FE3F27 /* PaletteSegmentedView.swift in Sources */,
 				1EE003FF24CFA245005EC177 /* CGVector+Operators.swift in Sources */,

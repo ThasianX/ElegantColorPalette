@@ -151,7 +151,10 @@ extension ColorPaletteScene {
                                   dy: offset.y*snapVelocityMultiplier)
         state.selectedNode?.physicsBody?.velocity = snapVector
 
-        let moveAction = SKAction.move(to: .zero, duration: 0.15)
+        let delta = (offset.distance(from: .zero) / (paletteConfiguration.nodeRadius*3)).clamped(to: 0...1)
+        let duration = 0.15 - 0.15*(1 - delta)
+        let moveAction = SKAction.move(to: .zero,
+                                       duration: TimeInterval(duration))
         moveAction.timingMode = .easeInEaseOut
 
         state.selectedNode?.run(moveAction) { [unowned self] in
@@ -160,11 +163,5 @@ extension ColorPaletteScene {
             self.paletteManager.setSelectedColor(self.state.selectedNode!.paletteColor)
         }
     }
-
-}
-
-extension ColorPaletteScene {
-
-
 
 }
