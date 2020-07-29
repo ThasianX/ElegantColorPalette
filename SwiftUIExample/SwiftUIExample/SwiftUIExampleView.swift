@@ -2,25 +2,22 @@
 
 import SwiftUI
 
-enum PaletteSelection {
-    case color
-    case bw
+enum PaletteSelection: String {
+    case color = "COLOR"
+    case bw = "B&W"
 }
 
 struct SwiftUIExampleView: View {
 
-    @State private var paletteSelection: PaletteSelection = .color
+    @State private var selectedPalette: PaletteSelection = .color
     @State private var selectedColor: PaletteColor? = nil
-
-    private var isColorPaletteSelected: Bool {
-        paletteSelection == .color
-    }
 
     var body: some View {
         VStack {
             headerView
             separatorView
             paletteWithSegmentedView
+                .edgesIgnoringSafeArea(.bottom)
         }
         .padding(.top, 32)
     }
@@ -38,7 +35,7 @@ private extension SwiftUIExampleView {
         Rectangle()
             .fill(Color.gray)
             .frame(height: 0.5)
-            .padding(.horizontal, 16)
+            .padding(.horizontal, 32)
     }
 
     var paletteWithSegmentedView: some View {
@@ -48,35 +45,15 @@ private extension SwiftUIExampleView {
         }
     }
 
-    // TODO: add the underline effect that also switches depending on which is selected. use geometryreader
     var paletteSegmentedView: some View {
-        HStack(spacing: 16) {
-            Text("COLOR")
-                .foregroundColor(isColorPaletteSelected ? selectedColor?.uiColor.asColor ?? .gray : .gray)
-                .onTapGesture {
-                    self.setSelectedPalette(to: .color)
-                }
-            Text("B&W")
-                .foregroundColor(isColorPaletteSelected ? .gray : selectedColor?.uiColor.asColor ?? .gray)
-                .onTapGesture {
-                    self.setSelectedPalette(to: .bw)
-                }
-        }
-        .font(.subheadline)
+        PaletteSegmentedView(selectedPalette: $selectedPalette,
+                             selectedColor: selectedColor)
     }
 
-    func setSelectedPalette(to palette: PaletteSelection) {
-        paletteSelection = palette
-    }
-
-    // TODO: make this view match timepage
     var paletteView: some View {
-        ColorPaletteDynamicView(colors: colors, selectedColor: $selectedColor)
-            .edgesIgnoringSafeArea(.bottom)
-    }
-
-    var colors: [PaletteColor] {
-        isColorPaletteSelected ? PaletteColor.allColors : PaletteColor.allBwColors
+        ColorPaletteDynamicView(
+            colors: (selectedPalette == .color) ? PaletteColor.allColors : PaletteColor.allBwColors,
+            selectedColor: $selectedColor)
     }
 
 }

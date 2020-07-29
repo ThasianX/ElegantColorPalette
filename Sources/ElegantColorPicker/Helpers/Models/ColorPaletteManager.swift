@@ -3,6 +3,7 @@
 import Foundation
 import UIKit
 
+// TODO: allow user to customize the highlight color
 class ColorPaletteManager: ObservableObject {
 
     @Published var colors: [PaletteColor]
