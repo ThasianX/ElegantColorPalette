@@ -14,15 +14,10 @@ class ColorPaletteManager: ObservableObject {
     init(colors: [PaletteColor], selectedColor: PaletteColor?) {
         self.colors = colors
         self.selectedColor = selectedColor
+    }
 
-        $selectedColor
-            .dropFirst()
-            .eraseToAnyPublisher()
-            .compactMap { $0 }
-            .sink { [unowned self] color in
-                // TODO: shouldn't be called after changing `colors`
-                self.didSelectColor?(color)
-            }.store(in: &cancellables)
+    func setSelectedColor(_ color: PaletteColor) {
+        didSelectColor?(color)
     }
 
 }

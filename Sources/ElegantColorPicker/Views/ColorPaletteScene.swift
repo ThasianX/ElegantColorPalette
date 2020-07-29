@@ -16,6 +16,7 @@ class ColorPaletteScene: SKScene {
 
     private class InteractionState {
         var selectedNode: ColorNode?
+        var shouldSnap = false
 
         var activeNode: ColorNode?
         var isDragging: Bool = false
@@ -41,12 +42,8 @@ class ColorPaletteScene: SKScene {
     override func didMove(to view: SKView) {
         configureScenePhysics()
 
-        paletteManager.$colors.sink { colors in
-            self.update(colors: colors)
-        }.store(in: &cancellables)
-
-        paletteManager.$selectedColor.sink { selectedColor in
-            self.update(selectedColor: selectedColor)
+        paletteManager.$colors.sink { newColors in
+            self.updateColors(newColors)
         }.store(in: &cancellables)
     }
 
@@ -56,22 +53,23 @@ class ColorPaletteScene: SKScene {
         backgroundColor = .clear
     }
 
-    private func update(colors: [PaletteColor]) {
+    private func updateColors(_ colors: [PaletteColor]) {
         if let containerNode = containerNode, containerNode.parent != nil {
             containerNode.removeFromParent()
         }
 
+        state = .init()
+
         containerNode = ColorsContainerNode(colors: colors)
         addChild(containerNode)
 
+        if let selectedNode = containerNode.node(with: paletteManager.selectedColor) {
+            selectedNode.highlight()
+            state.selectedNode = selectedNode
+        }
+
         let spawnSize = CGSize(width: (size.width/2)-40, height: size.height/4)
         containerNode.randomizeColorNodesPositionsWithBubbleAnimation(within: spawnSize)
-    }
-
-    private func update(selectedColor: PaletteColor?) {
-        // TODO: make the selectedcolor have the highlighted ring around it.
-        // I think the actual color node needs to be updated such that it only sticks to the center
-        // after a user tap, not because its color is selected. So we can decouple the highlight from user interaction
     }
 
 }
@@ -89,7 +87,7 @@ extension ColorPaletteScene {
         guard let node = node(at: location) else { return }
 
         state.activeNode = node
-        node.highlight()
+        node.onTouchDown()
     }
 
     private func node(at location: CGPoint) -> ColorNode? {
@@ -123,16 +121,22 @@ extension ColorPaletteScene {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
-        activeNode.unhighlight()
+        activeNode.onTouchUp()
 
         if state.isDragging {
-            if activeNode == state.selectedNode {
+            if activeNode == state.selectedNode && state.shouldSnap {
                 snapSelectedNodeToCenter()
             }
         } else {
             if activeNode != state.selectedNode {
-                state.selectedNode?.unselect()
+                state.shouldSnap = true
+                state.selectedNode?.unfocus()
+                state.selectedNode?.unhighlight()
                 state.selectedNode = activeNode
+                snapSelectedNodeToCenter()
+            } else if !state.shouldSnap {
+                state.shouldSnap = true
+                state.selectedNode?.focus()
                 snapSelectedNodeToCenter()
             }
         }
@@ -149,9 +153,12 @@ extension ColorPaletteScene {
         state.selectedNode?.physicsBody?.velocity = snapVector
 
         let moveAction = SKAction.move(to: .zero, duration: 0.15)
+        moveAction.timingMode = .easeInEaseOut
+
         state.selectedNode?.run(moveAction) { [unowned self] in
-            self.state.selectedNode?.select()
-            self.paletteManager.selectedColor = self.state.selectedNode!.paletteColor
+            self.state.selectedNode?.highlight()
+            self.state.selectedNode?.focus()
+            self.paletteManager.setSelectedColor(self.state.selectedNode!.paletteColor)
         }
     }
 

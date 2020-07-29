@@ -107,3 +107,16 @@ class ColorsContainerNode: SKNode {
     }
 
 }
+
+extension ColorsContainerNode {
+
+    func node(with color: PaletteColor?) -> ColorNode? {
+        for child in children {
+            if let node = child as? ColorNode, node.paletteColor == color {
+                return node
+            }
+        }
+        return nil
+    }
+
+}

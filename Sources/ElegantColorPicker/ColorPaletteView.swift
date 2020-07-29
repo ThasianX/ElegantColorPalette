@@ -39,9 +39,9 @@ public class ColorPaletteView: SKView {
     /// Use if you want to update the colors being shown in the view.
     public func update(withColors colors: [PaletteColor], selectedColor: PaletteColor? = nil) {
         guard paletteManager.colors != colors else { return }
-        
-        paletteManager.colors = colors
+
         paletteManager.selectedColor = selectedColor
+        paletteManager.colors = colors
     }
 
 }

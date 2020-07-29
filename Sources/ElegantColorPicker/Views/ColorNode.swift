@@ -3,12 +3,6 @@
 import SpriteKit
 import UIKit
 
-fileprivate let dragScale: CGFloat = 0.9
-fileprivate let normalScale: CGFloat = 1
-fileprivate let fadedAlpha: CGFloat = 0.3
-fileprivate let normalAlpha: CGFloat = 1
-fileprivate let animationDuration: TimeInterval = 0.2
-
 fileprivate let nameTopPadding: CGFloat = 10
 
 // TODO: maybe let user subclass this? or make a user friendly api
@@ -30,7 +24,7 @@ class ColorNode: SKShapeNode {
     private lazy var borderNode: SKShapeNode = {
         let borderNode = SKShapeNode(circleOfRadius: radius + 3)
         borderNode.fillColor = .clear
-        borderNode.strokeColor = fillColor
+        borderNode.strokeColor = paletteColor.uiColor
         borderNode.lineWidth = 1
         return borderNode
     }()
@@ -51,19 +45,23 @@ class ColorNode: SKShapeNode {
 
 }
 
+fileprivate let dragScale: CGFloat = 0.9
+fileprivate let normalScale: CGFloat = 1
+fileprivate let fadedAlpha: CGFloat = 0.3
+fileprivate let normalAlpha: CGFloat = 1
+fileprivate let animationDuration: TimeInterval = 0.2
+
 extension ColorNode {
 
-    func highlight() {
+    func onTouchDown() {
         let scaleAction = SKAction.scale(to: dragScale, duration: animationDuration)
-
         let opacityAction = SKAction.fadeAlpha(to: fadedAlpha, duration: animationDuration)
 
         run(.group([scaleAction, opacityAction]))
     }
 
-    func unhighlight() {
+    func onTouchUp() {
         let scaleAction = SKAction.scale(to: normalScale, duration: animationDuration)
-
         let opacityAction = SKAction.fadeAlpha(to: normalAlpha, duration: animationDuration)
 
         run(.group([scaleAction, opacityAction]))
@@ -73,21 +71,27 @@ extension ColorNode {
 
 extension ColorNode {
 
-    func select() {
-        physicsBody?.isDynamic = false
+    func highlight() {
         if borderNode.parent == nil {
             addChild(borderNode)
         }
+    }
+
+    func unhighlight() {
+        if borderNode.parent != nil {
+            borderNode.removeFromParent()
+        }
+    }
+
+    func focus() {
+        physicsBody?.isDynamic = false
         if nameNode.parent == nil {
             addChild(nameNode)
         }
     }
 
-    func unselect() {
+    func unfocus() {
         physicsBody?.isDynamic = true
-        if borderNode.parent != nil {
-            borderNode.removeFromParent()
-        }
         if nameNode.parent != nil {
             nameNode.removeFromParent()
         }
