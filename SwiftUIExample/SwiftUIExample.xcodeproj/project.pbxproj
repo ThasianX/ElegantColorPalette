@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E0C110B24D2751A000B794E /* NodeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C110A24D2751A000B794E /* NodeModifier.swift */; };
+		1E0C110D24D27527000B794E /* NodeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C110C24D27527000B794E /* NodeStyle.swift */; };
+		1E0C111024D27576000B794E /* NodeStyleConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C110F24D27576000B794E /* NodeStyleConfiguration.swift */; };
+		1E0C111224D2759C000B794E /* HighlightModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C111124D2759C000B794E /* HighlightModifier.swift */; };
+		1E0C111424D275B9000B794E /* FocusModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C111324D275B9000B794E /* FocusModifier.swift */; };
+		1E0C111624D27604000B794E /* ScaleFadeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C111524D27604000B794E /* ScaleFadeModifier.swift */; };
+		1E0C111824D2766D000B794E /* DefaultNodeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E0C111724D2766D000B794E /* DefaultNodeStyle.swift */; };
 		1E2C8EF724CEA2F900BC7D43 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C8EF624CEA2F900BC7D43 /* AppDelegate.swift */; };
 		1E2C8EF924CEA2F900BC7D43 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E2C8EF824CEA2F900BC7D43 /* SceneDelegate.swift */; };
 		1E2C8EFD24CEA2FB00BC7D43 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E2C8EFC24CEA2FB00BC7D43 /* Assets.xcassets */; };
@@ -26,12 +33,19 @@
 		1EE0044524CFF65A005EC177 /* Buildable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE0044424CFF65A005EC177 /* Buildable.swift */; };
 		1EE0044724CFF99D005EC177 /* ColorPaletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE0044624CFF99D005EC177 /* ColorPaletteManager.swift */; };
 		1EE0044924CFFF7B005EC177 /* UIColor+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EE0044824CFFF7B005EC177 /* UIColor+Color.swift */; };
-		1EF02ACD24D10F9500FE3F27 /* ColorPaletteConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF02ACC24D10F9500FE3F27 /* ColorPaletteConfiguration.swift */; };
+		1EF02ACD24D10F9500FE3F27 /* ColorNode+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF02ACC24D10F9500FE3F27 /* ColorNode+Modifiers.swift */; };
 		1EF02AD124D1394600FE3F27 /* PaletteSegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF02AD024D1394600FE3F27 /* PaletteSegmentedView.swift */; };
 		1EF02AD324D149B500FE3F27 /* Comparable+Clamped.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF02AD224D149B500FE3F27 /* Comparable+Clamped.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E0C110A24D2751A000B794E /* NodeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeModifier.swift; sourceTree = "<group>"; };
+		1E0C110C24D27527000B794E /* NodeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeStyle.swift; sourceTree = "<group>"; };
+		1E0C110F24D27576000B794E /* NodeStyleConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeStyleConfiguration.swift; sourceTree = "<group>"; };
+		1E0C111124D2759C000B794E /* HighlightModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightModifier.swift; sourceTree = "<group>"; };
+		1E0C111324D275B9000B794E /* FocusModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusModifier.swift; sourceTree = "<group>"; };
+		1E0C111524D27604000B794E /* ScaleFadeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleFadeModifier.swift; sourceTree = "<group>"; };
+		1E0C111724D2766D000B794E /* DefaultNodeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNodeStyle.swift; sourceTree = "<group>"; };
 		1E2C8EF324CEA2F900BC7D43 /* SwiftUIExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E2C8EF624CEA2F900BC7D43 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1E2C8EF824CEA2F900BC7D43 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,7 +67,7 @@
 		1EE0044424CFF65A005EC177 /* Buildable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buildable.swift; sourceTree = "<group>"; };
 		1EE0044624CFF99D005EC177 /* ColorPaletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteManager.swift; sourceTree = "<group>"; };
 		1EE0044824CFFF7B005EC177 /* UIColor+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Color.swift"; sourceTree = "<group>"; };
-		1EF02ACC24D10F9500FE3F27 /* ColorPaletteConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteConfiguration.swift; sourceTree = "<group>"; };
+		1EF02ACC24D10F9500FE3F27 /* ColorNode+Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ColorNode+Modifiers.swift"; sourceTree = "<group>"; };
 		1EF02AD024D1394600FE3F27 /* PaletteSegmentedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteSegmentedView.swift; sourceTree = "<group>"; };
 		1EF02AD224D149B500FE3F27 /* Comparable+Clamped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comparable+Clamped.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -69,6 +83,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E0C110E24D27568000B794E /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				1E0C111324D275B9000B794E /* FocusModifier.swift */,
+				1E0C111124D2759C000B794E /* HighlightModifier.swift */,
+				1E0C111524D27604000B794E /* ScaleFadeModifier.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
 		1E2C8EEA24CEA2F900BC7D43 = {
 			isa = PBXGroup;
 			children = (
@@ -134,6 +158,7 @@
 		1E2C8F1324CEA32000BC7D43 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				1E0C110E24D27568000B794E /* Modifiers */,
 				1EE0044324CFF652005EC177 /* Models */,
 				1EE0044224CFF64B005EC177 /* Protocols */,
 				1E2C8F1524CEA32000BC7D43 /* Extensions */,
@@ -144,6 +169,7 @@
 		1E2C8F1524CEA32000BC7D43 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				1EF02ACC24D10F9500FE3F27 /* ColorNode+Modifiers.swift */,
 				1E2C8F1624CEA32000BC7D43 /* CGPoint+Distance.swift */,
 				1E2C8F1824CEA32000BC7D43 /* CGSize+Operators.swift */,
 				1EE0040024CFA29B005EC177 /* CGVector+Additions.swift */,
@@ -158,6 +184,8 @@
 			isa = PBXGroup;
 			children = (
 				1EE0044424CFF65A005EC177 /* Buildable.swift */,
+				1E0C110A24D2751A000B794E /* NodeModifier.swift */,
+				1E0C110C24D27527000B794E /* NodeStyle.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -165,9 +193,10 @@
 		1EE0044324CFF652005EC177 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				1E2C8F1424CEA32000BC7D43 /* PaletteColor.swift */,
 				1EE0044624CFF99D005EC177 /* ColorPaletteManager.swift */,
-				1EF02ACC24D10F9500FE3F27 /* ColorPaletteConfiguration.swift */,
+				1E0C111724D2766D000B794E /* DefaultNodeStyle.swift */,
+				1E2C8F1424CEA32000BC7D43 /* PaletteColor.swift */,
+				1E0C110F24D27576000B794E /* NodeStyleConfiguration.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -245,23 +274,30 @@
 			files = (
 				1E2C8F1F24CEA32000BC7D43 /* CGPoint+Distance.swift in Sources */,
 				1E2C8EF724CEA2F900BC7D43 /* AppDelegate.swift in Sources */,
+				1E0C110B24D2751A000B794E /* NodeModifier.swift in Sources */,
 				1E2C8F0B24CEA31900BC7D43 /* SwiftUIExampleView.swift in Sources */,
 				1EE0044524CFF65A005EC177 /* Buildable.swift in Sources */,
+				1E0C111424D275B9000B794E /* FocusModifier.swift in Sources */,
 				1EE0044924CFFF7B005EC177 /* UIColor+Color.swift in Sources */,
 				1E2C8EF924CEA2F900BC7D43 /* SceneDelegate.swift in Sources */,
 				1EF02AD324D149B500FE3F27 /* Comparable+Clamped.swift in Sources */,
 				1E2C8F2124CEA32000BC7D43 /* CGSize+Operators.swift in Sources */,
 				1EF02AD124D1394600FE3F27 /* PaletteSegmentedView.swift in Sources */,
+				1E0C111624D27604000B794E /* ScaleFadeModifier.swift in Sources */,
 				1EE003FF24CFA245005EC177 /* CGVector+Operators.swift in Sources */,
+				1E0C110D24D27527000B794E /* NodeStyle.swift in Sources */,
+				1E0C111024D27576000B794E /* NodeStyleConfiguration.swift in Sources */,
 				1E2C8F1B24CEA32000BC7D43 /* ColorNode.swift in Sources */,
 				1E2C8F1A24CEA32000BC7D43 /* ColorPaletteView.swift in Sources */,
-				1EF02ACD24D10F9500FE3F27 /* ColorPaletteConfiguration.swift in Sources */,
+				1E0C111824D2766D000B794E /* DefaultNodeStyle.swift in Sources */,
+				1EF02ACD24D10F9500FE3F27 /* ColorNode+Modifiers.swift in Sources */,
 				1E2C8F1C24CEA32000BC7D43 /* ColorPaletteScene.swift in Sources */,
 				1E2C8F1924CEA32000BC7D43 /* ColorPaletteDynamicView.swift in Sources */,
 				1E2C8F1D24CEA32000BC7D43 /* ColorsContainerNode.swift in Sources */,
 				1EE0044724CFF99D005EC177 /* ColorPaletteManager.swift in Sources */,
 				1EE0040124CFA29B005EC177 /* CGVector+Additions.swift in Sources */,
 				1E2C8F1E24CEA32000BC7D43 /* PaletteColor.swift in Sources */,
+				1E0C111224D2759C000B794E /* HighlightModifier.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
