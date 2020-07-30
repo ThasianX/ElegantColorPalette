@@ -6,10 +6,12 @@ public struct DefaultNodeStyle: NodeStyle {
 
     public func apply(configuration: Configuration) -> ColorNode {
         configuration.node
-            .highlight(configuration.isSelected)
-            .scaleFade(!configuration.isStartingUp, scale: configuration.isPressed ? 0.9 : 1,
+            .scaleFade(!configuration.isStartingUp,
+                       scale: configuration.isPressed ? 0.9 : 1,
                        opacity: configuration.isPressed ? 0.3 : 1)
+            .highlight(configuration.isSelected)
             .focus(configuration.isCentered)
+            .startUp(configuration.isStartingUp)
     }
 
 }

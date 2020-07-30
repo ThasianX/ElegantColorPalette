@@ -21,4 +21,8 @@ public extension ColorNode {
         modifier(FocusModifier(focus: active, location: location, multiplier: multiplier))
     }
 
+    func startUp(_ active: Bool, waitDuration: ClosedRange<TimeInterval> = 0...0.4, scaleUpDuration: TimeInterval = 0.4, scaleDownDuration: TimeInterval = 0.2) -> ColorNode {
+        active ? modifier(StartUpModifier(waitDuration: waitDuration, scaleUpDuration: scaleUpDuration, scaleDownDuration: scaleDownDuration)) : self
+    }
+
 }

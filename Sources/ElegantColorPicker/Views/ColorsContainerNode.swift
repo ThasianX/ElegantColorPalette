@@ -51,22 +51,11 @@ class ColorsContainerNode: SKNode {
             spawnPositions.remove(at: spawnIndex)
             child.position = spawnPosition
 
-            child.setScale(0)
-
-            let waitDuration: TimeInterval = .random(in: 0...0.4)
-            let waitAction = SKAction.wait(forDuration: waitDuration)
-
-            let fadeInAction = SKAction.fadeIn(withDuration: 0.4)
-            let scaleUpAction = SKAction.scale(to: 1.1, duration: 0.4)
-            let scaleDownAction = SKAction.scale(to: 1, duration: 0.2)
-
             let rotationVector = circularVector(for: child)
             let magnifiedRotationVector = CGVector(dx: rotationVector.dx*6, dy: rotationVector.dy*6)
             let rotationAction = SKAction.applyForce(magnifiedRotationVector, duration: 0.4)
 
-            let actionSequence = SKAction.sequence([waitAction, .group([fadeInAction, scaleUpAction, rotationAction]), scaleDownAction])
-
-            child.run(actionSequence)
+            child.run(rotationAction)
         }
     }
 
