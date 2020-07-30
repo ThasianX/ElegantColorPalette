@@ -53,11 +53,8 @@ extension ColorNode {
                                   dy: offset.y*multiplier)
         physicsBody?.velocity = snapVector
 
-        let delta = (offset.distance(from: location) / (radius*3)).clamped(to: 0...1)
-        let duration = 0.15 - 0.15*(1 - delta)
         let moveAction = SKAction.move(to: location,
-                                       duration: TimeInterval(duration))
-        moveAction.timingMode = .easeInEaseOut
+                                       duration: 0.25)
 
         run(moveAction, completion: completion)
     }

@@ -6,7 +6,7 @@ import SpriteKit
 
 public extension ColorNode {
 
-    func focus(_ active: Bool, on location: CGPoint = .zero, multiplier: CGFloat = 5) -> ColorNode {
+    func focus(_ active: Bool, on location: CGPoint = .zero, multiplier: CGFloat = 10) -> ColorNode {
         modifier(FocusModifier(focus: active, location: location, multiplier: multiplier))
     }
 
