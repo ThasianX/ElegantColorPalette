@@ -2,6 +2,7 @@
 
 import SwiftUI
 
+// TODO: need to add public function that allows custom styles
 public struct ColorPaletteDynamicView: UIViewRepresentable {
 
     public typealias UIViewType = ColorPaletteView
@@ -10,7 +11,6 @@ public struct ColorPaletteDynamicView: UIViewRepresentable {
     @Binding var selectedColor: PaletteColor?
 
     var didSelectColor: ((PaletteColor) -> Void)?
-    var nodeRadius: CGFloat = 25
 
     public init(colors: [PaletteColor], selectedColor: Binding<PaletteColor?> = .constant(nil)) {
         self.colors = colors
@@ -35,7 +35,6 @@ public struct ColorPaletteDynamicView: UIViewRepresentable {
     public func updateUIView(_ uiView: ColorPaletteView, context: Context) {
         uiView
             .didSelectColor(groupedCallback)
-            .nodeRadius(nodeRadius)
             .update(withColors: colors, selectedColor: selectedColor)
     }
 
@@ -45,10 +44,6 @@ extension ColorPaletteDynamicView: Buildable {
 
     public func didSelectColor(_ callback: ((PaletteColor) -> Void)?) -> Self {
         mutating(keyPath: \.didSelectColor, value: callback)
-    }
-
-    public func nodeRadius(_ radius: CGFloat) -> Self {
-        mutating(keyPath: \.nodeRadius, value: radius)
     }
 
 }

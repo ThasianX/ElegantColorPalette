@@ -3,17 +3,18 @@
 import Foundation
 import UIKit
 
-// TODO: allow user to customize the highlight color
 class ColorPaletteManager: ObservableObject {
 
     @Published var colors: [PaletteColor]
     @Published var selectedColor: PaletteColor?
+    @Published var nodeStyle: NodeStyle
 
     var didSelectColor: ((PaletteColor) -> Void)?
 
-    init(colors: [PaletteColor], selectedColor: PaletteColor?) {
+    init(colors: [PaletteColor], selectedColor: PaletteColor?, nodeStyle: NodeStyle) {
         self.colors = colors
         self.selectedColor = selectedColor
+        self.nodeStyle = nodeStyle
     }
 
     func setSelectedColor(_ color: PaletteColor) {

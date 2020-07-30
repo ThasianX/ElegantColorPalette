@@ -3,39 +3,79 @@
 import SpriteKit
 import UIKit
 
-fileprivate let nameTopPadding: CGFloat = 10
+public class ColorNode: SKShapeNode {
 
-class ColorNode: SKShapeNode {
+    public var paletteColor: PaletteColor! {
+        didSet {
+            fillColor = paletteColor.uiColor
+            label.text = paletteColor.name
+            border.strokeColor = paletteColor.uiColor
+        }
+    }
 
-    var paletteColor: PaletteColor!
+    public var radius: CGFloat! {
+        didSet {
+            didUpdateRadius()
 
-    private lazy var nameNode: SKLabelNode = {
+            label.fontSize = radius*0.7
+            label.position.y -= (radius * 1.5)
+        }
+    }
+
+    public lazy var label: SKLabelNode = {
         let node = SKLabelNode(fontNamed: "SanFranciscoDisplay-Regular")
-        node.text = paletteColor.name
-        node.fontSize = radius*0.7
-        node.fontColor = .white
         node.verticalAlignmentMode = .top
-        node.position.y -= (radius + nameTopPadding)
         node.zPosition = 5
         return node
     }()
 
-    private lazy var borderNode: SKShapeNode = {
-        let borderNode = SKShapeNode(circleOfRadius: radius + 3)
-        borderNode.fillColor = .clear
-        borderNode.strokeColor = paletteColor.uiColor
-        borderNode.lineWidth = 1
-        return borderNode
+    public var fontName: String? {
+        get { label.fontName }
+        set {
+            label.fontName = newValue
+        }
+    }
+
+    public var fontColor: UIColor? {
+        get { label.fontColor }
+        set {
+            label.fontColor = newValue
+        }
+    }
+
+    public lazy var border: SKShapeNode = {
+        let node = SKShapeNode()
+        node.fillColor = .clear
+        node.lineWidth = 1
+        return node
     }()
 
-    convenience init(circleOfRadius radius: CGFloat, paletteColor: PaletteColor) {
-        self.init(circleOfRadius: radius)
+    public convenience init(paletteColor: PaletteColor) {
+        self.init()
 
-        self.paletteColor = paletteColor
+        // Allows didSet to get called
+        defer {
+            radius = 25
+            self.paletteColor = paletteColor
+        }
 
-        fillColor = paletteColor.uiColor
         strokeColor = .clear
+    }
 
+    private func didUpdateRadius() {
+        updatePath()
+        regeneratePhysicsBody()
+    }
+
+    private func updatePath() {
+        guard let path = SKShapeNode(circleOfRadius: radius).path else { return }
+        self.path = path
+
+        guard let borderPath = SKShapeNode(circleOfRadius: radius + 3).path else { return }
+        border.path = borderPath
+    }
+
+    private func regeneratePhysicsBody() {
         physicsBody = SKPhysicsBody(circleOfRadius: radius)
         physicsBody?.density = radius * 3
         physicsBody?.allowsRotation = false
@@ -43,56 +83,11 @@ class ColorNode: SKShapeNode {
 
 }
 
-fileprivate let dragScale: CGFloat = 0.9
-fileprivate let normalScale: CGFloat = 1
-fileprivate let fadedAlpha: CGFloat = 0.3
-fileprivate let normalAlpha: CGFloat = 1
-fileprivate let animationDuration: TimeInterval = 0.2
+public extension ColorNode {
 
-extension ColorNode {
-
-    func onTouchDown() {
-        let scaleAction = SKAction.scale(to: dragScale, duration: animationDuration)
-        let opacityAction = SKAction.fadeAlpha(to: fadedAlpha, duration: animationDuration)
-
-        run(.group([scaleAction, opacityAction]))
-    }
-
-    func onTouchUp() {
-        let scaleAction = SKAction.scale(to: normalScale, duration: animationDuration)
-        let opacityAction = SKAction.fadeAlpha(to: normalAlpha, duration: animationDuration)
-
-        run(.group([scaleAction, opacityAction]))
+    func modifier(_ modifier: NodeModifier) -> ColorNode {
+        modifier.body(content: self)
     }
 
 }
 
-extension ColorNode {
-
-    func highlight() {
-        if borderNode.parent == nil {
-            addChild(borderNode)
-        }
-    }
-
-    func unhighlight() {
-        if borderNode.parent != nil {
-            borderNode.removeFromParent()
-        }
-    }
-
-    func focus() {
-        physicsBody?.isDynamic = false
-        if nameNode.parent == nil {
-            addChild(nameNode)
-        }
-    }
-
-    func unfocus() {
-        physicsBody?.isDynamic = true
-        if nameNode.parent != nil {
-            nameNode.removeFromParent()
-        }
-    }
-
-}

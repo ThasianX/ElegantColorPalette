@@ -11,14 +11,13 @@ class ColorPaletteScene: SKScene {
 
     private class InteractionState {
         var selectedNode: ColorNode?
-        var shouldSnap = false
+        var isCentered: Bool = false
 
         var activeNode: ColorNode?
         var isDragging: Bool = false
     }
 
     let paletteManager: ColorPaletteManager
-    let paletteConfiguration: ColorPaletteConfiguration
 
     private var containerNode: ColorsContainerNode!
 
@@ -26,9 +25,8 @@ class ColorPaletteScene: SKScene {
 
     private var cancellables = Set<AnyCancellable>()
 
-    init(paletteManager: ColorPaletteManager, paletteConfiguration: ColorPaletteConfiguration) {
+    init(paletteManager: ColorPaletteManager) {
         self.paletteManager = paletteManager
-        self.paletteConfiguration = paletteConfiguration
         super.init(size: .zero)
     }
 
@@ -39,10 +37,9 @@ class ColorPaletteScene: SKScene {
     override func didMove(to view: SKView) {
         configureScenePhysics()
 
-        Publishers.CombineLatest(paletteManager.$colors, paletteConfiguration.$nodeRadius)
-            .eraseToAnyPublisher()
-            .sink { colors, radius in
-                self.updateColors(colors, withRadius: radius)
+        paletteManager.$colors
+            .sink { colors in
+                self.updateColors(colors)
             }.store(in: &cancellables)
     }
 
@@ -52,19 +49,18 @@ class ColorPaletteScene: SKScene {
         backgroundColor = .clear
     }
 
-    private func updateColors(_ colors: [PaletteColor], withRadius radius: CGFloat) {
+    private func updateColors(_ colors: [PaletteColor]) {
         if let containerNode = containerNode, containerNode.parent != nil {
             containerNode.removeFromParent()
         }
 
         state = .init()
 
-        containerNode = ColorsContainerNode(colors: colors, radius: radius)
+        containerNode = ColorsContainerNode(colors: colors, style: paletteManager.nodeStyle)
         addChild(containerNode)
 
         if let selectedNode = containerNode.node(with: paletteManager.selectedColor) {
-            selectedNode.highlight()
-            state.selectedNode = selectedNode
+            state.selectedNode = paletteManager.nodeStyle.apply(configuration: NodeStyleConfiguration(node: selectedNode, isPressed: false, isSelected: true, isCentered: false))
         }
 
         let spawnSize = CGSize(width: (size.width/2)-40, height: size.height/4)
@@ -85,8 +81,7 @@ extension ColorPaletteScene {
 
         guard let node = node(at: location) else { return }
 
-        state.activeNode = node
-        node.onTouchDown()
+        state.activeNode = paletteManager.nodeStyle.apply(configuration: NodeStyleConfiguration(node: node, isPressed: true, isSelected: node == state.selectedNode, isCentered: node == state.selectedNode && state.isCentered))
     }
 
     private func node(at location: CGPoint) -> ColorNode? {
@@ -120,22 +115,23 @@ extension ColorPaletteScene {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
-        activeNode.onTouchUp()
+
+        paletteManager.nodeStyle.apply(configuration: NodeStyleConfiguration(node: activeNode, isPressed: false, isSelected: activeNode == state.selectedNode, isCentered: activeNode == state.selectedNode && state.isCentered))
 
         if state.isDragging {
-            if activeNode == state.selectedNode && state.shouldSnap {
+            if activeNode == state.selectedNode && state.isCentered {
                 snapSelectedNodeToCenter()
             }
         } else {
             if activeNode != state.selectedNode {
-                state.shouldSnap = true
-                state.selectedNode?.unfocus()
-                state.selectedNode?.unhighlight()
+                state.isCentered = true
+                if let oldSelectedNode = state.selectedNode {
+                    paletteManager.nodeStyle.apply(configuration: NodeStyleConfiguration(node: oldSelectedNode, isPressed: false, isSelected: false, isCentered: false))
+                }
                 state.selectedNode = activeNode
                 snapSelectedNodeToCenter()
-            } else if !state.shouldSnap {
-                state.shouldSnap = true
-                state.selectedNode?.focus()
+            } else if !state.isCentered {
+                state.isCentered = true
                 snapSelectedNodeToCenter()
             }
         }
@@ -145,23 +141,10 @@ extension ColorPaletteScene {
     }
 
     private func snapSelectedNodeToCenter() {
-        let offset = CGPoint(x: -state.selectedNode!.position.x,
-                             y: -state.selectedNode!.position.y)
-        let snapVector = CGVector(dx: offset.x*snapVelocityMultiplier,
-                                  dy: offset.y*snapVelocityMultiplier)
-        state.selectedNode?.physicsBody?.velocity = snapVector
+        guard let selectedNode = state.selectedNode else { return }
 
-        let delta = (offset.distance(from: .zero) / (paletteConfiguration.nodeRadius*3)).clamped(to: 0...1)
-        let duration = 0.15 - 0.15*(1 - delta)
-        let moveAction = SKAction.move(to: .zero,
-                                       duration: TimeInterval(duration))
-        moveAction.timingMode = .easeInEaseOut
-
-        state.selectedNode?.run(moveAction) { [unowned self] in
-            self.state.selectedNode?.highlight()
-            self.state.selectedNode?.focus()
-            self.paletteManager.setSelectedColor(self.state.selectedNode!.paletteColor)
-        }
+        paletteManager.nodeStyle.apply(configuration: NodeStyleConfiguration(node: selectedNode, isPressed: false, isSelected: true, isCentered: true))
+        paletteManager.setSelectedColor(selectedNode.paletteColor)
     }
 
 }

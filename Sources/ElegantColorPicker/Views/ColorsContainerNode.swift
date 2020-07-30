@@ -7,7 +7,7 @@ fileprivate let circularShiftRadians: Double = -20 * (.pi / 180)
 
 class ColorsContainerNode: SKNode {
 
-    private let nodeRadius: CGFloat
+    private var nodeRadius: CGFloat!
 
     private lazy var nodeLength: CGFloat = {
         nodeRadius*2
@@ -19,23 +19,29 @@ class ColorsContainerNode: SKNode {
         nodeRadius
     }()
 
-    init(colors: [PaletteColor], radius: CGFloat) {
-        nodeRadius = radius
+    init(colors: [PaletteColor], style: NodeStyle) {
         super.init()
-        addColorNodes(colors: colors)
+        addColorNodes(colors: colors, with: style)
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func addColorNodes(colors: [PaletteColor]) {
+    private func addColorNodes(colors: [PaletteColor], with style: NodeStyle) {
         for paletteColor in colors {
-            let colorNode = ColorNode(circleOfRadius: nodeRadius, paletteColor: paletteColor)
-            addChild(colorNode)
+            let colorNode = ColorNode(paletteColor: paletteColor)
+            let modifiedNode = style.apply(configuration: NodeStyleConfiguration(node: colorNode, isPressed: false, isSelected: false, isCentered: false))
+            addChild(modifiedNode)
+
+            // TODO: find ways to remove this cuz this is ugly
+            if nodeRadius == nil {
+                nodeRadius = modifiedNode.radius
+            }
         }
     }
 
+    // TODO: make this based off the actual node's size
     func randomizeColorNodesPositionsWithBubbleAnimation(within size: CGSize) {
         var spawnPositions = validPositions(within: size)
 
