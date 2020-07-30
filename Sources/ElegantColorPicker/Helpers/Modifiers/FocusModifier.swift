@@ -10,7 +10,6 @@ struct FocusModifier: NodeModifier {
     let location: CGPoint
     let multiplier: CGFloat
 
-    // TODO: fix bug where tapping another node after tapping one before causes overlap
     func body(content: Content) -> ColorNode {
         if focus {
             content.snap(to: location, multiplier: multiplier) {
