@@ -63,7 +63,8 @@ class ColorPaletteScene: SKScene {
             state.selectedNode = paletteManager.nodeStyle.apply(configuration: .startUp(selectedNode, isSelected: true))
         }
 
-        let spawnSize = CGSize(width: (size.width/2)-40, height: size.height/4)
+        let smallerLength = min(size.width, size.height)
+        let spawnSize = CGSize(width: (smallerLength/2)-40, height: (smallerLength/2)-40)
         containerNode.randomizeColorNodesPositionsWithBubbleAnimation(within: spawnSize)
     }
 
@@ -98,10 +99,11 @@ extension ColorPaletteScene {
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
-        let location = touch.location(in: self)
-        let previous = touch.previousLocation(in: self)
-        guard location.distance(from: previous) != 0 else { return }
         guard let activeNode = state.activeNode else { return }
+
+        let location = touch.location(in: self)
+        guard location.x >= -frame.size.width/2 && location.x <= frame.size.width/2 else { return }
+        guard location.y >= -frame.size.height/2 && location.y <= frame.size.height/2 else { return }
 
         let offset = CGPoint(x: location.x - activeNode.position.x,
                              y: location.y - activeNode.position.y)

@@ -61,6 +61,10 @@ class ColorsContainerNode: SKNode {
     }
 
     private func spawnNodeAndBeginRotation(_ node: ColorNode, validSpawns: inout [CGPoint]) {
+        guard validSpawns.count > 0 else {
+            fatalError("Error: Not enough valid spawn positions to spawn node. Try lowering your node radius or the number of colors you have.")
+        }
+
         let spawnIndex = Int.random(in: 0..<validSpawns.count)
         let spawnPosition = validSpawns[spawnIndex]
         validSpawns.remove(at: spawnIndex)
