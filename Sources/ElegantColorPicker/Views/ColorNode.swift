@@ -5,43 +5,12 @@ import UIKit
 
 public class ColorNode: SKShapeNode {
 
-    public var paletteColor: PaletteColor! {
-        didSet {
-            fillColor = paletteColor.uiColor
-            label.text = paletteColor.name
-            border.strokeColor = paletteColor.uiColor
-        }
-    }
-
-    public var radius: CGFloat! {
-        didSet {
-            didUpdateRadius()
-
-            label.fontSize = radius*0.7
-            label.position.y = -(radius * 1.5)
-        }
-    }
-
     public lazy var label: SKLabelNode = {
         let node = SKLabelNode(fontNamed: "SanFranciscoDisplay-Regular")
         node.verticalAlignmentMode = .top
         node.zPosition = 5
         return node
     }()
-
-    public var fontName: String? {
-        get { label.fontName }
-        set {
-            label.fontName = newValue
-        }
-    }
-
-    public var fontColor: UIColor? {
-        get { label.fontColor }
-        set {
-            label.fontColor = newValue
-        }
-    }
 
     public lazy var border: SKShapeNode = {
         let node = SKShapeNode()
@@ -60,6 +29,23 @@ public class ColorNode: SKShapeNode {
         }
 
         strokeColor = .clear
+    }
+
+    public var paletteColor: PaletteColor! {
+        didSet {
+            fillColor = paletteColor.uiColor
+            label.text = paletteColor.name
+            border.strokeColor = paletteColor.uiColor
+        }
+    }
+
+    public var radius: CGFloat! {
+        didSet {
+            didUpdateRadius()
+
+            label.fontSize = radius*0.7
+            label.position.y = -(radius * 1.5)
+        }
     }
 
     private func didUpdateRadius() {

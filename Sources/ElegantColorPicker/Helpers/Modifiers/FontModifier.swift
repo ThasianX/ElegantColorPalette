@@ -21,3 +21,21 @@ struct FontModifier: NodeModifier {
     }
 
 }
+
+private extension ColorNode {
+
+    var fontName: String? {
+        get { label.fontName }
+        set {
+            label.fontName = newValue
+        }
+    }
+
+    var fontColor: UIColor? {
+        get { label.fontColor }
+        set {
+            label.fontColor = newValue
+        }
+    }
+
+}

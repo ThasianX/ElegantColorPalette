@@ -42,7 +42,7 @@ private extension ColorNode {
 
 }
 
-extension ColorNode {
+private extension ColorNode {
 
     func snap(to location: CGPoint, multiplier: CGFloat, completion: @escaping () -> Void) {
         guard position != location else { return }

@@ -14,8 +14,7 @@ public extension ColorNode {
         modifier(FontModifier(name: name, uiColor: uiColor))
     }
 
-    // TODO: figure out how custom highlighting would work
-    func highlight(_ active: Bool, customColor: UIColor? = nil) -> ColorNode {
+    func highlight(_ active: Bool) -> ColorNode {
         modifier(HighlightModifier(highlight: active))
     }
 
