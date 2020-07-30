@@ -58,7 +58,6 @@ private extension SwiftUIExampleView {
             colors: (selectedPalette == .color) ? PaletteColor.allColors : PaletteColor.allBwColors,
             selectedColor: $selectedColor)
             .didSelectColor { print($0) }
-        // TODO: add custom nodestyle example here
     }
 
 }

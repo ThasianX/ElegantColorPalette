@@ -10,7 +10,7 @@ public extension ColorNode {
         modifier(FocusModifier(focus: active, location: location, multiplier: multiplier))
     }
 
-    func font(name: String, uiColor: UIColor) -> ColorNode {
+    func font(name: String = "SanFranciscoDisplay-Regular", uiColor: UIColor = .white) -> ColorNode {
         modifier(FontModifier(name: name, uiColor: uiColor))
     }
 

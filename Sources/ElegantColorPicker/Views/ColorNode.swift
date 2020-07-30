@@ -18,7 +18,7 @@ public class ColorNode: SKShapeNode {
             didUpdateRadius()
 
             label.fontSize = radius*0.7
-            label.position.y -= (radius * 1.5)
+            label.position.y = -(radius * 1.5)
         }
     }
 
@@ -71,7 +71,7 @@ public class ColorNode: SKShapeNode {
         guard let path = SKShapeNode(circleOfRadius: radius).path else { return }
         self.path = path
 
-        guard let borderPath = SKShapeNode(circleOfRadius: radius + 3).path else { return }
+        guard let borderPath = SKShapeNode(circleOfRadius: radius*1.1).path else { return }
         border.path = borderPath
     }
 
