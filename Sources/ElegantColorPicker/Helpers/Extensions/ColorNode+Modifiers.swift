@@ -19,6 +19,10 @@ public extension ColorNode {
         modifier(HighlightModifier(highlight: active))
     }
 
+    func radius(_ radius: CGFloat) -> ColorNode {
+        modifier(RadiusModifier(radius: radius))
+    }
+
     func scaleFade(_ active: Bool, scale: CGFloat, opacity: CGFloat, animationDuration: TimeInterval = 0.2) -> ColorNode {
         active ? modifier(ScaleFadeModifier(scale: scale, opacity: opacity, animationDuration: animationDuration)) : self
     }
