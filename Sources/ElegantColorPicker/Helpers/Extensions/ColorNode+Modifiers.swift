@@ -4,9 +4,15 @@ import Foundation
 import UIKit
 import SpriteKit
 
-// TODO: allow user to customize the highlight color
-// TODO: custom font name, font color for the selected node
 public extension ColorNode {
+
+    func focus(_ active: Bool, on location: CGPoint = .zero, multiplier: CGFloat = 5) -> ColorNode {
+        modifier(FocusModifier(focus: active, location: location, multiplier: multiplier))
+    }
+
+    func font(name: String, uiColor: UIColor) -> ColorNode {
+        modifier(FontModifier(name: name, uiColor: uiColor))
+    }
 
     // TODO: figure out how custom highlighting would work
     func highlight(_ active: Bool, customColor: UIColor? = nil) -> ColorNode {
@@ -15,10 +21,6 @@ public extension ColorNode {
 
     func scaleFade(_ active: Bool, scale: CGFloat, opacity: CGFloat, animationDuration: TimeInterval = 0.2) -> ColorNode {
         active ? modifier(ScaleFadeModifier(scale: scale, opacity: opacity, animationDuration: animationDuration)) : self
-    }
-
-    func focus(_ active: Bool, on location: CGPoint = .zero, multiplier: CGFloat = 5) -> ColorNode {
-        modifier(FocusModifier(focus: active, location: location, multiplier: multiplier))
     }
 
     func startUp(_ active: Bool, waitDuration: ClosedRange<TimeInterval> = 0...0.4, scaleUpDuration: TimeInterval = 0.4, scaleDownDuration: TimeInterval = 0.2) -> ColorNode {
