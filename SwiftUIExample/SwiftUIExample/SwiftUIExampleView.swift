@@ -1,5 +1,6 @@
 // Kevin Li - 3:00 PM - 7/26/20
 
+import ElegantColorPalette
 import SwiftUI
 
 enum PaletteSelection: String {

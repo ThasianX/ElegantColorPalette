@@ -1,5 +1,6 @@
 // Kevin Li - 9:57 PM - 7/28/20
 
+import ElegantColorPalette
 import SwiftUI
 
 struct PaletteSegmentedView: View {

@@ -8,6 +8,8 @@ public struct DefaultNodeStyle: NodeStyle {
         configuration.defaultStyledNode
     }
 
+    public init() {}
+
 }
 
 public extension NodeStyleConfiguration {
