@@ -31,7 +31,7 @@ class ColorsContainerNode: SKNode {
     private func addColorNodes(colors: [PaletteColor], with style: NodeStyle) {
         for paletteColor in colors {
             let colorNode = ColorNode(paletteColor: paletteColor)
-            let modifiedNode = style.apply(configuration: NodeStyleConfiguration(node: colorNode, isPressed: false, isSelected: false, isCentered: false))
+            let modifiedNode = style.apply(configuration: .startUp(colorNode, isSelected: false))
             addChild(modifiedNode)
 
             // TODO: find ways to remove this cuz this is ugly

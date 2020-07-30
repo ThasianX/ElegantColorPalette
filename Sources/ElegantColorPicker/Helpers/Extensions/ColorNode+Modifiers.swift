@@ -13,8 +13,8 @@ public extension ColorNode {
         modifier(HighlightModifier(highlight: active))
     }
 
-    func scaleFade(scale: CGFloat, opacity: CGFloat, animationDuration: TimeInterval = 0.2) -> ColorNode {
-        modifier(ScaleFadeModifier(scale: scale, opacity: opacity, animationDuration: animationDuration))
+    func scaleFade(_ active: Bool, scale: CGFloat, opacity: CGFloat, animationDuration: TimeInterval = 0.2) -> ColorNode {
+        active ? modifier(ScaleFadeModifier(scale: scale, opacity: opacity, animationDuration: animationDuration)) : self
     }
 
     func focus(_ active: Bool, on location: CGPoint = .zero, multiplier: CGFloat = 5) -> ColorNode {

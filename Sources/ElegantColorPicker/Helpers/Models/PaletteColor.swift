@@ -39,6 +39,7 @@ public extension PaletteColor {
         .red,
         .royalBlue,
         .scarletRed,
+        .seaweedGreen,
         .skyBlue,
         .sunflowerYellow,
         .underwaterBlue,

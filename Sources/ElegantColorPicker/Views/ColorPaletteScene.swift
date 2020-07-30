@@ -60,7 +60,7 @@ class ColorPaletteScene: SKScene {
         addChild(containerNode)
 
         if let selectedNode = containerNode.node(with: paletteManager.selectedColor) {
-            state.selectedNode = paletteManager.nodeStyle.apply(configuration: NodeStyleConfiguration(node: selectedNode, isPressed: false, isSelected: true, isCentered: false))
+            state.selectedNode = paletteManager.nodeStyle.apply(configuration: .startUp(selectedNode, isSelected: true))
         }
 
         let spawnSize = CGSize(width: (size.width/2)-40, height: size.height/4)
@@ -81,7 +81,10 @@ extension ColorPaletteScene {
 
         guard let node = node(at: location) else { return }
 
-        state.activeNode = paletteManager.nodeStyle.apply(configuration: NodeStyleConfiguration(node: node, isPressed: true, isSelected: node == state.selectedNode, isCentered: node == state.selectedNode && state.isCentered))
+        let configuration: NodeStyleConfiguration = .touchedDown(node,
+                                       isSelected: node == state.selectedNode,
+                                       isCentered: node == state.selectedNode && state.isCentered)
+        state.activeNode = paletteManager.nodeStyle.apply(configuration: configuration)
     }
 
     private func node(at location: CGPoint) -> ColorNode? {
@@ -116,23 +119,32 @@ extension ColorPaletteScene {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
 
-        paletteManager.nodeStyle.apply(configuration: NodeStyleConfiguration(node: activeNode, isPressed: false, isSelected: activeNode == state.selectedNode, isCentered: activeNode == state.selectedNode && state.isCentered))
-
+        // TODO: refine this logic
         if state.isDragging {
             if activeNode == state.selectedNode && state.isCentered {
                 snapSelectedNodeToCenter()
+            } else {
+                let configuration: NodeStyleConfiguration = .touchedUp(activeNode,
+                                               isSelected: activeNode == state.selectedNode,
+                                               isCentered: activeNode == state.selectedNode && state.isCentered)
+                paletteManager.nodeStyle.apply(configuration: configuration)
             }
         } else {
             if activeNode != state.selectedNode {
                 state.isCentered = true
                 if let oldSelectedNode = state.selectedNode {
-                    paletteManager.nodeStyle.apply(configuration: NodeStyleConfiguration(node: oldSelectedNode, isPressed: false, isSelected: false, isCentered: false))
+                    paletteManager.nodeStyle.apply(configuration: .unselected(oldSelectedNode))
                 }
                 state.selectedNode = activeNode
                 snapSelectedNodeToCenter()
             } else if !state.isCentered {
                 state.isCentered = true
                 snapSelectedNodeToCenter()
+            } else {
+                let configuration: NodeStyleConfiguration = .touchedUp(activeNode,
+                                               isSelected: activeNode == state.selectedNode,
+                                               isCentered: activeNode == state.selectedNode && state.isCentered)
+                paletteManager.nodeStyle.apply(configuration: configuration)
             }
         }
 
@@ -143,7 +155,7 @@ extension ColorPaletteScene {
     private func snapSelectedNodeToCenter() {
         guard let selectedNode = state.selectedNode else { return }
 
-        paletteManager.nodeStyle.apply(configuration: NodeStyleConfiguration(node: selectedNode, isPressed: false, isSelected: true, isCentered: true))
+        paletteManager.nodeStyle.apply(configuration: .selectedAndCentered(selectedNode))
         paletteManager.setSelectedColor(selectedNode.paletteColor)
     }
 

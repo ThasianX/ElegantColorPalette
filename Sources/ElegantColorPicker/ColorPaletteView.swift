@@ -53,4 +53,9 @@ public extension ColorPaletteView {
         return self
     }
 
+    func nodeStyle(_ style: NodeStyle) -> Self {
+        paletteManager.nodeStyle = style
+        return self
+    }
+
 }
