@@ -3,6 +3,7 @@
 import SpriteKit
 import UIKit
 
+// TODO: add documentation for the library
 public class ColorNode: SKShapeNode {
 
     public lazy var label: SKLabelNode = {
