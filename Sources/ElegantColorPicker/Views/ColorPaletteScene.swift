@@ -77,7 +77,6 @@ extension ColorPaletteScene {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touches began")
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
 
@@ -100,7 +99,6 @@ extension ColorPaletteScene {
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touches moved")
         guard let touch = touches.first else { return }
         guard let activeNode = state.activeNode else { return }
 
@@ -122,7 +120,6 @@ extension ColorPaletteScene {
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touches ended")
         guard let activeNode = state.activeNode else { return }
 
         // TODO: refine this logic

@@ -48,11 +48,13 @@ public class ColorPaletteView: SKView {
 
 public extension ColorPaletteView {
 
+    @discardableResult
     func didSelectColor(_ callback: ((PaletteColor) -> Void)?) -> Self {
         paletteManager.didSelectColor = callback
         return self
     }
 
+    @discardableResult
     func nodeStyle(_ style: NodeStyle) -> Self {
         paletteManager.nodeStyle = style
         return self
