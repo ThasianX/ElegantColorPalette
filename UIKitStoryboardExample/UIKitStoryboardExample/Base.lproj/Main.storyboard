@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="dark"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="UIKitStoryboardExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="THEMES" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wPZ-2H-67p">
+                                <rect key="frame" x="172.5" y="76" width="69.5" height="20.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0vH-4t-laA" userLabel="Separator">
+                                <rect key="frame" x="32" y="115.5" width="350" height="1"/>
+                                <color key="backgroundColor" systemColor="systemGrayColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="b38-Be-gc1"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rw9-Yu-0AW" customClass="ColorPaletteView" customModule="ElegantColorPalette">
+                                <rect key="frame" x="0.0" y="116.5" width="414" height="779.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xxs-NF-SGq" customClass="PaletteSegmentedControl" customModule="UIKitStoryboardExample" customModuleProvider="target">
+                                <rect key="frame" x="87" y="117" width="231" height="41"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Rw9-Yu-0AW" firstAttribute="top" secondItem="0vH-4t-laA" secondAttribute="bottom" id="2CM-aX-Fkv"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="0vH-4t-laA" secondAttribute="trailing" constant="32" id="Csc-z8-FwE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Rw9-Yu-0AW" secondAttribute="trailing" id="EXS-7M-hWe"/>
+                            <constraint firstAttribute="bottom" secondItem="Rw9-Yu-0AW" secondAttribute="bottom" id="VHW-ge-8kB"/>
+                            <constraint firstItem="0vH-4t-laA" firstAttribute="bottom" secondItem="wPZ-2H-67p" secondAttribute="bottom" constant="20" id="WCZ-BX-cJY"/>
+                            <constraint firstItem="xxs-NF-SGq" firstAttribute="top" secondItem="0vH-4t-laA" secondAttribute="bottom" id="WXk-fh-tVn"/>
+                            <constraint firstItem="wPZ-2H-67p" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="XSF-Xb-klP"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="xxs-NF-SGq" secondAttribute="bottom" constant="350" id="cWp-AL-eRQ"/>
+                            <constraint firstItem="Rw9-Yu-0AW" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="dqA-xR-7G7"/>
+                            <constraint firstItem="0vH-4t-laA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="32" id="gFm-Xb-Kgv"/>
+                            <constraint firstItem="wPZ-2H-67p" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="32" id="huA-sw-mv9"/>
+                            <constraint firstItem="xxs-NF-SGq" firstAttribute="centerX" secondItem="wPZ-2H-67p" secondAttribute="centerX" id="uhc-1N-m78"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                    <connections>
+                        <outlet property="paletteView" destination="Rw9-Yu-0AW" id="SIf-aD-ntl"/>
+                        <outlet property="segmentedControl" destination="xxs-NF-SGq" id="UBV-JO-67n"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
+        </scene>
+    </scenes>
+</document>
