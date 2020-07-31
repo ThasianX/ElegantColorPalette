@@ -8,6 +8,7 @@ public class ColorNode: SKShapeNode {
 
     public lazy var label: SKLabelNode = {
         let node = SKLabelNode(fontNamed: "SanFranciscoDisplay-Regular")
+        node.fontColor = UIColor.label
         node.verticalAlignmentMode = .top
         node.zPosition = 5
         return node
