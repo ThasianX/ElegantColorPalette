@@ -21,7 +21,7 @@ class ColorPaletteScene: SKScene {
 
     private var containerNode: ColorsContainerNode!
 
-    private var state: InteractionState = .init()
+    private var state: InteractionState!
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -50,6 +50,10 @@ class ColorPaletteScene: SKScene {
     }
 
     private func updateColors(_ colors: [PaletteColor]) {
+        guard colors.count > 0 else {
+            fatalError("Error: At least 1 color must exist")
+        }
+
         if let containerNode = containerNode, containerNode.parent != nil {
             containerNode.removeFromParent()
         }

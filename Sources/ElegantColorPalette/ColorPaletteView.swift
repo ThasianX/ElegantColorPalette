@@ -25,8 +25,14 @@ public class ColorPaletteView: SKView {
         super.init(frame: .zero)
     }
 
+    override init(frame: CGRect) {
+        paletteManager = ColorPaletteManager(colors: [], selectedColor: nil, nodeStyle: DefaultNodeStyle())
+        super.init(frame: frame)
+    }
+
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        paletteManager = ColorPaletteManager(colors: [], selectedColor: nil, nodeStyle: DefaultNodeStyle())
+        super.init(coder: coder)
     }
 
     // https://stackoverflow.com/questions/728372/when-is-layoutsubviews-called

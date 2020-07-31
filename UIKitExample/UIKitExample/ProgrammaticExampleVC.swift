@@ -4,7 +4,7 @@ import Combine
 import ElegantColorPalette
 import UIKit
 
-class ViewController: UIViewController {
+class ProgrammaticExampleVC: UIViewController {
 
     private lazy var headerLabel: UILabel = {
         let label = UILabel()
