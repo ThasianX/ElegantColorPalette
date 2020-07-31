@@ -16,17 +16,32 @@ public class ColorPaletteView: SKView {
     private let paletteManager: ColorPaletteManager
 
     public init(colors: [PaletteColor]) {
-        paletteManager = ColorPaletteManager(colors: colors, selectedColor: nil, nodeStyle: DefaultNodeStyle())
+        paletteManager = ColorPaletteManager(colors: colors, selectedColor: nil)
         super.init(frame: .zero)
+        commonInit()
     }
 
     public init(colors: [PaletteColor], selectedColor: PaletteColor?) {
-        paletteManager = ColorPaletteManager(colors: colors, selectedColor: selectedColor, nodeStyle: DefaultNodeStyle())
+        paletteManager = ColorPaletteManager(colors: colors, selectedColor: selectedColor)
         super.init(frame: .zero)
+        commonInit()
+    }
+
+    override init(frame: CGRect) {
+        paletteManager = ColorPaletteManager(colors: [], selectedColor: nil)
+        super.init(frame: frame)
+        commonInit()
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        paletteManager = ColorPaletteManager(colors: [], selectedColor: nil)
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        allowsTransparency = true
+        backgroundColor = .clear
     }
 
     // https://stackoverflow.com/questions/728372/when-is-layoutsubviews-called
@@ -40,7 +55,7 @@ public class ColorPaletteView: SKView {
     public func update(withColors colors: [PaletteColor], selectedColor: PaletteColor? = nil) {
         guard paletteManager.colors != colors else { return }
 
-        paletteManager.selectedColor = selectedColor
+        paletteManager.resetSelectedColorBinding(selectedColor)
         paletteManager.colors = colors
     }
 

@@ -47,13 +47,18 @@ class PaletteSegmentedControl: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
-        addSubview(selectorView)
-        configureSegmentedStack()
+        commonInit()
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        commonInit()
+    }
+    
+    private func commonInit() {
+        backgroundColor = .clear
+        addSubview(selectorView)
+        configureSegmentedStack()
     }
 
     private func configureSegmentedStack() {

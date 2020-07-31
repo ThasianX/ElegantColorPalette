@@ -4,7 +4,7 @@ import Combine
 import ElegantColorPalette
 import UIKit
 
-class ViewController: UIViewController {
+class ProgrammaticExampleVC: UIViewController {
 
     private lazy var headerLabel: UILabel = {
         let label = UILabel()
@@ -28,7 +28,6 @@ class ViewController: UIViewController {
         return control
     }()
 
-    // TODO: should figure out way to use this in storyboard
     private lazy var paletteView: ColorPaletteView = {
         let paletteView = ColorPaletteView(colors: PaletteColor.allColors)
         paletteView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,32 +40,40 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.addSubview(headerLabel)
+        NSLayoutConstraint.activate([
+            headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32),
+            headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        view.addSubview(separatorView)
+        NSLayoutConstraint.activate([
+            separatorView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20),
+            separatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
+            separatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
+            separatorView.heightAnchor.constraint(equalToConstant: 1)
+        ])
+        
+        view.addSubview(paletteView)
+        NSLayoutConstraint.activate([
+            paletteView.topAnchor.constraint(equalTo: separatorView.bottomAnchor),
+            paletteView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            paletteView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            paletteView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+        
+        view.addSubview(segmentedControl)
+        NSLayoutConstraint.activate([
+            segmentedControl.topAnchor.constraint(equalTo: separatorView.bottomAnchor),
+            segmentedControl.centerXAnchor.constraint(equalTo: headerLabel.centerXAnchor)
+        ])
 
         paletteView
             .didSelectColor { [unowned self] color in
                 self.selectedColor.send(color)
             }
-
-        view.addSubview(headerLabel)
-        headerLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 32).isActive = true
-        headerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-
-        view.addSubview(separatorView)
-        separatorView.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 20).isActive = true
-        separatorView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32).isActive = true
-        separatorView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32).isActive = true
-        separatorView.heightAnchor.constraint(equalToConstant: 1).isActive = true
-
-        view.addSubview(paletteView)
-        paletteView.topAnchor.constraint(equalTo: separatorView.bottomAnchor).isActive = true
-        paletteView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        paletteView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        paletteView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-
-        view.addSubview(segmentedControl)
-        segmentedControl.topAnchor.constraint(equalTo: separatorView.bottomAnchor).isActive = true
-        segmentedControl.centerXAnchor.constraint(equalTo: headerLabel.centerXAnchor).isActive = true
-
+        
         cancellable = segmentedControl.selectedPalette
             .dropFirst()
             .sink { [unowned self] selection in

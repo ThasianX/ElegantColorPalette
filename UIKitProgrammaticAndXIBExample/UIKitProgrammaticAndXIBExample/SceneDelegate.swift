@@ -1,7 +1,6 @@
-// Kevin Li - 10:51 PM - 7/26/20
+// Kevin Li - 4:58 PM - 7/30/20
 
 import UIKit
-import SwiftUI
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -9,12 +8,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        if let windowScene = scene as? UIWindowScene {
-            let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: SwiftUIExampleView())
-            self.window = window
-            window.makeKeyAndVisible()
-        }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
+        window?.windowScene = windowScene
+        window?.rootViewController = ProgrammaticExampleVC()
+        window?.overrideUserInterfaceStyle = .dark
+        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
