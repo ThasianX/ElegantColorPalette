@@ -9,12 +9,15 @@ class XIBExampleVC: UIViewController {
         super.viewDidLoad()
 
         let paletteView = ColorPaletteXIBView()
-        paletteView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(paletteView)
-        paletteView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        paletteView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        paletteView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        paletteView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        
+        paletteView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            paletteView.topAnchor.constraint(equalTo: view.topAnchor),
+            paletteView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            paletteView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            paletteView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
     }
 
 }

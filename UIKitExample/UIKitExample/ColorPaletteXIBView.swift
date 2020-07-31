@@ -25,10 +25,10 @@ class ColorPaletteXIBView: UIView {
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            self.contentView.topAnchor.constraint(equalTo: self.topAnchor),
-            self.contentView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            self.contentView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            self.contentView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            contentView.topAnchor.constraint(equalTo: topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
     }
 
