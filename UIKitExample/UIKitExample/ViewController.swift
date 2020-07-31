@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     }()
 
     private lazy var segmentedControl: PaletteSegmentedControl = {
-        let control = PaletteSegmentedControl()
+        let control = PaletteSegmentedControl(frame: .zero)
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
@@ -84,7 +84,7 @@ class ViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        segmentedControl.configSelectorView(colorPublisher: selectedColor.eraseToAnyPublisher())
+        segmentedControl.bind(to: selectedColor.eraseToAnyPublisher())
     }
 
 }
