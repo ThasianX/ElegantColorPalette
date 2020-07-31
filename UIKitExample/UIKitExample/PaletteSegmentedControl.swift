@@ -1,103 +1,122 @@
 // Kevin Li - 5:10 PM - 7/30/20
 
+import Combine
+import ElegantColorPalette
 import UIKit
 
-enum PaletteSelection: String {
-    case color = "COLOR"
-    case bw = "B&W"
+enum PaletteSelection: Int {
+    case color
+    case bw
+
+    var name: String {
+        switch self {
+        case .color:
+            return "COLOR"
+        case .bw:
+            return "B&W"
+        }
+    }
 }
 
-protocol PaletteSegmentedControlDelegate:class {
-    func change(to index:Int)
+protocol PaletteSegmentedControlDelegate: class {
+    func paletteSelectionChanged(to selection: PaletteSelection)
 }
 
 class PaletteSegmentedControl: UIView {
-    private var buttonTitles:[String] = ["COLOR", "B&W"]
-    private var buttons: [UIButton]!
-    private var selectorView: UIView!
 
-    var textColor:UIColor = .black
-    var selectorViewColor: UIColor = .red
-    var selectorTextColor: UIColor = .red
+    private var buttons = [UIButton]()
+    private var selectorView: UIView!
 
     weak var delegate: PaletteSegmentedControlDelegate?
 
-    public private(set) var selectedIndex : Int = 0
+    public private(set) var selectedPalette: PaletteSelection = .color
 
-    override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        self.backgroundColor = .clear
-        updateView()
+    private var cancellable: AnyCancellable?
+
+    init() {
+        super.init(frame: .zero)
+        translatesAutoresizingMaskIntoConstraints = false
+        setUpView()
     }
 
-    func setIndex(index:Int) {
-        buttons.forEach({ $0.setTitleColor(textColor, for: .normal) })
-        let button = buttons[index]
-        selectedIndex = index
-        button.setTitleColor(selectorTextColor, for: .normal)
-        let selectorPosition = frame.width/CGFloat(buttonTitles.count) * CGFloat(index)
-        UIView.animate(withDuration: 0.2) {
-            self.selectorView.frame.origin.x = selectorPosition
-        }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
-    @objc func buttonAction(sender:UIButton) {
-        for (buttonIndex, btn) in buttons.enumerated() {
-            btn.setTitleColor(textColor, for: .normal)
-            if btn == sender {
-                let selectorPosition = frame.width/CGFloat(buttonTitles.count) * CGFloat(buttonIndex)
-                selectedIndex = buttonIndex
-                delegate?.change(to: selectedIndex)
-                UIView.animate(withDuration: 0.3) {
-                    self.selectorView.frame.origin.x = selectorPosition
-                }
-                btn.setTitleColor(selectorTextColor, for: .normal)
-            }
-        }
-    }
-}
-
-//Configuration View
-extension PaletteSegmentedControl {
-    private func updateView() {
-        createButton()
-        configSelectorView()
+    private func setUpView() {
+        createButtons()
         configStackView()
+    }
+
+    private func createButtons() {
+        createButton(for: .color)
+        createButton(for: .bw)
+    }
+
+    private func createButton(for palette: PaletteSelection) {
+        let button = UIButton(type: .system)
+        button.contentEdgeInsets = UIEdgeInsets(top: 20, left: 0, bottom: 2, right: 0)
+        button.setTitle(palette.name, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        button.tag = palette.rawValue
+        button.addTarget(self, action:#selector(PaletteSegmentedControl.buttonAction), for: .touchUpInside)
+        button.setTitleColor(.gray, for: .normal)
+        buttons.append(button)
     }
 
     private func configStackView() {
         let stack = UIStackView(arrangedSubviews: buttons)
         stack.axis = .horizontal
-        stack.alignment = .fill
         stack.distribution = .fillEqually
+        stack.spacing = 16
         addSubview(stack)
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        stack.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        stack.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
-        stack.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
+        stack.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        stack.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        stack.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        stack.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
     }
 
-    private func configSelectorView() {
-        let selectorWidth = frame.width / CGFloat(self.buttonTitles.count)
-        selectorView = UIView(frame: CGRect(x: 0, y: self.frame.height, width: selectorWidth, height: 2))
-        selectorView.backgroundColor = selectorViewColor
+    func configSelectorView(colorPublisher: AnyPublisher<PaletteColor?, Never>) {
+        let selectedWidth = buttons[0].titleLabel!.bounds.size.width
+        selectorView = UIView(frame: CGRect(x: buttons[0].titleLabel!.frame.minX, y: frame.height, width: selectedWidth, height: 1))
         addSubview(selectorView)
-    }
 
-    private func createButton() {
-        buttons = [UIButton]()
-        buttons.removeAll()
-        subviews.forEach({$0.removeFromSuperview()})
-        for buttonTitle in buttonTitles {
-            let button = UIButton(type: .system)
-            button.setTitle(buttonTitle, for: .normal)
-            button.addTarget(self, action:#selector(PaletteSegmentedControl.buttonAction(sender:)), for: .touchUpInside)
-            button.setTitleColor(textColor, for: .normal)
-            buttons.append(button)
+        buttons[1].alpha = 0.5
+
+        cancellable = colorPublisher.sink { [unowned self] selectedColor in
+            self.selectorView.backgroundColor = selectedColor?.uiColor ?? .gray
+            self.buttons[self.selectedPalette.rawValue].setTitleColor(selectedColor?.uiColor ?? .gray, for: .normal)
         }
-        buttons[0].setTitleColor(selectorTextColor, for: .normal)
     }
 
+    @objc func buttonAction(sender: UIButton) {
+        guard let selection = PaletteSelection(rawValue: sender.tag), selection != selectedPalette else { return }
+        selectedPalette = selection
+
+        delegate?.paletteSelectionChanged(to: selectedPalette)
+        switch selectedPalette {
+        case .color:
+            buttons[1].alpha = 0.5
+            buttons[0].alpha = 1
+            let bwPosition = buttons[0].titleLabel!.frame.minX
+            let bwWidth = buttons[0].titleLabel!.frame.width
+            UIView.animate(withDuration: 0.3) {
+                self.selectorView.frame = CGRect(x: bwPosition, y: self.frame.height, width: bwWidth, height: 1)
+                self.buttons[0].setTitleColor(self.buttons[1].titleLabel?.textColor, for: .normal)
+                self.buttons[1].setTitleColor(.gray, for: .normal)
+            }
+        case .bw:
+            buttons[0].alpha = 0.5
+            buttons[1].alpha = 1
+            let bwPosition = buttons[1].frame.minX + buttons[1].titleLabel!.frame.minX
+            let bwWidth = buttons[1].titleLabel!.frame.width
+            UIView.animate(withDuration: 0.3) {
+                self.selectorView.frame = CGRect(x: bwPosition, y: self.frame.height, width: bwWidth, height: 1)
+                self.buttons[1].setTitleColor(self.buttons[0].titleLabel?.textColor, for: .normal)
+                self.buttons[0].setTitleColor(.gray, for: .normal)
+            }
+        }
+    }
 
 }
