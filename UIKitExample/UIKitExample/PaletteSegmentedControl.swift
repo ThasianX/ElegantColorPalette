@@ -18,24 +18,17 @@ enum PaletteSelection: Int {
     }
 }
 
-protocol PaletteSegmentedControlDelegate: class {
-    func paletteSelectionChanged(to selection: PaletteSelection)
-}
-
 class PaletteSegmentedControl: UIView {
 
     private var buttons = [UIButton]()
     private var selectorView: UIView!
 
-    weak var delegate: PaletteSegmentedControlDelegate?
-
-    public private(set) var selectedPalette: PaletteSelection = .color
+    let selectedPalette = CurrentValueSubject<PaletteSelection, Never>(.color)
 
     private var cancellable: AnyCancellable?
 
     init() {
         super.init(frame: .zero)
-        translatesAutoresizingMaskIntoConstraints = false
         setUpView()
     }
 
@@ -86,16 +79,15 @@ class PaletteSegmentedControl: UIView {
 
         cancellable = colorPublisher.sink { [unowned self] selectedColor in
             self.selectorView.backgroundColor = selectedColor?.uiColor ?? .gray
-            self.buttons[self.selectedPalette.rawValue].setTitleColor(selectedColor?.uiColor ?? .gray, for: .normal)
+            self.buttons[self.selectedPalette.value.rawValue].setTitleColor(selectedColor?.uiColor ?? .gray, for: .normal)
         }
     }
 
     @objc func buttonAction(sender: UIButton) {
-        guard let selection = PaletteSelection(rawValue: sender.tag), selection != selectedPalette else { return }
-        selectedPalette = selection
+        guard let selection = PaletteSelection(rawValue: sender.tag), selection != selectedPalette.value else { return }
+        selectedPalette.send(selection)
 
-        delegate?.paletteSelectionChanged(to: selectedPalette)
-        switch selectedPalette {
+        switch selectedPalette.value {
         case .color:
             buttons[1].alpha = 0.5
             buttons[0].alpha = 1
