@@ -53,7 +53,9 @@ class ViewController: UIViewController {
 extension ViewController: PaletteSegmentedControlDelegate {
 
     func change(to index: Int) {
-        paletteView.update(withColors: (index == 0) ? PaletteColor.allColors : PaletteColor.allBwColors, selectedColor: selectedColor)
+        paletteView
+            .nodeStyle((index == 0) ? DefaultNodeStyle() : CustomNodeStyle())
+            .update(withColors: (index == 0) ? PaletteColor.allColors : PaletteColor.allBwColors, selectedColor: selectedColor)
     }
 
 }
@@ -88,6 +90,16 @@ private extension PaletteSegmentedControl {
         let control = PaletteSegmentedControl(frame: .zero)
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
+    }
+
+}
+
+struct CustomNodeStyle: NodeStyle {
+
+    func apply(configuration: Configuration) -> ColorNode {
+        configuration.defaultStyledNode
+            .radius(35)
+            .font(name: "Thonburi")
     }
 
 }
@@ -152,15 +164,6 @@ private extension PaletteSegmentedControl {
 //
 //}
 //
-//struct CustomNodeStyle: NodeStyle {
-//
-//    func apply(configuration: Configuration) -> ColorNode {
-//        configuration.defaultStyledNode
-//            .radius(35)
-//            .font(name: "Thonburi")
-//    }
-//
-//}
 
 //struct PaletteSegmentedView: View {
 //
