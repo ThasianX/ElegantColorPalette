@@ -56,6 +56,7 @@ class PaletteSegmentedControl: UIView {
     }
     
     private func commonInit() {
+        backgroundColor = .clear
         addSubview(selectorView)
         configureSegmentedStack()
     }

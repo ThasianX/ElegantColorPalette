@@ -38,7 +38,7 @@ class ColorPaletteScene: SKScene {
         configureScenePhysics()
 
         paletteManager.$colors
-            .sink { colors in
+            .sink { [unowned self] colors in
                 self.updateColors(colors)
             }.store(in: &cancellables)
     }
@@ -164,7 +164,7 @@ extension ColorPaletteScene {
         guard let selectedNode = state.selectedNode else { return }
 
         paletteManager.nodeStyle.apply(configuration: .selectedAndCentered(selectedNode))
-        paletteManager.setSelectedColor(selectedNode.paletteColor)
+        paletteManager.selectedColor = selectedNode.paletteColor
     }
 
 }
