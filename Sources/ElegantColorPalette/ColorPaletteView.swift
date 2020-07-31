@@ -39,6 +39,8 @@ public class ColorPaletteView: SKView {
     public override func layoutSubviews() {
         super.layoutSubviews()
 
+        allowsTransparency = true
+        backgroundColor = .clear
         _ = paletteScene
     }
 
