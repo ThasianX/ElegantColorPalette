@@ -22,7 +22,7 @@
 /* Begin PBXFileReference section */
 		1E059A9A24D3ED18001ABC91 /* ProgrammaticExampleVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgrammaticExampleVC.swift; sourceTree = "<group>"; };
 		1E059A9C24D3ED2B001ABC91 /* XIBExampleVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XIBExampleVC.swift; sourceTree = "<group>"; };
-		1E21313C24D3962D00025BA1 /* UIKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1E21313C24D3962D00025BA1 /* UIKitProgrammaticAndXIBExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKitProgrammaticAndXIBExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E21313F24D3962D00025BA1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1E21314124D3962D00025BA1 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1E21314824D3962E00025BA1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,7 +49,7 @@
 		1E21313324D3962D00025BA1 = {
 			isa = PBXGroup;
 			children = (
-				1E21313E24D3962D00025BA1 /* UIKitExample */,
+				1E21313E24D3962D00025BA1 /* UIKitProgrammaticAndXIBExample */,
 				1E21313D24D3962D00025BA1 /* Products */,
 				1E21315424D396EC00025BA1 /* Frameworks */,
 			);
@@ -58,12 +58,12 @@
 		1E21313D24D3962D00025BA1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1E21313C24D3962D00025BA1 /* UIKitExample.app */,
+				1E21313C24D3962D00025BA1 /* UIKitProgrammaticAndXIBExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1E21313E24D3962D00025BA1 /* UIKitExample */ = {
+		1E21313E24D3962D00025BA1 /* UIKitProgrammaticAndXIBExample */ = {
 			isa = PBXGroup;
 			children = (
 				1E21313F24D3962D00025BA1 /* AppDelegate.swift */,
@@ -78,7 +78,7 @@
 				1E21314A24D3962E00025BA1 /* LaunchScreen.storyboard */,
 				1E21314D24D3962E00025BA1 /* Info.plist */,
 			);
-			path = UIKitExample;
+			path = UIKitProgrammaticAndXIBExample;
 			sourceTree = "<group>";
 		};
 		1E21315424D396EC00025BA1 /* Frameworks */ = {
@@ -91,9 +91,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1E21313B24D3962D00025BA1 /* UIKitExample */ = {
+		1E21313B24D3962D00025BA1 /* UIKitProgrammaticAndXIBExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1E21315024D3962E00025BA1 /* Build configuration list for PBXNativeTarget "UIKitExample" */;
+			buildConfigurationList = 1E21315024D3962E00025BA1 /* Build configuration list for PBXNativeTarget "UIKitProgrammaticAndXIBExample" */;
 			buildPhases = (
 				1E21313824D3962D00025BA1 /* Sources */,
 				1E21313924D3962D00025BA1 /* Frameworks */,
@@ -103,12 +103,12 @@
 			);
 			dependencies = (
 			);
-			name = UIKitExample;
+			name = UIKitProgrammaticAndXIBExample;
 			packageProductDependencies = (
 				1E21315524D396EC00025BA1 /* ElegantColorPalette */,
 			);
 			productName = UIKitExample;
-			productReference = 1E21313C24D3962D00025BA1 /* UIKitExample.app */;
+			productReference = 1E21313C24D3962D00025BA1 /* UIKitProgrammaticAndXIBExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -126,7 +126,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1E21313724D3962D00025BA1 /* Build configuration list for PBXProject "UIKitExample" */;
+			buildConfigurationList = 1E21313724D3962D00025BA1 /* Build configuration list for PBXProject "UIKitProgrammaticAndXIBExample" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -139,7 +139,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1E21313B24D3962D00025BA1 /* UIKitExample */,
+				1E21313B24D3962D00025BA1 /* UIKitProgrammaticAndXIBExample */,
 			);
 		};
 /* End PBXProject section */
@@ -305,13 +305,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75H2NCGMKS;
-				INFOPLIST_FILE = UIKitExample/Info.plist;
+				INFOPLIST_FILE = UIKitProgrammaticAndXIBExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kevinli.UIKitExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kevinli.UIKitProgrammaticAndXIBExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -324,13 +324,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 75H2NCGMKS;
-				INFOPLIST_FILE = UIKitExample/Info.plist;
+				INFOPLIST_FILE = UIKitProgrammaticAndXIBExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kevinli.UIKitExample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kevinli.UIKitProgrammaticAndXIBExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -340,7 +340,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1E21313724D3962D00025BA1 /* Build configuration list for PBXProject "UIKitExample" */ = {
+		1E21313724D3962D00025BA1 /* Build configuration list for PBXProject "UIKitProgrammaticAndXIBExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1E21314E24D3962E00025BA1 /* Debug */,
@@ -349,7 +349,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1E21315024D3962E00025BA1 /* Build configuration list for PBXNativeTarget "UIKitExample" */ = {
+		1E21315024D3962E00025BA1 /* Build configuration list for PBXNativeTarget "UIKitProgrammaticAndXIBExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1E21315124D3962E00025BA1 /* Debug */,
