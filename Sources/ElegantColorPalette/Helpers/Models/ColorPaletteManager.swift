@@ -4,7 +4,7 @@ import Combine
 import Foundation
 import UIKit
 
-// TOOD: add property here that notifies scene that the color scheme has changed. Right now, once you change the color scheme, it doesn't update the label color or the node color if the UIColor is dynamic
+// TODO: add property here that notifies scene that the color scheme has changed. Right now, once you change the color scheme, it doesn't update the label color or the node color if the UIColor is dynamic
 class ColorPaletteManager: ObservableObject {
 
     @Published var colors: [PaletteColor]
