@@ -17,7 +17,6 @@ class ColorPaletteManager: ObservableObject {
 
     init(colors: [PaletteColor], selectedColor: PaletteColor?) {
         self.colors = colors
-        self.selectedColor = selectedColor
         
         resetSelectedColorBinding(selectedColor)
     }
