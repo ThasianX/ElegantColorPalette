@@ -31,11 +31,4 @@ private extension ColorNode {
         }
     }
 
-    var fontColor: UIColor? {
-        get { label.fontColor }
-        set {
-            label.fontColor = newValue
-        }
-    }
-
 }

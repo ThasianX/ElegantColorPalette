@@ -8,7 +8,6 @@ public class ColorNode: SKShapeNode {
 
     public lazy var label: SKLabelNode = {
         let node = SKLabelNode(fontNamed: "SanFranciscoDisplay-Regular")
-        node.fontColor = UIColor.label
         node.verticalAlignmentMode = .top
         node.zPosition = 5
         return node
@@ -27,6 +26,7 @@ public class ColorNode: SKShapeNode {
         // Allows didSet to get called
         defer {
             radius = 25
+            fontColor = .label
             self.paletteColor = paletteColor
         }
 
@@ -38,6 +38,12 @@ public class ColorNode: SKShapeNode {
             fillColor = paletteColor.uiColor
             label.text = paletteColor.name
             border.strokeColor = paletteColor.uiColor
+        }
+    }
+
+    public var fontColor: UIColor! {
+        didSet {
+            label.fontColor = fontColor
         }
     }
 
@@ -75,6 +81,15 @@ public extension ColorNode {
 
     func modifier(_ modifier: NodeModifier) -> ColorNode {
         modifier.body(content: self)
+    }
+
+}
+
+extension ColorNode: ColorSchemeObserver {
+
+    func colorSchemeChanged() {
+        self.paletteColor = { self.paletteColor }()
+        self.fontColor = { self.fontColor }()
     }
 
 }

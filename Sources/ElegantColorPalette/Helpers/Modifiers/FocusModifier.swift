@@ -44,6 +44,7 @@ private extension ColorNode {
 
 private extension ColorNode {
 
+    // TODO: fix this for the first node. it can be really snappy
     func snap(to location: CGPoint, multiplier: CGFloat, completion: @escaping () -> Void) {
         guard position != location else { return }
 
