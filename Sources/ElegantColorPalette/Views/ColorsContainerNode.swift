@@ -18,9 +18,10 @@ class ColorsContainerNode: SKNode {
 
     private func addColorNodes(colors: [PaletteColor], with style: NodeStyle) {
         for paletteColor in colors {
-            let colorNode = ColorNode(paletteColor: paletteColor)
-            let modifiedNode = style.makeBody(configuration: .startUp(colorNode, isSelected: false))
-            addChild(modifiedNode)
+            let colorNode = style.updateNode(
+                configuration: .firstShown(ColorNode(paletteColor: paletteColor),
+                                        isSelected: false))
+            addChild(colorNode)
         }
     }
 

@@ -105,7 +105,7 @@ extension ColorPaletteScene {
         addChild(containerNode)
 
         if let selectedNode = containerNode.node(with: paletteManager.selectedColor) {
-            state.selectedNode = paletteManager.nodeStyle.makeBody(configuration: .startUp(selectedNode, isSelected: true))
+            state.selectedNode = paletteManager.nodeStyle.updateNode(configuration: .firstShown(selectedNode, isSelected: true))
         }
 
         let smallerLength = min(size.width, size.height)
@@ -137,10 +137,10 @@ extension ColorPaletteScene {
         guard let location = touches.first?.location(in: self) else { return }
         guard let node = node(at: location) else { return }
 
-        state.activeNode = paletteManager.nodeStyle.makeBody(
+        state.activeNode = paletteManager.nodeStyle.updateNode(
             configuration: .touchedDown(node,
                                         isSelected: isNodeSelected(node),
-                                        isCentered: isNodeFocused(node)))
+                                        isFocused: isNodeFocused(node)))
         state.touchState = .touched
     }
 
@@ -207,7 +207,7 @@ extension ColorPaletteScene {
         if isNodeSelected(node) {
             // Currently focused node is tapped.
             if state.isFocused {
-                paletteManager.nodeStyle.makeBody(configuration: .selectedAndCentered(node))
+                paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(node))
             } else {
                 // This case only happens when you start out with a `selectedColor`.
                 // In that case, the node will initially show its selected state but won't be focused.
@@ -219,7 +219,7 @@ extension ColorPaletteScene {
             if let oldSelectedNode = state.selectedNode {
                 // Prevents weird bugs that occur when you tap multiple nodes in succession
                 oldSelectedNode.removeAllActions()
-                paletteManager.nodeStyle.makeBody(configuration: .unselected(oldSelectedNode))
+                paletteManager.nodeStyle.updateNode(configuration: .unselected(oldSelectedNode))
             }
 
             // Store new selected node
@@ -234,17 +234,17 @@ extension ColorPaletteScene {
             // If the node is already focused, make sure to refocus it
             focusSelectedNode()
         } else {
-            paletteManager.nodeStyle.makeBody(
+            paletteManager.nodeStyle.updateNode(
                 configuration: .touchedUp(node,
                                           isSelected: isNodeSelected(node),
-                                          isCentered: false))
+                                          isFocused: false))
         }
     }
 
     private func focusSelectedNode() {
         guard let selectedNode = state.selectedNode else { return }
 
-        paletteManager.nodeStyle.makeBody(configuration: .selectedAndCentered(selectedNode))
+        paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
         paletteManager.selectedColor = selectedNode.paletteColor
     }
 

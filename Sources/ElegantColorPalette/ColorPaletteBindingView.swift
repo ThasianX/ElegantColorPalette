@@ -59,7 +59,7 @@ extension ColorPaletteBindingView: Buildable {
     /// Configures the style of each node.
     ///
     /// Use this if you want to further customize the node.
-    /// - Important: If you want to retain the default styling of the node while adding more on, make sure to apply your styling to  `configuration.defaultStyledNode` in the `makeBody` of your  custom `NodeStyle`.
+    /// - Important: If you want to retain the default styling of the node while adding more on, make sure to apply your styling to  `configuration.defaultStyledNode` in the `updateNode` of your  custom `NodeStyle`.
     /// - Parameter style: the style applied to each node during state changes
     public func nodeStyle(_ style: NodeStyle) -> Self {
         mutating(keyPath: \.nodeStyle, value: style)
