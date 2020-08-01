@@ -3,9 +3,11 @@
 import SpriteKit
 import UIKit
 
-// TODO: add documentation for the library
-public class ColorNode: SKShapeNode {
+@objcMembers public class ColorNode: SKShapeNode {
 
+    /**
+     The label that displays the name of the selected color.
+     */
     public lazy var label: SKLabelNode = {
         let node = SKLabelNode(fontNamed: "SanFranciscoDisplay-Regular")
         node.verticalAlignmentMode = .top
@@ -13,6 +15,9 @@ public class ColorNode: SKShapeNode {
         return node
     }()
 
+    /**
+     The highlighted border that appears when a node is selected.
+     */
     public lazy var border: SKShapeNode = {
         let node = SKShapeNode()
         node.fillColor = .clear
@@ -33,6 +38,11 @@ public class ColorNode: SKShapeNode {
         strokeColor = .clear
     }
 
+    /**
+     The `PaletteColor` associated with this node.
+
+     Responsible for determining the node's fill color, label text, and border stroke color
+     */
     public var paletteColor: PaletteColor! {
         didSet {
             fillColor = paletteColor.uiColor
@@ -41,12 +51,22 @@ public class ColorNode: SKShapeNode {
         }
     }
 
+    /**
+     The font color of the label of this node.
+
+     If you want different font colors for light and dark mode, make sure your `fontColor` is dynamic as well.
+     */
     public var fontColor: UIColor! {
         didSet {
             label.fontColor = fontColor
         }
     }
 
+    /**
+     The radius of the node.
+
+     Responsible for the label's font size and position beneath the node as well as the border radius.
+     */
     public var radius: CGFloat! {
         didSet {
             didUpdateRadius()
@@ -79,6 +99,9 @@ public class ColorNode: SKShapeNode {
 
 public extension ColorNode {
 
+    /**
+     Applies a modifier to the `ColorNode`.
+     */
     func modifier(_ modifier: NodeModifier) -> ColorNode {
         modifier.body(content: self)
     }
