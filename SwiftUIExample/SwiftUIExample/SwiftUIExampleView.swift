@@ -55,9 +55,9 @@ private extension SwiftUIExampleView {
     }
 
     var paletteView: some View {
-        ColorPaletteDynamicView(
-            colors: isColorPaletteSelected ? PaletteColor.allColors : PaletteColor.allBwColors,
-            selectedColor: $selectedColor)
+        ColorPaletteBindingView(
+            selectedColor: $selectedColor,
+            colors: isColorPaletteSelected ? PaletteColor.allColors : PaletteColor.allBwColors)
             .didSelectColor { print($0) }
             .nodeStyle(isColorPaletteSelected ? DefaultNodeStyle() : CustomNodeStyle())
     }
@@ -70,7 +70,7 @@ private extension SwiftUIExampleView {
 
 struct CustomNodeStyle: NodeStyle {
 
-    func apply(configuration: Configuration) -> ColorNode {
+    func updateNode(configuration: Configuration) -> ColorNode {
         configuration.defaultStyledNode
             .radius(30)
             .font(name: "Thonburi")

@@ -47,7 +47,7 @@ class ViewController: UIViewController {
 
 struct CustomNodeStyle: NodeStyle {
 
-    func apply(configuration: Configuration) -> ColorNode {
+    func updateNode(configuration: Configuration) -> ColorNode {
         configuration.defaultStyledNode
             .radius(30)
             .font(name: "Thonburi")
