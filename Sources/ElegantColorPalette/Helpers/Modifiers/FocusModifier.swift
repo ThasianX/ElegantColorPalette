@@ -44,18 +44,20 @@ private extension ColorNode {
 
 private extension ColorNode {
 
-    // TODO: fix this for the first node. it can be really snappy
     func snap(to location: CGPoint, multiplier: CGFloat, completion: @escaping () -> Void) {
         guard position != location else { return }
 
-        let offset = CGPoint(x: -position.x,
-                             y: -position.y)
+        let offset = CGPoint(x: location.x - position.x,
+                             y: location.y - position.y)
         let snapVector = CGVector(dx: offset.x*multiplier,
                                   dy: offset.y*multiplier)
         physicsBody?.velocity = snapVector
 
+        let distance = hypot(offset.x, offset.y)
+        let moveDuration = 0.001*distance
+
         let moveAction = SKAction.move(to: location,
-                                       duration: 0.25)
+                                       duration: TimeInterval(moveDuration))
 
         run(moveAction, completion: completion)
     }

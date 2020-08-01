@@ -49,7 +49,7 @@ struct CustomNodeStyle: NodeStyle {
 
     func apply(configuration: Configuration) -> ColorNode {
         configuration.defaultStyledNode
-            .radius(35)
+            .radius(30)
             .font(name: "Thonburi")
     }
 
