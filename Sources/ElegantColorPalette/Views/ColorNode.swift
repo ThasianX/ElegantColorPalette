@@ -3,7 +3,7 @@
 import SpriteKit
 import UIKit
 
-@objcMembers public class ColorNode: SKShapeNode {
+public class ColorNode: SKShapeNode {
 
     /**
      The label that displays the name of the selected color.

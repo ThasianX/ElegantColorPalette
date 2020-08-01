@@ -7,10 +7,9 @@ import SwiftUI
 ///
 /// # Example #
 ///
-///
 ///     ColorPaletteBindingView(
 ///         selectedColor: $selectedColor,
- ///        colors: PaletteColor.allColors)
+///         colors: PaletteColor.allColors)
 ///         .didSelectColor { print($0) }
 ///         .nodeStyle(CustomNodeStyle())
 ///

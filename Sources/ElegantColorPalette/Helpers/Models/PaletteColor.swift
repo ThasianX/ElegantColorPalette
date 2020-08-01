@@ -3,11 +3,15 @@
 import SwiftUI
 import UIKit
 
+/// A `PaletteColor` holds the name and color associated with a given node.
 public struct PaletteColor: Equatable {
 
+    /// The name of the color
     public let name: String
+    /// The uiColor representation fo the color
     public let uiColor: UIColor
 
+    /// The SwiftUI `Color` representing the uiColor
     public var color: Color {
         uiColor.asColor
     }
