@@ -4,7 +4,7 @@ import Foundation
 
 public struct DefaultNodeStyle: NodeStyle {
 
-    public func apply(configuration: Configuration) -> ColorNode {
+    public func makeBody(configuration: Configuration) -> ColorNode {
         configuration.defaultStyledNode
     }
 

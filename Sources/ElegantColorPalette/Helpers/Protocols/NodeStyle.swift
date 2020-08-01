@@ -7,6 +7,6 @@ public protocol NodeStyle {
     typealias Configuration = NodeStyleConfiguration
 
     @discardableResult
-    func apply(configuration: Configuration) -> ColorNode
+    func makeBody(configuration: Configuration) -> ColorNode
 
 }
