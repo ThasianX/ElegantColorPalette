@@ -72,12 +72,12 @@ public extension ColorNode {
     /// For the `DefaultNodeStyle`,  this is responsible for the variable bubbling animation.
     ///
     /// - Parameter active: Whether or not the startup animation should be run.
-    /// - Parameter waitDuration: The duration that represents the variability at which nodes appear on the screen.
+    /// - Parameter waitDurationRange: The duration range that represents the variability at which nodes appear on the screen.
     /// - Parameter scaleUpDuration: The duration it takes for this node to scale up.
     /// - Parameter scaleDownDuration: The duration it takes for this node to scale back to its normal size.
     /// - Returns: A node with the default startup animation set to the animation you supply.
-    func startUp(_ active: Bool, waitDuration: ClosedRange<TimeInterval> = 0...0.4, scaleUpDuration: TimeInterval = 0.4, scaleDownDuration: TimeInterval = 0.2) -> ColorNode {
-        active ? modifier(StartUpModifier(waitDuration: waitDuration, scaleUpDuration: scaleUpDuration, scaleDownDuration: scaleDownDuration)) : self
+    func startUp(_ active: Bool, waitDurationRange: ClosedRange<TimeInterval> = 0...0.4, scaleUpDuration: TimeInterval = 0.4, scaleDownDuration: TimeInterval = 0.2) -> ColorNode {
+        active ? modifier(StartUpModifier(waitDurationRange: waitDurationRange, scaleUpDuration: scaleUpDuration, scaleDownDuration: scaleDownDuration)) : self
     }
 
 }

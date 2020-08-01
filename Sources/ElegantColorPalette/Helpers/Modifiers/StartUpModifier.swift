@@ -5,19 +5,19 @@ import SpriteKit
 
 struct StartUpModifier: NodeModifier {
 
-    let waitDuration: ClosedRange<TimeInterval>
+    let waitDurationRange: ClosedRange<TimeInterval>
     let scaleUpDuration: TimeInterval
     let scaleDownDuration: TimeInterval
 
     func body(content: Content) -> ColorNode {
         content.setScale(0)
 
-        let waitDuration: TimeInterval = .random(in: 0...0.4)
+        let waitDuration: TimeInterval = .random(in: waitDurationRange)
         let waitAction = SKAction.wait(forDuration: waitDuration)
 
-        let fadeInAction = SKAction.fadeIn(withDuration: 0.4)
-        let scaleUpAction = SKAction.scale(to: 1.1, duration: 0.4)
-        let scaleDownAction = SKAction.scale(to: 1, duration: 0.2)
+        let fadeInAction = SKAction.fadeIn(withDuration: scaleUpDuration)
+        let scaleUpAction = SKAction.scale(to: 1.1, duration: scaleUpDuration)
+        let scaleDownAction = SKAction.scale(to: 1, duration: scaleDownDuration)
 
         let actionSequence = SKAction.sequence([waitAction, .group([fadeInAction, scaleUpAction]), scaleDownAction])
 
