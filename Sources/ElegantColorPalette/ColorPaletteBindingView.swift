@@ -2,6 +2,18 @@
 
 import SwiftUI
 
+/// `ColorPaletteBindingView` is a SwiftUI wrapper view of `ColorPaletteView`. Given a `selectedColor` and some `PaletteColors`,
+/// this view will create a scene to display a handful of nodes representing colors. The nodes are easily customizable through `NodeStyle`.
+///
+/// # Example #
+///
+///
+///     ColorPaletteBindingView(
+///         selectedColor: $selectedColor,
+ ///        colors: PaletteColor.allColors)
+///         .didSelectColor { print($0) }
+///         .nodeStyle(CustomNodeStyle())
+///
 public struct ColorPaletteBindingView: UIViewRepresentable {
 
     public typealias UIViewType = ColorPaletteView
