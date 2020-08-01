@@ -4,17 +4,46 @@ import Combine
 import SpriteKit
 import UIKit
 
-fileprivate let dragVelocityMultiplier: CGFloat = 10
-fileprivate let snapVelocityMultiplier: CGFloat = 5
+class ColorPaletteScene: SKScene {
 
-class ColorPaletteScene: SKScene, ColorSchemeObserver {
+    /// Keeps track of the touch state of the scene
+    private enum TouchState {
+        /// No user interaction
+        case inactive
+        /// Touched down
+        case touched
+        /// Touched down + panned
+        case dragged
+    }
 
+    /// Keeps track of the local state of the scene
     private class InteractionState {
-        var selectedNode: ColorNode?
-        var isCentered: Bool = false
+        /**
+         The node with the currently selected `PaletteColor`.
 
+         Instantiated based on the client provided `selectedColor`. Afterwards, it reflects the currently focused node
+        */
+        var selectedNode: ColorNode?
+
+        /**
+         Whether the `selectedNode` is 'focused'.
+
+         A node is focused only when a tap interaction occurs with it
+        */
+        var isFocused: Bool = false
+
+        /**
+         The node that is currently being tapped or dragged.
+
+         This can be the same as `selectedNode` if that node is being tapped or dragged.
+         This is `nil` when no user interaction is occuring.
+        */
         var activeNode: ColorNode?
-        var isDragging: Bool = false
+
+        /**
+         The touch state of the `activeNode`
+        */
+        var touchState: TouchState = .inactive
     }
 
     let paletteManager: ColorPaletteManager
@@ -34,12 +63,17 @@ class ColorPaletteScene: SKScene, ColorSchemeObserver {
         fatalError("init(coder:) has not been implemented")
     }
 
+}
+
+// MARK: - Scene Did Appear
+extension ColorPaletteScene {
+
     override func didMove(to view: SKView) {
         configureScenePhysics()
 
         paletteManager.$colors
             .sink { [unowned self] colors in
-                self.updateColors(colors)
+                self.colorsChanged(colors)
             }.store(in: &cancellables)
 
         paletteManager.$activeColorScheme
@@ -56,7 +90,7 @@ class ColorPaletteScene: SKScene, ColorSchemeObserver {
         backgroundColor = .clear
     }
 
-    private func updateColors(_ colors: [PaletteColor]) {
+    private func colorsChanged(_ colors: [PaletteColor]) {
         guard colors.count > 0 else {
             fatalError("Error: At least 1 color must exist")
         }
@@ -79,7 +113,7 @@ class ColorPaletteScene: SKScene, ColorSchemeObserver {
         containerNode.randomizeColorNodesPositionsWithBubbleAnimation(within: spawnSize)
     }
 
-    func colorSchemeChanged() {
+    private func colorSchemeChanged() {
         containerNode.children
             .compactMap { $0 as? ColorSchemeObserver }
             .forEach { $0.colorSchemeChanged() }
@@ -87,23 +121,27 @@ class ColorPaletteScene: SKScene, ColorSchemeObserver {
 
 }
 
+// MARK: - Node Rotation
 extension ColorPaletteScene {
 
     override func update(_ currentTime: TimeInterval) {
         containerNode.rotateNodes()
     }
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        let location = touch.location(in: self)
+}
 
+// MARK: - Touches Began
+extension ColorPaletteScene {
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let location = touches.first?.location(in: self) else { return }
         guard let node = node(at: location) else { return }
 
-
-        let configuration: NodeStyleConfiguration = .touchedDown(node,
-                                       isSelected: node == state.selectedNode,
-                                       isCentered: node == state.selectedNode && state.isCentered)
-        state.activeNode = paletteManager.nodeStyle.apply(configuration: configuration)
+        state.activeNode = paletteManager.nodeStyle.apply(
+            configuration: .touchedDown(node,
+                                        isSelected: isNodeSelected(node),
+                                        isCentered: isNodeFocused(node)))
+        state.touchState = .touched
     }
 
     private func node(at location: CGPoint) -> ColorNode? {
@@ -115,69 +153,112 @@ extension ColorPaletteScene {
         return nil
     }
 
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let touch = touches.first else { return }
-        guard let activeNode = state.activeNode else { return }
+}
 
-        let location = touch.location(in: self)
-        guard location.x >= -frame.size.width/2 && location.x <= frame.size.width/2 else { return }
-        guard location.y >= -frame.size.height/2 && location.y <= frame.size.height/2 else { return }
+// MARK: - Touches Moved
+fileprivate let dragVelocityMultiplier: CGFloat = 10
+
+extension ColorPaletteScene {
+
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let activeNode = state.activeNode else { return }
+        guard let location = touches.first?.location(in: self) else { return }
+        guard isTouchWithinFrame(location) else { return }
 
         let offset = CGPoint(x: location.x - activeNode.position.x,
                              y: location.y - activeNode.position.y)
-        let dragVector = CGVector(dx: offset.x*dragVelocityMultiplier,
-                                  dy: offset.y*dragVelocityMultiplier)
-
-        activeNode.position = location
+        let dragVector = CGVector(dx: offset.x * dragVelocityMultiplier,
+                                  dy: offset.y * dragVelocityMultiplier)
 
         activeNode.physicsBody?.isDynamic = true
         activeNode.physicsBody?.velocity = dragVector
+        activeNode.position = location
 
-        state.isDragging = true
+        state.touchState = .dragged
     }
+
+    private func isTouchWithinFrame(_ location: CGPoint) -> Bool {
+        (location.x >= -frame.size.width/2 && location.x <= frame.size.width/2) &&
+            (location.y >= -frame.size.height/2 && location.y <= frame.size.height/2)
+    }
+
+}
+
+// MARK: - Touches Ended
+extension ColorPaletteScene {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
 
-        // TODO: refine this logic
-        if state.isDragging {
-            if activeNode == state.selectedNode && state.isCentered {
-                snapSelectedNodeToCenter()
-            } else {
-                let configuration: NodeStyleConfiguration = .touchedUp(activeNode,
-                                               isSelected: activeNode == state.selectedNode,
-                                               isCentered: activeNode == state.selectedNode && state.isCentered)
-                paletteManager.nodeStyle.apply(configuration: configuration)
-            }
-        } else {
-            if activeNode != state.selectedNode {
-                state.isCentered = true
-                if let oldSelectedNode = state.selectedNode {
-                    oldSelectedNode.removeAllActions()
-                    paletteManager.nodeStyle.apply(configuration: .unselected(oldSelectedNode))
-                }
-                state.selectedNode = activeNode
-                snapSelectedNodeToCenter()
-            } else if !state.isCentered {
-                state.isCentered = true
-                snapSelectedNodeToCenter()
-            } else {
-                let configuration: NodeStyleConfiguration = .touchedUp(activeNode,
-                                               isSelected: activeNode == state.selectedNode,
-                                               isCentered: activeNode == state.selectedNode && state.isCentered)
-                paletteManager.nodeStyle.apply(configuration: configuration)
-            }
+        switch state.touchState {
+        case .touched:
+            handleTouch(for: activeNode)
+        case .dragged:
+            handleDrag(for: activeNode)
+        case .inactive:
+            ()
         }
 
         state.activeNode = nil
-        state.isDragging = false
+        state.touchState = .inactive
     }
 
-    private func snapSelectedNodeToCenter() {
+    private func handleTouch(for node: ColorNode) {
+        if isNodeSelected(node) {
+            // Currently focused node is tapped.
+            if state.isFocused {
+                paletteManager.nodeStyle.apply(configuration: .selectedAndCentered(node))
+            } else {
+                // This case only happens when you start out with a `selectedColor`.
+                // In that case, the node will initially show its selected state but won't be focused.
+                state.isFocused = true
+                focusSelectedNode()
+            }
+        } else {
+            // Deselect previously selected node if any
+            if let oldSelectedNode = state.selectedNode {
+                // Prevents weird bugs that occur when you tap multiple nodes in succession
+                oldSelectedNode.removeAllActions()
+                paletteManager.nodeStyle.apply(configuration: .unselected(oldSelectedNode))
+            }
+
+            // Store new selected node
+            state.isFocused = true
+            state.selectedNode = node
+            focusSelectedNode()
+        }
+    }
+
+    private func handleDrag(for node: ColorNode) {
+        if isNodeFocused(node) {
+            // If the node is already focused, make sure to refocus it
+            focusSelectedNode()
+        } else {
+            paletteManager.nodeStyle.apply(
+                configuration: .touchedUp(node,
+                                          isSelected: isNodeSelected(node),
+                                          isCentered: false))
+        }
+    }
+
+    private func focusSelectedNode() {
         guard let selectedNode = state.selectedNode else { return }
 
         paletteManager.nodeStyle.apply(configuration: .selectedAndCentered(selectedNode))
         paletteManager.selectedColor = selectedNode.paletteColor
+    }
+
+}
+
+// MARK: - Shared Node Helpers
+private extension ColorPaletteScene {
+
+    func isNodeSelected(_ node: ColorNode) -> Bool {
+        node == state.selectedNode
+    }
+
+    func isNodeFocused(_ node: ColorNode) -> Bool {
+        isNodeSelected(node) && state.isFocused
     }
 
 }
