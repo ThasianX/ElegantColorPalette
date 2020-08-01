@@ -37,6 +37,13 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
         ColorPaletteView(colors: colors, selectedColor: selectedColor)
     }
 
+    public func updateUIView(_ uiView: ColorPaletteView, context: Context) {
+        uiView
+            .didSelectColor(groupedCallback)
+            .nodeStyle(nodeStyle)
+            .update(withColors: colors, selectedColor: selectedColor)
+    }
+
     private func groupedCallback(_ color: PaletteColor) {
         bindingCallback(color)
         didSelectColor?(color)
@@ -46,13 +53,6 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
         DispatchQueue.main.async {
             self.selectedColor = color
         }
-    }
-
-    public func updateUIView(_ uiView: ColorPaletteView, context: Context) {
-        uiView
-            .didSelectColor(groupedCallback)
-            .nodeStyle(nodeStyle)
-            .update(withColors: colors, selectedColor: selectedColor)
     }
 
 }

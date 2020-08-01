@@ -2,7 +2,7 @@
 
 import Foundation
 
-/// Defines the implementation of all `ColorNoe` instances within a view
+/// Defines the implementation of all `ColorNode` instances within a view
 /// hierarchy.
 ///
 /// To configure the current `NodeStyle` for a view hiearchy, use the
