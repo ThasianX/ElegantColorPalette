@@ -59,6 +59,12 @@ public class ColorPaletteView: SKView {
         paletteManager.colors = colors
     }
 
+    public override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+
+        paletteManager.activeColorScheme = traitCollection.userInterfaceStyle
+    }
+
 }
 
 public extension ColorPaletteView {

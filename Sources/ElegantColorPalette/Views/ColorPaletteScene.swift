@@ -7,7 +7,7 @@ import UIKit
 fileprivate let dragVelocityMultiplier: CGFloat = 10
 fileprivate let snapVelocityMultiplier: CGFloat = 5
 
-class ColorPaletteScene: SKScene {
+class ColorPaletteScene: SKScene, ColorSchemeObserver {
 
     private class InteractionState {
         var selectedNode: ColorNode?
@@ -41,6 +41,13 @@ class ColorPaletteScene: SKScene {
             .sink { [unowned self] colors in
                 self.updateColors(colors)
             }.store(in: &cancellables)
+
+        paletteManager.$activeColorScheme
+            .dropFirst()
+            .removeDuplicates()
+            .sink { [unowned self] _ in
+                self.colorSchemeChanged()
+            }.store(in: &cancellables)
     }
 
     private func configureScenePhysics() {
@@ -70,6 +77,12 @@ class ColorPaletteScene: SKScene {
         let smallerLength = min(size.width, size.height)
         let spawnSize = CGSize(width: (smallerLength/2)-40, height: (smallerLength/2)-40)
         containerNode.randomizeColorNodesPositionsWithBubbleAnimation(within: spawnSize)
+    }
+
+    func colorSchemeChanged() {
+        containerNode.children
+            .compactMap { $0 as? ColorSchemeObserver }
+            .forEach { $0.colorSchemeChanged() }
     }
 
 }
