@@ -15,8 +15,8 @@ The top level view is an `SKView` that presents an `SKScene` of colors nodes. Th
   s.source           = { :git => 'https://github.com/ThasianX/ElegantColorPalette.git', :tag => s.version.to_s }
  
   s.ios.deployment_target = '13.0'
-  s.source_files = 'Sources/ElegantColorPalette/*'
-
   s.swift_version = '5.1'
+
+  s.source_files = 'Sources/**/*.swift'
  
 end
