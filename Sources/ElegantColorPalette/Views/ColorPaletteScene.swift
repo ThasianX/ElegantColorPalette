@@ -182,7 +182,10 @@ extension ColorPaletteScene {
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
-        guard let location = touches.first?.location(in: self) else { return }
+        guard let touch = touches.first else { return }
+        let location = touch.location(in: self)
+        let previous = touch.previousLocation(in: self)
+        guard location.distance(from: previous) != 0 else { return }
         guard isTouchWithinFrame(location) else { return }
 
         let offset = CGPoint(x: location.x - activeNode.position.x,
@@ -281,4 +284,13 @@ private extension ColorPaletteScene {
         isNodeSelected(node) && state.isFocused
     }
 
+}
+
+// MARK: - Extensions
+private extension CGPoint {
+
+    func distance(from point: CGPoint) -> CGFloat {
+        return hypot(point.x - x, point.y - y)
+    }
+    
 }
