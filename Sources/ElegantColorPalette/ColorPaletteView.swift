@@ -59,8 +59,6 @@ public class ColorPaletteView: SKView {
     private func commonInit() {
         allowsTransparency = true
         backgroundColor = .clear
-        isExclusiveTouch = true
-//        gestureRecognizers?.forEach { $0.cancelsTouchesInView = false }
     }
 
     // https://stackoverflow.com/questions/728372/when-is-layoutsubviews-called
