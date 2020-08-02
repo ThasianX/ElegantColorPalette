@@ -223,22 +223,6 @@ extension ColorPaletteScene {
         state.touchState = .inactive
     }
 
-    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-        guard let activeNode = state.activeNode else { return }
-
-        switch state.touchState {
-        case .touched:
-            handleTouch(for: activeNode)
-        case .dragged:
-            handleDrag(for: activeNode)
-        case .inactive:
-            ()
-        }
-
-        state.activeNode = nil
-        state.touchState = .inactive
-    }
-
     private func handleTouch(for node: ColorNode) {
         if isNodeSelected(node) {
             // Currently focused node is tapped.
