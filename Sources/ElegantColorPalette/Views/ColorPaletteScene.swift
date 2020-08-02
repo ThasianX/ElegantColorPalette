@@ -6,11 +6,6 @@ import UIKit
 
 class ColorPaletteScene: SKScene {
 
-    override var isUserInteractionEnabled: Bool {
-        get { true }
-        set { }
-    }
-
     /// Keeps track of the touch state of the scene
     private enum TouchState {
         /// No user interaction
@@ -96,13 +91,13 @@ extension ColorPaletteScene {
     }
 
     private func colorsChanged(_ colors: [PaletteColor]) {
-        guard colors.count > 0 else { return }
-
         if let containerNode = containerNode, containerNode.parent != nil {
             containerNode.removeFromParent()
         }
 
         state = .init()
+
+        guard colors.count > 0 else { return }
 
         containerNode = ColorsContainerNode(colors: colors, style: paletteManager.nodeStyle)
         addChild(containerNode)
