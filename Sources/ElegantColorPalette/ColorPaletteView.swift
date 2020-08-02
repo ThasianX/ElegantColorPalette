@@ -59,6 +59,7 @@ public class ColorPaletteView: SKView {
     private func commonInit() {
         allowsTransparency = true
         backgroundColor = .clear
+        isUserInteractionEnabled = true
     }
 
     // https://stackoverflow.com/questions/728372/when-is-layoutsubviews-called

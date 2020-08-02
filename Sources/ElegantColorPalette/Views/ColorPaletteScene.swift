@@ -91,24 +91,42 @@ extension ColorPaletteScene {
     }
 
     private func colorsChanged(_ colors: [PaletteColor]) {
-        guard colors.count > 0 else { return }
-
         if let containerNode = containerNode, containerNode.parent != nil {
-            containerNode.removeFromParent()
+            containerNode.children
+                .compactMap { $0 as? ColorNode }
+                .forEach { node in
+                    node.physicsBody?.isDynamic = false
+                    let scaleDownAction = SKAction.scale(to: 0, duration: 0.3)
+                    let fadeAwayAction = SKAction.fadeOut(withDuration: 0.3)
+                    let removalAction = SKAction.removeFromParent()
+
+                    let removalSequence = SKAction.sequence([.group([scaleDownAction, fadeAwayAction]), removalAction])
+
+                    node.run(removalSequence)
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                containerNode.removeFromParent()
+            }
         }
 
         state = .init()
 
-        containerNode = ColorsContainerNode(colors: colors, style: paletteManager.nodeStyle)
-        addChild(containerNode)
+        guard colors.count > 0 else { return }
 
-        if let selectedNode = containerNode.node(with: paletteManager.selectedColor) {
-            state.selectedNode = paletteManager.nodeStyle.updateNode(configuration: .firstShown(selectedNode, isSelected: true))
+        let newContainer = ColorsContainerNode(colors: colors, style: paletteManager.nodeStyle)
+        addChild(newContainer)
+
+        if let selectedNode = newContainer.node(with: paletteManager.selectedColor) {
+            state.selectedNode = paletteManager.nodeStyle.updateNode(
+                configuration: .firstShown(selectedNode, isSelected: true))
         }
 
         let smallerLength = min(size.width, size.height)
         let spawnSize = CGSize(width: (smallerLength/2)-40, height: (smallerLength/2)-40)
-        containerNode.randomizeColorNodesPositionsWithBubbleAnimation(within: spawnSize)
+        newContainer.randomizeColorNodesPositionsWithBubbleAnimation(within: spawnSize)
+        
+        containerNode = newContainer
     }
 
     private func colorSchemeChanged() {
