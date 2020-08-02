@@ -6,10 +6,10 @@ import UIKit
 
 class ColorPaletteScene: SKScene {
 
-//    override var isUserInteractionEnabled: Bool {
-//        get { true }
-//        set { }
-//    }
+    override var isUserInteractionEnabled: Bool {
+        get { true }
+        set { }
+    }
 
     /// Keeps track of the touch state of the scene
     private enum TouchState {
@@ -61,7 +61,6 @@ class ColorPaletteScene: SKScene {
 
     init(paletteManager: ColorPaletteManager) {
         self.paletteManager = paletteManager
-//        isUserInteractionEnabled = true
         super.init(size: .zero)
     }
 
