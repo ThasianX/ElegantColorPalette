@@ -8,7 +8,9 @@
 
 The elegant color picker missed in UIKit and SwiftUI.
 
-<img src="https://github.com/ThasianX/GIFs/blob/master/ElegantColorPicker/demo.gif" width="300"/>
+<img src="https://github.com/ThasianX/GIFs/blob/master/ElegantColorPalette/demo.gif" width="320"/>
+
+This example GIF is from [ElegantTimeline](https://github.com/ThasianX/ElegantTimeline-SwiftUI). For a simpler demonstration, you can look at either of the 3 demo projects in this repository.
 
 - [Introduction](#introduction)
 - [Basic Usage](#basic-usage)
@@ -23,6 +25,8 @@ The elegant color picker missed in UIKit and SwiftUI.
 
 `ElegantColorPalette` is inspired by [TimePage](https://us.moleskine.com/timepage/p0486) and is part of a larger repository of elegant demonstrations like this: [TimePage Clone](https://github.com/ThasianX/TimePage-Clone).
 
+The top level view is an `SKView` that presents an `SKScene` of colors nodes. The color nodes are `SKShapeNode` subclasses. When using this library, you are only interacting with the `SKView`: all you have to do is configure the size of the view either through autolayout or size constraints and the view does the rest.
+
 ## Basic usage
 
 For SwiftUI: 
@@ -36,7 +40,7 @@ struct ExampleSwiftUIView: View {
     @State private var selectedColor: PaletteColor = .kiwiGreen
 
     var body: some View {
-        ColorPaletteDynamicView(colors: PaletteColor.allColors, selectedColor: $selectedColor)
+        ColorPaletteBindingView(selectedColor: $selectedColor, colors: PaletteColor.allColors)
     }
 
 }
@@ -94,9 +98,8 @@ struct ExampleUIKitViewController: UIViewController {
         
         ...
         
-        paletteView.update(withColors: PaletteColor.allColors)
-
         paletteView
+            .update(withColors: PaletteColor.allColors)
             .didSelectColor { [unowned self] color in
                 ...
             }
@@ -111,7 +114,7 @@ Documentation coming soon...
 
 ## Demos
 
-There are 3 different demos, covering UIKit storyboards, XIBs, programmatic instantiation, and SwiftUI.
+There are 3 different demos, covering UIKit storyboards, XIBs and programmatic instantiation, and SwiftUI.
 
 ## Installation
 
