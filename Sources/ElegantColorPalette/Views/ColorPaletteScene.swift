@@ -50,7 +50,7 @@ class ColorPaletteScene: SKScene {
 
     private var containerNode: ColorsContainerNode!
 
-    private var state: InteractionState!
+    private var state: InteractionState = .init()
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -91,9 +91,7 @@ extension ColorPaletteScene {
     }
 
     private func colorsChanged(_ colors: [PaletteColor]) {
-        guard colors.count > 0 else {
-            fatalError("Error: At least 1 color must exist")
-        }
+        guard colors.count > 0 else { return }
 
         if let containerNode = containerNode, containerNode.parent != nil {
             containerNode.removeFromParent()
@@ -114,6 +112,8 @@ extension ColorPaletteScene {
     }
 
     private func colorSchemeChanged() {
+        guard containerNode != nil else { return }
+
         containerNode.children
             .compactMap { $0 as? ColorSchemeObserver }
             .forEach { $0.colorSchemeChanged() }
@@ -125,6 +125,8 @@ extension ColorPaletteScene {
 extension ColorPaletteScene {
 
     override func update(_ currentTime: TimeInterval) {
+        guard containerNode != nil else { return }
+
         containerNode.rotateNodes()
     }
 
