@@ -16,8 +16,8 @@ This example GIF is from [ElegantTimeline](https://github.com/ThasianX/ElegantTi
 - [Basic Usage](#basic-usage)
 - [Customization](#customization)
 - [Demos](#demos)
-- [Installation](#installation)
 - [Requirements](#requirements)
+- [Installation](#installation)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -116,15 +116,60 @@ Documentation coming soon...
 
 There are 3 different demos, covering UIKit storyboards, XIBs and programmatic instantiation, and SwiftUI.
 
+## Requirements
+
+* Xcode 11+
+* Swift 5.1+
+
 ## Installation
 
-`ElegantColorPalette` is available using the [Swift Package Manager](https://swift.org/package-manager/):
+`ElegantColorPalette` doesn't contain any external dependencies.
+
+These are currently the supported installation options:
+
+### Manual
+
+Inside `Sources`, drag the `ElegantColorPalette` folder into your project.
+
+### [CocoaPods](https://guides.cocoapods.org/using/using-cocoapods.html)
+
+```ruby
+# Podfile
+use_frameworks!
+
+target 'YOUR_TARGET_NAME' do
+    pod 'ElegantColorPalette', '~> 1.0'
+end
+```
+
+Replace `YOUR_TARGET_NAME` and then, in the `Podfile` directory, type:
+
+```bash
+$ pod install
+```
+
+### [Carthage](https://github.com/Carthage/Carthage)
+
+Add this to `Cartfile`
+
+```
+github "ThasianX/ElegantColorPalette" ~> 1.0.0
+```
+
+```bash
+$ carthage update
+```
+
+### [Swift Package Manager](https://github.com/apple/swift-package-manager)
 
 Using Xcode 11, go to `File -> Swift Packages -> Add Package Dependency` and enter https://github.com/ThasianX/ElegantColorPalette
 
 If you are using `Package.swift`, you can also add `ElegantColorPalette` as a dependency easily.
 
 ```swift
+// swift-tools-version:5.1
+
+import PackageDescription
 
 let package = Package(
   name: "TestProject",
@@ -135,13 +180,11 @@ let package = Package(
     .target(name: "TestProject", dependencies: ["ElegantColorPalette"])
   ]
 )
-
 ```
 
-## Requirements
-
-- iOS 13.0+
-- Xcode 11.0+
+```bash
+$ swift build
+```
 
 ## Contributing
 
