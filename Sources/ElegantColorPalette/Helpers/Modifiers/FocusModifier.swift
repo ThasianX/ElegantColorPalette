@@ -12,12 +12,12 @@ struct FocusModifier: NodeModifier {
 
     func body(content: Content) -> ColorNode {
         if focus {
-            content.snap(to: location, multiplier: multiplier) {
-                content.physicsBody?.isDynamic = false
+//            content.snap(to: location, multiplier: multiplier) {
+//                content.physicsBody?.isDynamic = false
                 content.addNameLabel()
-            }
+//            }
         } else {
-            content.physicsBody?.isDynamic = true
+//            content.physicsBody?.isDynamic = true
             content.removeNameLabel()
         }
 
@@ -51,15 +51,16 @@ private extension ColorNode {
                              y: location.y - position.y)
         let snapVector = CGVector(dx: offset.x*multiplier,
                                   dy: offset.y*multiplier)
-        physicsBody?.velocity = snapVector
+//        physicsBody?.velocity = snapVector
 
         let distance = hypot(offset.x, offset.y)
-        let moveDuration = 0.001*distance
+        let moveDuration = TimeInterval(0.001*distance)
 
+        let forceVector = SKAction.applyForce(snapVector, duration: moveDuration)
         let moveAction = SKAction.move(to: location,
-                                       duration: TimeInterval(moveDuration))
+                                       duration: moveDuration)
 
-        run(moveAction, completion: completion)
+        run(.group([forceVector, moveAction]), completion: completion)
     }
 
 }

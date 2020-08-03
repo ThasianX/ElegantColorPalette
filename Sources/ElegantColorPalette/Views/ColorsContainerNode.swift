@@ -78,10 +78,15 @@ class ColorsContainerNode: SKNode {
         node.run(rotationAction)
     }
 
-    func rotateNodes() {
+    func rotateNodes(selectedNode: ColorNode?, isFocused: Bool) {
         children
             .compactMap { $0 as? ColorNode }
-            .forEach { applyCircularRotation(for: $0) }
+            .forEach { node in
+                if node == selectedNode && isFocused {
+                    return
+                }
+                applyCircularRotation(for: node)
+        }
     }
 
     private func applyCircularRotation(for child: ColorNode) {

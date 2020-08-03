@@ -32,6 +32,8 @@ class ColorPaletteScene: SKScene {
         */
         var isFocused: Bool = false
 
+        var didReachFocusPoint: Bool = false
+
         /**
          The node that is currently being tapped or dragged.
 
@@ -139,13 +141,32 @@ extension ColorPaletteScene {
 
 }
 
+let focusPoint = CGPoint(x: 0, y: 0)
+let travelSpeed = CGVector(dx: 400, dy: 400)
+let rate: CGFloat = 0.8
 // MARK: - Node Rotation
 extension ColorPaletteScene {
 
     override func update(_ currentTime: TimeInterval) {
         guard containerNode != nil else { return }
 
-        containerNode.rotateNodes()
+        containerNode.rotateNodes(selectedNode: state.selectedNode, isFocused: state.isFocused)
+
+        // TODO: should actually use an skjoint to do so
+        // TODO: the focus point should be a user provided point. create a modifier for this
+        guard let selectedNode = state.selectedNode, state.isFocused else { return }
+        if selectedNode.position.distance(from: focusPoint) < 5 {
+            state.didReachFocusPoint = true
+        }
+
+        guard !state.didReachFocusPoint else { return }
+        let disp = CGVector(dx: focusPoint.x - selectedNode.position.x,
+                            dy: focusPoint.y - selectedNode.position.y)
+        let angle = atan2(disp.dy, disp.dx)
+        let vel = CGVector(dx: cos(angle)*travelSpeed.dx, dy: sin(angle)*travelSpeed.dy)
+        let relVel = CGVector(dx: vel.dx-selectedNode.physicsBody!.velocity.dx, dy: vel.dy-selectedNode.physicsBody!.velocity.dy)
+        selectedNode.physicsBody!.velocity = CGVector(dx: selectedNode.physicsBody!.velocity.dx+relVel.dx*rate,
+                                                      dy: selectedNode.physicsBody!.velocity.dy+relVel.dy*rate)
     }
 
 }
