@@ -118,6 +118,7 @@ There are 3 different demos, covering UIKit storyboards, XIBs and programmatic i
 
 ## Requirements
 
+* iOS 13+
 * Xcode 11+
 * Swift 5.1+
 
