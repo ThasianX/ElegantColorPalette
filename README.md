@@ -23,9 +23,17 @@ This example GIF is from [ElegantTimeline](https://github.com/ThasianX/ElegantTi
 
 ## Introduction
 
-`ElegantColorPalette` is inspired by [TimePage](https://us.moleskine.com/timepage/p0486) and is part of a larger repository of elegant demonstrations like this: [TimePage Clone](https://github.com/ThasianX/TimePage-Clone).
+`ElegantColorPalette` comes with 24 different themes and is inspired by [TimePage](https://us.moleskine.com/timepage/p0486) and is part of a larger repository of elegant demonstrations like this: [TimePage Clone](https://github.com/ThasianX/TimePage-Clone).
 
 The top level view is an `SKView` that presents an `SKScene` of colors nodes. The color nodes are `SKShapeNode` subclasses. When using this library, you are only interacting with the `SKView`: all you have to do is configure the size of the view either through autolayout or size constraints and the view does the rest.
+
+Features
+* Dynamic color nodes - passing in a dynamic `UIColor` will allow the color node to properly adjust to light or dark mode
+* Extensive node customizability - font name, font color, node color, node radius, and much more 
+* Custom node animations - snapping, scaling, fading, highlighting, and much more
+* Updating the color palette with new colors
+* Portait and landscape support
+* Extensively documentation - as you use the library, you'll notice documentation in XCode
 
 ## Basic usage
 
@@ -109,6 +117,27 @@ struct ExampleUIKitViewController: UIViewController {
 ```
 
 ## Customization
+
+### PaletteColor
+
+[PaletteColor](https://github.com/ThasianX/ElegantColorPalette/blob/master/Sources/ElegantColorPalette/Helpers/Models/PaletteColor.swift) represents the color model of a single node.
+
+```swift
+public struct PaletteColor: Equatable {
+
+    public let name: String
+    public let uiColor: UIColor
+
+    public var color: Color {
+        uiColor.asColor
+    }
+
+}
+```
+
+As you aren't able to get a `UIColor` from a `Color` in iOS 13, you must initialize a `PaletteColor` using a `UIColor`. If you are supporting light and dark color themes, you will want to pass a dynamic `UIColor` either through the asset bundle or other methods like a computed property.
+
+For SwiftUI users, `PaletteColor` exposes a `color` property for your convenience.
 
 ### Node Customization
 
