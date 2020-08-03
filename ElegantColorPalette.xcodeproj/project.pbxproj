@@ -79,6 +79,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1ECDA0F924D7AB6D00FFD7A6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		OBJ_11 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,13 +154,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		OBJ_39 /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Tests;
-			sourceTree = SOURCE_ROOT;
-		};
 		OBJ_40 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,13 +167,13 @@
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Sources */,
-				OBJ_39 /* Tests */,
 				OBJ_40 /* Products */,
 				OBJ_42 /* UIKitStoryboardExample */,
 				OBJ_43 /* SwiftUIExample */,
 				OBJ_44 /* UIKitProgrammaticAndXIBExample */,
 				OBJ_45 /* LICENSE */,
 				OBJ_46 /* README.md */,
+				1ECDA0F924D7AB6D00FFD7A6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -224,6 +224,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 9999;
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 9999;
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "ElegantColorPalette" */;
@@ -232,6 +233,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = OBJ_5;
 			productRefGroup = OBJ_40 /* Products */;
@@ -349,7 +351,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ElegantColorPalette;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
 				TARGET_NAME = ElegantColorPalette;
@@ -378,7 +382,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ElegantColorPalette;
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
 				TARGET_NAME = ElegantColorPalette;
