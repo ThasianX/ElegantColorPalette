@@ -1,0 +1,414 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		OBJ_52 /* ColorPaletteBindingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_9 /* ColorPaletteBindingView.swift */; };
+		OBJ_53 /* ColorPaletteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* ColorPaletteView.swift */; };
+		OBJ_54 /* CGVector+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* CGVector+Additions.swift */; };
+		OBJ_55 /* CGVector+Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* CGVector+Operators.swift */; };
+		OBJ_56 /* ColorNode+Modifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* ColorNode+Modifiers.swift */; };
+		OBJ_57 /* Comparable+Clamped.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Comparable+Clamped.swift */; };
+		OBJ_58 /* UIColor+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* UIColor+Color.swift */; };
+		OBJ_59 /* ColorPaletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* ColorPaletteManager.swift */; };
+		OBJ_60 /* DefaultNodeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* DefaultNodeStyle.swift */; };
+		OBJ_61 /* NodeStyleConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* NodeStyleConfiguration.swift */; };
+		OBJ_62 /* PaletteColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* PaletteColor.swift */; };
+		OBJ_63 /* FocusModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* FocusModifier.swift */; };
+		OBJ_64 /* FontModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* FontModifier.swift */; };
+		OBJ_65 /* HighlightModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_26 /* HighlightModifier.swift */; };
+		OBJ_66 /* RadiusModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* RadiusModifier.swift */; };
+		OBJ_67 /* ScaleFadeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_28 /* ScaleFadeModifier.swift */; };
+		OBJ_68 /* StartUpModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* StartUpModifier.swift */; };
+		OBJ_69 /* Buildable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* Buildable.swift */; };
+		OBJ_70 /* ColorSchemeObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_32 /* ColorSchemeObserver.swift */; };
+		OBJ_71 /* NodeModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* NodeModifier.swift */; };
+		OBJ_72 /* NodeStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_34 /* NodeStyle.swift */; };
+		OBJ_73 /* ColorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_36 /* ColorNode.swift */; };
+		OBJ_74 /* ColorPaletteScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_37 /* ColorPaletteScene.swift */; };
+		OBJ_75 /* ColorsContainerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* ColorsContainerNode.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1E6E997D24D782220091D220 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		"ElegantColorPalette::ElegantColorPalette::Product" /* ElegantColorPalette.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ElegantColorPalette.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_10 /* ColorPaletteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteView.swift; sourceTree = "<group>"; };
+		OBJ_13 /* CGVector+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+Additions.swift"; sourceTree = "<group>"; };
+		OBJ_14 /* CGVector+Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGVector+Operators.swift"; sourceTree = "<group>"; };
+		OBJ_15 /* ColorNode+Modifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ColorNode+Modifiers.swift"; sourceTree = "<group>"; };
+		OBJ_16 /* Comparable+Clamped.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Comparable+Clamped.swift"; sourceTree = "<group>"; };
+		OBJ_17 /* UIColor+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Color.swift"; sourceTree = "<group>"; };
+		OBJ_19 /* ColorPaletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteManager.swift; sourceTree = "<group>"; };
+		OBJ_20 /* DefaultNodeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNodeStyle.swift; sourceTree = "<group>"; };
+		OBJ_21 /* NodeStyleConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeStyleConfiguration.swift; sourceTree = "<group>"; };
+		OBJ_22 /* PaletteColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteColor.swift; sourceTree = "<group>"; };
+		OBJ_24 /* FocusModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusModifier.swift; sourceTree = "<group>"; };
+		OBJ_25 /* FontModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontModifier.swift; sourceTree = "<group>"; };
+		OBJ_26 /* HighlightModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightModifier.swift; sourceTree = "<group>"; };
+		OBJ_27 /* RadiusModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadiusModifier.swift; sourceTree = "<group>"; };
+		OBJ_28 /* ScaleFadeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScaleFadeModifier.swift; sourceTree = "<group>"; };
+		OBJ_29 /* StartUpModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartUpModifier.swift; sourceTree = "<group>"; };
+		OBJ_31 /* Buildable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buildable.swift; sourceTree = "<group>"; };
+		OBJ_32 /* ColorSchemeObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSchemeObserver.swift; sourceTree = "<group>"; };
+		OBJ_33 /* NodeModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeModifier.swift; sourceTree = "<group>"; };
+		OBJ_34 /* NodeStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NodeStyle.swift; sourceTree = "<group>"; };
+		OBJ_36 /* ColorNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorNode.swift; sourceTree = "<group>"; };
+		OBJ_37 /* ColorPaletteScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteScene.swift; sourceTree = "<group>"; };
+		OBJ_38 /* ColorsContainerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorsContainerNode.swift; sourceTree = "<group>"; };
+		OBJ_42 /* UIKitStoryboardExample */ = {isa = PBXFileReference; lastKnownFileType = folder; path = UIKitStoryboardExample; sourceTree = SOURCE_ROOT; };
+		OBJ_43 /* SwiftUIExample */ = {isa = PBXFileReference; lastKnownFileType = folder; path = SwiftUIExample; sourceTree = SOURCE_ROOT; };
+		OBJ_44 /* UIKitProgrammaticAndXIBExample */ = {isa = PBXFileReference; lastKnownFileType = folder; path = UIKitProgrammaticAndXIBExample; sourceTree = SOURCE_ROOT; };
+		OBJ_45 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		OBJ_46 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
+		OBJ_9 /* ColorPaletteBindingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPaletteBindingView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		OBJ_76 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		OBJ_11 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_12 /* Extensions */,
+				OBJ_18 /* Models */,
+				OBJ_23 /* Modifiers */,
+				OBJ_30 /* Protocols */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		OBJ_12 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_13 /* CGVector+Additions.swift */,
+				OBJ_14 /* CGVector+Operators.swift */,
+				OBJ_15 /* ColorNode+Modifiers.swift */,
+				OBJ_16 /* Comparable+Clamped.swift */,
+				OBJ_17 /* UIColor+Color.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		OBJ_18 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_19 /* ColorPaletteManager.swift */,
+				OBJ_20 /* DefaultNodeStyle.swift */,
+				OBJ_21 /* NodeStyleConfiguration.swift */,
+				OBJ_22 /* PaletteColor.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		OBJ_23 /* Modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_24 /* FocusModifier.swift */,
+				OBJ_25 /* FontModifier.swift */,
+				OBJ_26 /* HighlightModifier.swift */,
+				OBJ_27 /* RadiusModifier.swift */,
+				OBJ_28 /* ScaleFadeModifier.swift */,
+				OBJ_29 /* StartUpModifier.swift */,
+			);
+			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		OBJ_30 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_31 /* Buildable.swift */,
+				OBJ_32 /* ColorSchemeObserver.swift */,
+				OBJ_33 /* NodeModifier.swift */,
+				OBJ_34 /* NodeStyle.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		OBJ_35 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_36 /* ColorNode.swift */,
+				OBJ_37 /* ColorPaletteScene.swift */,
+				OBJ_38 /* ColorsContainerNode.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		OBJ_39 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Tests;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_40 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				"ElegantColorPalette::ElegantColorPalette::Product" /* ElegantColorPalette.framework */,
+			);
+			name = Products;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		OBJ_5 = {
+			isa = PBXGroup;
+			children = (
+				OBJ_6 /* Package.swift */,
+				OBJ_7 /* Sources */,
+				OBJ_39 /* Tests */,
+				OBJ_40 /* Products */,
+				OBJ_42 /* UIKitStoryboardExample */,
+				OBJ_43 /* SwiftUIExample */,
+				OBJ_44 /* UIKitProgrammaticAndXIBExample */,
+				OBJ_45 /* LICENSE */,
+				OBJ_46 /* README.md */,
+			);
+			sourceTree = "<group>";
+		};
+		OBJ_7 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_8 /* ElegantColorPalette */,
+			);
+			name = Sources;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_8 /* ElegantColorPalette */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_9 /* ColorPaletteBindingView.swift */,
+				OBJ_10 /* ColorPaletteView.swift */,
+				1E6E997D24D782220091D220 /* Info.plist */,
+				OBJ_11 /* Helpers */,
+				OBJ_35 /* Views */,
+			);
+			name = ElegantColorPalette;
+			path = Sources/ElegantColorPalette;
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		"ElegantColorPalette::ElegantColorPalette" /* ElegantColorPalette */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_48 /* Build configuration list for PBXNativeTarget "ElegantColorPalette" */;
+			buildPhases = (
+				OBJ_51 /* Sources */,
+				OBJ_76 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ElegantColorPalette;
+			productName = ElegantColorPalette;
+			productReference = "ElegantColorPalette::ElegantColorPalette::Product" /* ElegantColorPalette.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		OBJ_1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftMigration = 9999;
+				LastUpgradeCheck = 9999;
+			};
+			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "ElegantColorPalette" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = OBJ_5;
+			productRefGroup = OBJ_40 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				"ElegantColorPalette::ElegantColorPalette" /* ElegantColorPalette */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		OBJ_51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_52 /* ColorPaletteBindingView.swift in Sources */,
+				OBJ_53 /* ColorPaletteView.swift in Sources */,
+				OBJ_54 /* CGVector+Additions.swift in Sources */,
+				OBJ_55 /* CGVector+Operators.swift in Sources */,
+				OBJ_56 /* ColorNode+Modifiers.swift in Sources */,
+				OBJ_57 /* Comparable+Clamped.swift in Sources */,
+				OBJ_58 /* UIColor+Color.swift in Sources */,
+				OBJ_59 /* ColorPaletteManager.swift in Sources */,
+				OBJ_60 /* DefaultNodeStyle.swift in Sources */,
+				OBJ_61 /* NodeStyleConfiguration.swift in Sources */,
+				OBJ_62 /* PaletteColor.swift in Sources */,
+				OBJ_63 /* FocusModifier.swift in Sources */,
+				OBJ_64 /* FontModifier.swift in Sources */,
+				OBJ_65 /* HighlightModifier.swift in Sources */,
+				OBJ_66 /* RadiusModifier.swift in Sources */,
+				OBJ_67 /* ScaleFadeModifier.swift in Sources */,
+				OBJ_68 /* StartUpModifier.swift in Sources */,
+				OBJ_69 /* Buildable.swift in Sources */,
+				OBJ_70 /* ColorSchemeObserver.swift in Sources */,
+				OBJ_71 /* NodeModifier.swift in Sources */,
+				OBJ_72 /* NodeStyle.swift in Sources */,
+				OBJ_73 /* ColorNode.swift in Sources */,
+				OBJ_74 /* ColorPaletteScene.swift in Sources */,
+				OBJ_75 /* ColorsContainerNode.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		OBJ_3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SWIFT_PACKAGE=1",
+					"DEBUG=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USE_HEADERMAP = NO;
+			};
+			name = Debug;
+		};
+		OBJ_4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"SWIFT_PACKAGE=1",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				OTHER_SWIFT_FLAGS = "$(inherited) -DXcode";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				USE_HEADERMAP = NO;
+			};
+			name = Release;
+		};
+		OBJ_49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/ElegantColorPalette/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MARKETING_VERSION = 1.0.0;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = ElegantColorPalette;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = ElegantColorPalette;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		OBJ_50 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = "$(SRCROOT)/Sources/ElegantColorPalette/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) $(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				MARKETING_VERSION = 1.0.0;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = ElegantColorPalette;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
+				SWIFT_VERSION = 5.0;
+				TARGET_NAME = ElegantColorPalette;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				WATCHOS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		OBJ_2 /* Build configuration list for PBXProject "ElegantColorPalette" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_3 /* Debug */,
+				OBJ_4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		OBJ_48 /* Build configuration list for PBXNativeTarget "ElegantColorPalette" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_49 /* Debug */,
+				OBJ_50 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = OBJ_1 /* Project object */;
+}
