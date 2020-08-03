@@ -1,10 +1,10 @@
 # ElegantColorPalette
 
-<p align="leading">
-    <img src="https://img.shields.io/badge/platform-iOS-blue.svg?style=flat" alt="Platforms" />
-    <img src="https://img.shields.io/badge/Swift-5-orange.svg" />
-    <a href="https://github.com/ThasianX/ElegantColorPalette/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License: MIT" /></a>
-</p>
+![platforms](https://img.shields.io/badge/platforms-iOS-blue.svg)
+[![pod](https://img.shields.io/cocoapods/v/ElegantColorPalette.svg)](https://cocoapods.org/pods/ElegantColorPalette) 
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) 
+[![Swift Package Manager compatible](https://img.shields.io/badge/Swift%20Package%20Manager-compatible-brightgreen.svg)](https://github.com/apple/swift-package-manager)
+[![License: MIT](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](https://github.com/ThasianX/ElegantColorPalette/blob/master/LICENSE)
 
 The elegant color picker missed in UIKit and SwiftUI.
 
