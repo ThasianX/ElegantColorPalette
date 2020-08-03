@@ -110,7 +110,76 @@ struct ExampleUIKitViewController: UIViewController {
 
 ## Customization
 
-Documentation coming soon...
+### Node Customization
+
+Nodes are easily customizable through a number of [node-modifier functions](https://github.com/ThasianX/ElegantColorPalette/blob/master/Sources/ElegantColorPalette/Helpers/Extensions/ColorNode%2BModifiers.swift) exposed the library itself. You can also make your own node-modifiers through  [`NodeStyle`](https://github.com/ThasianX/ElegantColorPalette/blob/master/Sources/ElegantColorPalette/Helpers/Protocols/NodeStyle.swift) and [`NodeModifier`](https://github.com/ThasianX/ElegantColorPalette/blob/master/Sources/ElegantColorPalette/Helpers/Protocols/NodeModifier.swift), like you would do in SwiftUI with `ButtonStyle` and `ViewModifier`. 
+
+See [NodeConfiguration](https://github.com/ThasianX/ElegantColorPalette/blob/master/Sources/ElegantColorPalette/Helpers/Models/NodeStyleConfiguration.swift) to better understand the various states of a node to determine when best to apply your modifier.
+
+The following example demonstrates making a custom node style that further customizes the default node style. You must apply your custom modifiers to `defaultStyledNode` in order to retain the snap effect, highlighted border, etc you see in the demo gif. However, you are always free to start from scratch and style your own node for different states. 
+
+```swift
+struct CustomNodeStyle: NodeStyle {
+
+    func updateNode(configuration: Configuration) -> ColorNode {
+        configuration.defaultStyledNode
+            .radius(30)
+            .font(name: "Thonburi")
+    }
+
+}
+```
+
+Creating your own node modifiers requires prerequisite knowledge of [`SKNode`](https://developer.apple.com/documentation/spritekit/sknode). Let's take a look at the [`ScaleFadeModifier`](https://github.com/ThasianX/ElegantColorPalette/blob/master/Sources/ElegantColorPalette/Helpers/Modifiers/ScaleFadeModifier.swift). This modifier is responsible for scaling and fading the the node through [`SKActions`](https://developer.apple.com/documentation/spritekit/skaction).
+
+```swift
+struct ScaleFadeModifier: NodeModifier {
+
+    let scale: CGFloat
+    let opacity: CGFloat
+    let animationDuration: TimeInterval
+
+    func body(content: Content) -> ColorNode {
+        let scaleAction = SKAction.scale(to: scale, duration: animationDuration)
+        let opacityAction = SKAction.fadeAlpha(to: opacity, duration: animationDuration)
+
+        content.run(.group([scaleAction, opacityAction]))
+
+        return content
+    }
+
+}
+```
+
+To use your custom `NodeStyle`, pass it into the `nodeStyle` modifier:
+
+```swift
+// For UIKit
+ColorPaletteView(...)
+    .nodeStyle(CustomNodeStyle())
+     
+// For SwiftUI
+ColorPaletteBindingView(...)
+    .nodeStyle(CustomNodeStyle())
+```
+
+### Events
+
+Use `didSelectColor` to react to any change of the selected palette color:
+
+```swift
+// For UIKit
+ColorPaletteView(...)
+     .didSelectColor { paletteColor in
+         // do something
+     }
+     
+// For SwiftUI
+ColorPaletteBindingView(...)
+     .didSelectColor { paletteColor in
+         // do something
+     }
+```
 
 ## Demos
 
@@ -118,7 +187,7 @@ There are 3 different demos, covering UIKit storyboards, XIBs and programmatic i
 
 ## Requirements
 
-* iOS 13+
+* iOS 13+([Statistics](https://gs.statcounter.com/os-version-market-share/ios/mobile-tablet/worldwide) show that 90% of users are on iOS 13)
 * Xcode 11+
 * Swift 5.1+
 
