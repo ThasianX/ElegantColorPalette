@@ -116,8 +116,8 @@ class ColorsContainerNode: SKNode {
         let normalizedRotationVector = CGVector(dx: unitRotationVector.dx * rotationSpeed,
                                                 dy: unitRotationVector.dy * rotationSpeed)
 
-        let entropyRotationVector = CGVector(dx: normalizedRotationVector.dx + CGFloat.random(in: -10...10),
-                                             dy: normalizedRotationVector.dy + CGFloat.random(in: -10...10))
+        let entropyRotationVector = CGVector(dx: normalizedRotationVector.dx + CGFloat.random(in: -5...5),
+                                             dy: normalizedRotationVector.dy + CGFloat.random(in: -5...5))
 
         return entropyRotationVector
     }

@@ -32,6 +32,9 @@ class ColorPaletteScene: SKScene {
         */
         var isFocused: Bool = false
 
+        /**
+         Whether the `selectedNode` is at the focus point.
+        */
         var didReachFocusPoint: Bool = false
 
         /**
@@ -142,26 +145,43 @@ extension ColorPaletteScene {
 }
 
 // https://stackoverflow.com/questions/30362586/manually-move-node-over-a-period-of-time/30408800#30408800
-// TODO: fix bug where nodes that bump into centered node will be struck with an insane rebound.
+// TODO: Need to still figure out how naturally colliding should be detected
 // MARK: - Node Rotation
 extension ColorPaletteScene {
 
     override func update(_ currentTime: TimeInterval) {
         guard containerNode != nil else { return }
 
+        // Always going to rotate the nodes no matter the circumstance
         containerNode.rotateNodes(selectedNode: state.selectedNode, isFocused: state.isFocused)
 
         guard state.touchState != .dragged else { return }
         guard let selectedNode = state.selectedNode, state.isFocused else { return }
 
+        // Defines the smoothing rate of the focus animation. This is subject to change
+        // for circumstances where the user isn't doing anything and the external nodes
+        // naturally collide into the focused node. For those circumstances, we want the
+        // rebound velocity to be smalle.
+        var rate = focusSettings.smoothingRate
+
+        let distanceFromCenter = selectedNode.position.distance(from: focusSettings.location)
         // 10 is an arbitrary number that compensates for the frames at which is the scene is running at.
-        if selectedNode.position.distance(from: focusSettings.location) < 10 {
+        if distanceFromCenter < 10 {
+            // The body of the if only ever gets executed if previously, the selected node
+            // wasn't focused. Prevents unnecessary calls to `updateNode`
             if !state.didReachFocusPoint {
+                // very hacky. it's best to never mix physics with actions but it works so....
+                selectedNode.run(SKAction.move(to: focusSettings.location, duration: 0.25))
                 selectedNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
                 paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
             }
             state.didReachFocusPoint = true
         } else {
+            // Like I mentioned earlier, the rebound velocity should be smaller for naturally colliding nodes
+            // We now it's naturally colliding because the current node's already reached the focus point
+            if state.didReachFocusPoint {
+                rate /= 2
+            }
             state.didReachFocusPoint = false
         }
 
@@ -172,10 +192,12 @@ extension ColorPaletteScene {
         let angle = atan2(disp.dy, disp.dx)
         let vel = CGVector(dx: cos(angle)*focusSettings.speed.dx,
                            dy: sin(angle)*focusSettings.speed.dy)
-        let relVel = CGVector(dx: vel.dx-selectedNode.physicsBody!.velocity.dx,
-                              dy: vel.dy-selectedNode.physicsBody!.velocity.dy)
-        selectedNode.physicsBody!.velocity = CGVector(dx: selectedNode.physicsBody!.velocity.dx+relVel.dx*focusSettings.smoothingRate,
-                                                      dy: selectedNode.physicsBody!.velocity.dy+relVel.dy*focusSettings.smoothingRate)
+
+        let currentVelocity = selectedNode.physicsBody!.velocity
+        let relVel = CGVector(dx: vel.dx - currentVelocity.dx,
+                              dy: vel.dy - currentVelocity.dy)
+        selectedNode.physicsBody!.velocity = CGVector(dx: currentVelocity.dx + relVel.dx*rate,
+                                                      dy: currentVelocity.dy + relVel.dy*rate)
     }
 
     private var focusSettings: FocusSettings {
