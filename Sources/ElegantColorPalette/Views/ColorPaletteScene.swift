@@ -145,7 +145,6 @@ extension ColorPaletteScene {
 }
 
 // https://stackoverflow.com/questions/30362586/manually-move-node-over-a-period-of-time/30408800#30408800
-// TODO: Need to still figure out how naturally colliding should be detected
 // MARK: - Node Rotation
 extension ColorPaletteScene {
 
@@ -154,9 +153,12 @@ extension ColorPaletteScene {
 
         // Always going to rotate the nodes no matter the circumstance
         containerNode.rotateNodes(selectedNode: state.selectedNode, isFocused: state.isFocused)
-
-        guard state.touchState != .dragged else { return }
         guard let selectedNode = state.selectedNode, state.isFocused else { return }
+
+        guard state.touchState != .dragged else {
+            selectedNode.physicsBody?.isDynamic = true
+            return
+        }
 
         // Defines the smoothing rate of the focus animation. This is subject to change
         // for circumstances where the user isn't doing anything and the external nodes
@@ -171,12 +173,14 @@ extension ColorPaletteScene {
             // wasn't focused. Prevents unnecessary calls to `updateNode`
             if !state.didReachFocusPoint {
                 // very hacky. it's best to never mix physics with actions but it works so....
+                selectedNode.physicsBody?.isDynamic = false
                 selectedNode.run(SKAction.move(to: focusSettings.location, duration: 0.25))
                 selectedNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
                 paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
             }
             state.didReachFocusPoint = true
         } else {
+            selectedNode.physicsBody?.isDynamic = true
             // Like I mentioned earlier, the rebound velocity should be smaller for naturally colliding nodes
             // We now it's naturally colliding because the current node's already reached the focus point
             if state.didReachFocusPoint {
@@ -297,6 +301,7 @@ extension ColorPaletteScene {
             if let oldSelectedNode = state.selectedNode {
                 // Prevents weird bugs that occur when you tap multiple nodes in succession
                 oldSelectedNode.removeAllActions()
+                oldSelectedNode.physicsBody?.isDynamic = true
                 paletteManager.nodeStyle.updateNode(configuration: .unselected(oldSelectedNode))
             }
 
