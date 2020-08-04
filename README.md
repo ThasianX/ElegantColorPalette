@@ -8,9 +8,9 @@
 
 The elegant color picker missed in UIKit and SwiftUI.
 
-<img src="https://github.com/ThasianX/GIFs/blob/master/ElegantColorPalette/demo.gif" width="320"/>
+<img src="https://github.com/ThasianX/GIFs/blob/master/ElegantColorPalette/demo.gif" width="320"/> <img src="https://github.com/ThasianX/GIFs/blob/master/ElegantColorPalette/fun_demo.gif" width="320"/>
 
-This example GIF is from [ElegantTimeline](https://github.com/ThasianX/ElegantTimeline-SwiftUI). For a simpler demonstration, you can look at either of the 3 demo projects in this repository.
+This example GIF is from [ElegantTimeline](https://github.com/ThasianX/ElegantTimeline-SwiftUI). For a simpler demonstration, you can look at either of the 3 demo projects in this repository. And haha, that 2nd gif just me trying to tap as many nodes as fast as possible. And as you can see, there's no side effects.
 
 - [Introduction](#introduction)
 - [Basic Usage](#basic-usage)
@@ -251,7 +251,7 @@ Inside `Sources`, drag the `ElegantColorPalette` folder into your project.
 use_frameworks!
 
 target 'YOUR_TARGET_NAME' do
-    pod 'ElegantColorPalette', '~> 1.0'
+    pod 'ElegantColorPalette', '~> 1.1'
 end
 ```
 
@@ -266,7 +266,7 @@ $ pod install
 Add this to `Cartfile`
 
 ```
-github "ThasianX/ElegantColorPalette" ~> 1.0.0
+github "ThasianX/ElegantColorPalette" ~> 1.1.0
 ```
 
 ```bash
@@ -287,7 +287,7 @@ import PackageDescription
 let package = Package(
   name: "TestProject",
   dependencies: [
-    .package(url: "https://github.com/ThasianX/ElegantColorPalette", from: "1.0.0")
+    .package(url: "https://github.com/ThasianX/ElegantColorPalette", from: "1.1.0")
   ],
   targets: [
     .target(name: "TestProject", dependencies: ["ElegantColorPalette"])
