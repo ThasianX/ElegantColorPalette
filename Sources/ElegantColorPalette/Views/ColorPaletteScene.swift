@@ -33,6 +33,11 @@ class ColorPaletteScene: SKScene {
         var isFocused: Bool = false
 
         /**
+         Whether the `selectedNode` is at the focus point.
+        */
+        var didReachFocusPoint: Bool = false
+
+        /**
          The node that is currently being tapped or dragged.
 
          This can be the same as `selectedNode` if that node is being tapped or dragged.
@@ -139,13 +144,73 @@ extension ColorPaletteScene {
 
 }
 
+// https://stackoverflow.com/questions/30362586/manually-move-node-over-a-period-of-time/30408800#30408800
 // MARK: - Node Rotation
 extension ColorPaletteScene {
 
     override func update(_ currentTime: TimeInterval) {
         guard containerNode != nil else { return }
 
-        containerNode.rotateNodes()
+        // Always going to rotate the nodes no matter the circumstance
+        containerNode.rotateNodes(selectedNode: state.selectedNode, isFocused: state.isFocused)
+        guard let selectedNode = state.selectedNode, state.isFocused else { return }
+
+        if state.touchState == .dragged {
+            selectedNode.physicsBody?.isDynamic = true
+        }
+
+        // Defines the smoothing rate of the focus animation. This is subject to change
+        // for circumstances where the user isn't doing anything and the external nodes
+        // naturally collide into the focused node. For those circumstances, we want the
+        // rebound velocity to be smalle.
+        var rate = focusSettings.smoothingRate
+
+        let distanceFromCenter = selectedNode.position.distance(from: focusSettings.location)
+        // 10 is an arbitrary number that compensates for the frames at which is the scene is running at.
+        if distanceFromCenter < 10 {
+            // The body of the if only ever gets executed if previously, the selected node
+            // wasn't focused. Prevents unnecessary calls to `updateNode`
+            if !state.didReachFocusPoint {
+                // very hacky. it's best to never mix physics with actions but it works so....
+                selectedNode.physicsBody?.isDynamic = false
+                selectedNode.run(SKAction.move(to: focusSettings.location, duration: 0.25))
+                selectedNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
+                paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
+            }
+            state.didReachFocusPoint = true
+        } else {
+            selectedNode.physicsBody?.isDynamic = true
+            // Like I mentioned earlier, the rebound velocity should be smaller for naturally colliding nodes
+            // We now it's naturally colliding because the current node's already reached the focus point
+            if state.didReachFocusPoint {
+                rate /= 2
+            }
+            state.didReachFocusPoint = false
+        }
+
+        if state.touchState == .dragged,
+            let activeNode = state.activeNode,
+            activeNode.intersects(selectedNode){
+            return
+        }
+        
+        guard !state.didReachFocusPoint else { return }
+
+        let disp = CGVector(dx: focusSettings.location.x - selectedNode.position.x,
+                            dy: focusSettings.location.y - selectedNode.position.y)
+        let angle = atan2(disp.dy, disp.dx)
+        let vel = CGVector(dx: cos(angle)*focusSettings.speed.dx,
+                           dy: sin(angle)*focusSettings.speed.dy)
+
+        let currentVelocity = selectedNode.physicsBody!.velocity
+        let relVel = CGVector(dx: vel.dx - currentVelocity.dx,
+                              dy: vel.dy - currentVelocity.dy)
+        selectedNode.physicsBody!.velocity = CGVector(dx: currentVelocity.dx + relVel.dx*rate,
+                                                      dy: currentVelocity.dy + relVel.dy*rate)
+    }
+
+    private var focusSettings: FocusSettings {
+        paletteManager.focusSettings
     }
 
 }
@@ -193,7 +258,6 @@ extension ColorPaletteScene {
         let dragVector = CGVector(dx: offset.x * dragVelocityMultiplier,
                                   dy: offset.y * dragVelocityMultiplier)
 
-        activeNode.physicsBody?.isDynamic = true
         activeNode.physicsBody?.velocity = dragVector
         activeNode.position = location
 
@@ -218,12 +282,12 @@ extension ColorPaletteScene {
             handleTouch(for: activeNode)
         case .dragged:
             handleDrag(for: activeNode)
-        case .inactive:
+        default:
             ()
         }
 
-        state.activeNode = nil
         state.touchState = .inactive
+        state.activeNode = nil
     }
 
     private func handleTouch(for node: ColorNode) {
@@ -242,6 +306,7 @@ extension ColorPaletteScene {
             if let oldSelectedNode = state.selectedNode {
                 // Prevents weird bugs that occur when you tap multiple nodes in succession
                 oldSelectedNode.removeAllActions()
+                oldSelectedNode.physicsBody?.isDynamic = true
                 paletteManager.nodeStyle.updateNode(configuration: .unselected(oldSelectedNode))
             }
 
@@ -267,7 +332,6 @@ extension ColorPaletteScene {
     private func focusSelectedNode() {
         guard let selectedNode = state.selectedNode else { return }
 
-        paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
         paletteManager.selectedColor = selectedNode.paletteColor
     }
 

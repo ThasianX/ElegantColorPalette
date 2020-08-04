@@ -78,10 +78,15 @@ class ColorsContainerNode: SKNode {
         node.run(rotationAction)
     }
 
-    func rotateNodes() {
+    func rotateNodes(selectedNode: ColorNode?, isFocused: Bool) {
         children
             .compactMap { $0 as? ColorNode }
-            .forEach { applyCircularRotation(for: $0) }
+            .forEach { node in
+                let isNodeFocused = node.paletteColor == selectedNode?.paletteColor && isFocused
+                if !isNodeFocused {
+                    applyCircularRotation(for: node)
+                }
+        }
     }
 
     private func applyCircularRotation(for child: ColorNode) {
@@ -111,8 +116,8 @@ class ColorsContainerNode: SKNode {
         let normalizedRotationVector = CGVector(dx: unitRotationVector.dx * rotationSpeed,
                                                 dy: unitRotationVector.dy * rotationSpeed)
 
-        let entropyRotationVector = CGVector(dx: normalizedRotationVector.dx + CGFloat.random(in: -10...10),
-                                             dy: normalizedRotationVector.dy + CGFloat.random(in: -10...10))
+        let entropyRotationVector = CGVector(dx: normalizedRotationVector.dx + CGFloat.random(in: -5...5),
+                                             dy: normalizedRotationVector.dy + CGFloat.random(in: -5...5))
 
         return entropyRotationVector
     }

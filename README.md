@@ -192,6 +192,20 @@ ColorPaletteBindingView(...)
     .nodeStyle(CustomNodeStyle())
 ```
 
+### Focus Customization
+
+Use `focus` to customize the location, speed, or smoothing rate of the focus animation.
+
+```swift
+// For UIKit
+ColorPaletteView(...)
+    .focus(location: .zero, speed: 1600, rate: 0.2)
+     
+// For SwiftUI
+ColorPaletteBindingView(...)
+    .focus(location: .zero, speed: 1600, rate: 0.2)
+```
+
 ### Events
 
 Use `didSelectColor` to react to any change of the selected palette color:
