@@ -32,7 +32,7 @@ public extension NodeStyleConfiguration {
                        scale: isPressed ? 0.9 : 1,
                        opacity: isPressed ? 0.3 : 1)
             .highlight(isSelected)
-            .focus(isFocused)
+            .label(isFocused)
             .startUp(isFirstShown)
     }
 

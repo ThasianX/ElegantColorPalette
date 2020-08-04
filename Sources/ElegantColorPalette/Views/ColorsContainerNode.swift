@@ -82,10 +82,10 @@ class ColorsContainerNode: SKNode {
         children
             .compactMap { $0 as? ColorNode }
             .forEach { node in
-                if node == selectedNode && isFocused {
-                    return
+                let isNodeFocused = node.paletteColor == selectedNode?.paletteColor && isFocused
+                if !isNodeFocused {
+                    applyCircularRotation(for: node)
                 }
-                applyCircularRotation(for: node)
         }
     }
 

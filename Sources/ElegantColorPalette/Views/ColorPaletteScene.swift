@@ -141,9 +141,12 @@ extension ColorPaletteScene {
 
 }
 
-let focusPoint = CGPoint(x: 0, y: 0)
-let travelSpeed = CGVector(dx: 400, dy: 400)
-let rate: CGFloat = 0.8
+fileprivate let focusPoint = CGPoint(x: 0, y: 0) // The point to focus to
+fileprivate let travelSpeed = CGVector(dx: 1200, dy: 1200) // The speed at which to travel
+fileprivate let rate: CGFloat = 0.8
+
+// TODO: clean this up
+// TODO: figure out why the selected node isn't displaying a touch down state
 // MARK: - Node Rotation
 extension ColorPaletteScene {
 
@@ -152,14 +155,20 @@ extension ColorPaletteScene {
 
         containerNode.rotateNodes(selectedNode: state.selectedNode, isFocused: state.isFocused)
 
-        // TODO: should actually use an skjoint to do so
-        // TODO: the focus point should be a user provided point. create a modifier for this
+        guard state.touchState != .dragged else { return }
         guard let selectedNode = state.selectedNode, state.isFocused else { return }
-        if selectedNode.position.distance(from: focusPoint) < 5 {
+
+        // 10 is an arbitrary number that compensates for the frames at which is the scene is running at.
+        if selectedNode.position.distance(from: focusPoint) < 10 {
+            selectedNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
+            paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
             state.didReachFocusPoint = true
+        } else {
+            state.didReachFocusPoint = false
         }
 
         guard !state.didReachFocusPoint else { return }
+
         let disp = CGVector(dx: focusPoint.x - selectedNode.position.x,
                             dy: focusPoint.y - selectedNode.position.y)
         let angle = atan2(disp.dy, disp.dx)
@@ -214,7 +223,6 @@ extension ColorPaletteScene {
         let dragVector = CGVector(dx: offset.x * dragVelocityMultiplier,
                                   dy: offset.y * dragVelocityMultiplier)
 
-        activeNode.physicsBody?.isDynamic = true
         activeNode.physicsBody?.velocity = dragVector
         activeNode.position = location
 
@@ -288,7 +296,6 @@ extension ColorPaletteScene {
     private func focusSelectedNode() {
         guard let selectedNode = state.selectedNode else { return }
 
-        paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
         paletteManager.selectedColor = selectedNode.paletteColor
     }
 
