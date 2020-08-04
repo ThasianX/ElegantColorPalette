@@ -155,9 +155,8 @@ extension ColorPaletteScene {
         containerNode.rotateNodes(selectedNode: state.selectedNode, isFocused: state.isFocused)
         guard let selectedNode = state.selectedNode, state.isFocused else { return }
 
-        guard state.touchState != .dragged else {
+        if state.touchState == .dragged {
             selectedNode.physicsBody?.isDynamic = true
-            return
         }
 
         // Defines the smoothing rate of the focus animation. This is subject to change
@@ -189,6 +188,12 @@ extension ColorPaletteScene {
             state.didReachFocusPoint = false
         }
 
+        if state.touchState == .dragged,
+            let activeNode = state.activeNode,
+            activeNode.intersects(selectedNode){
+            return
+        }
+        
         guard !state.didReachFocusPoint else { return }
 
         let disp = CGVector(dx: focusSettings.location.x - selectedNode.position.x,
