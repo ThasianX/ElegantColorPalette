@@ -11,7 +11,9 @@ class ColorPaletteManager: ObservableObject {
     @Published var colors: [PaletteColor]
     @Published var selectedColor: PaletteColor?
     @Published var activeColorScheme: ColorScheme = .unspecified
+
     var nodeStyle: NodeStyle = DefaultNodeStyle()
+    var focusSettings: FocusSettings = .default
 
     var didSelectColor: ((PaletteColor) -> Void)?
     

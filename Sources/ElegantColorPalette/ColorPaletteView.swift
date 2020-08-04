@@ -89,6 +89,7 @@ public class ColorPaletteView: SKView {
 
 }
 
+// MARK: Public Methods
 public extension ColorPaletteView {
 
     /// Adds a callback to react to whenever a new color is selected
@@ -109,6 +110,33 @@ public extension ColorPaletteView {
     @discardableResult
     func nodeStyle(_ style: NodeStyle) -> Self {
         paletteManager.nodeStyle = style
+        return self
+    }
+
+    /// Configures the focus settings.
+    ///
+    /// Focusing is when a node is tapped and snapped towards a certain location.
+    ///
+    /// - Parameter location: the location to focus to. (0, 0) represents the center of your view.
+    /// - Parameter focusSpeed: the speed the node should travel to its focused location
+    /// - Parameter focusRate: the smoothing rate of the focus animation. 1 -> entirely responsive.
+    ///     0 -> entirely unresponsive. This has to be a value between 0 and 1.
+    @discardableResult
+    func focus(location: CGPoint = .zero, focusSpeed: CGFloat = 1200, focusRate: CGFloat = 0.8) -> Self {
+        paletteManager.focusSettings = FocusSettings(location: location,
+                                                     speed: CGVector(dx: focusSpeed, dy: focusSpeed),
+                                                     smoothingRate: focusRate)
+        return self
+    }
+
+}
+
+// MARK: Internal Methods
+extension ColorPaletteView {
+
+    @discardableResult
+    func focus(settings: FocusSettings) -> Self {
+        paletteManager.focusSettings = settings
         return self
     }
 

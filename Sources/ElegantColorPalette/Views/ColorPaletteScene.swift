@@ -141,11 +141,8 @@ extension ColorPaletteScene {
 
 }
 
-fileprivate let focusPoint = CGPoint(x: 0, y: 0) // The point to focus to
-fileprivate let travelSpeed = CGVector(dx: 1200, dy: 1200) // The speed at which to travel
-fileprivate let rate: CGFloat = 0.8
-
-// TODO: clean this up
+// https://stackoverflow.com/questions/30362586/manually-move-node-over-a-period-of-time/30408800#30408800
+// TODO: fix bug where nodes that bump into centered node will be struck with an insane rebound.
 // MARK: - Node Rotation
 extension ColorPaletteScene {
 
@@ -158,7 +155,7 @@ extension ColorPaletteScene {
         guard let selectedNode = state.selectedNode, state.isFocused else { return }
 
         // 10 is an arbitrary number that compensates for the frames at which is the scene is running at.
-        if selectedNode.position.distance(from: focusPoint) < 10 {
+        if selectedNode.position.distance(from: focusSettings.location) < 10 {
             if !state.didReachFocusPoint {
                 selectedNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
                 paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
@@ -170,13 +167,19 @@ extension ColorPaletteScene {
 
         guard !state.didReachFocusPoint else { return }
 
-        let disp = CGVector(dx: focusPoint.x - selectedNode.position.x,
-                            dy: focusPoint.y - selectedNode.position.y)
+        let disp = CGVector(dx: focusSettings.location.x - selectedNode.position.x,
+                            dy: focusSettings.location.y - selectedNode.position.y)
         let angle = atan2(disp.dy, disp.dx)
-        let vel = CGVector(dx: cos(angle)*travelSpeed.dx, dy: sin(angle)*travelSpeed.dy)
-        let relVel = CGVector(dx: vel.dx-selectedNode.physicsBody!.velocity.dx, dy: vel.dy-selectedNode.physicsBody!.velocity.dy)
-        selectedNode.physicsBody!.velocity = CGVector(dx: selectedNode.physicsBody!.velocity.dx+relVel.dx*rate,
-                                                      dy: selectedNode.physicsBody!.velocity.dy+relVel.dy*rate)
+        let vel = CGVector(dx: cos(angle)*focusSettings.speed.dx,
+                           dy: sin(angle)*focusSettings.speed.dy)
+        let relVel = CGVector(dx: vel.dx-selectedNode.physicsBody!.velocity.dx,
+                              dy: vel.dy-selectedNode.physicsBody!.velocity.dy)
+        selectedNode.physicsBody!.velocity = CGVector(dx: selectedNode.physicsBody!.velocity.dx+relVel.dx*focusSettings.smoothingRate,
+                                                      dy: selectedNode.physicsBody!.velocity.dy+relVel.dy*focusSettings.smoothingRate)
+    }
+
+    private var focusSettings: FocusSettings {
+        paletteManager.focusSettings
     }
 
 }
@@ -248,12 +251,12 @@ extension ColorPaletteScene {
             handleTouch(for: activeNode)
         case .dragged:
             handleDrag(for: activeNode)
-        case .inactive:
+        default:
             ()
         }
 
-        state.activeNode = nil
         state.touchState = .inactive
+        state.activeNode = nil
     }
 
     private func handleTouch(for node: ColorNode) {
