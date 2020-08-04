@@ -199,11 +199,11 @@ Use `focus` to customize the location, speed, or smoothing rate of the focus ani
 ```swift
 // For UIKit
 ColorPaletteView(...)
-    .focus(location: .zero, focusSpeed: 1600, focusRate: 0.2)
+    .focus(location: .zero, speed: 1600, rate: 0.2)
      
 // For SwiftUI
 ColorPaletteBindingView(...)
-    .focus(location: .zero, focusSpeed: 1600, focusRate: 0.2)
+    .focus(location: .zero, speed: 1600, rate: 0.2)
 ```
 
 ### Events
