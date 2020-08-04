@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'ElegantColorPalette'
-  s.version          = '1.0.0'
+  s.version          = '1.1.0'
   s.summary          = 'The elegant color picker missed in UIKit and SwiftUI'
  
   s.description      = <<-DESC
