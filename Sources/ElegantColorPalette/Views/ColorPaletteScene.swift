@@ -146,7 +146,6 @@ fileprivate let travelSpeed = CGVector(dx: 1200, dy: 1200) // The speed at which
 fileprivate let rate: CGFloat = 0.8
 
 // TODO: clean this up
-// TODO: figure out why the selected node isn't displaying a touch down state
 // MARK: - Node Rotation
 extension ColorPaletteScene {
 
@@ -160,8 +159,10 @@ extension ColorPaletteScene {
 
         // 10 is an arbitrary number that compensates for the frames at which is the scene is running at.
         if selectedNode.position.distance(from: focusPoint) < 10 {
-            selectedNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
-            paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
+            if !state.didReachFocusPoint {
+                selectedNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
+                paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
+            }
             state.didReachFocusPoint = true
         } else {
             state.didReachFocusPoint = false
