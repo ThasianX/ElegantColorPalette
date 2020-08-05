@@ -148,6 +148,15 @@ public extension ColorPaletteView {
         return self
     }
 
+    /// Configures the default rotation multiplier of the nodes around the focus location.
+    ///
+    /// - Parameter multiplier: the factor by which the nodes should speed up their rotation. The higher, the faster.
+    @discardableResult
+    func rotation(multiplier: CGFloat = 1) -> Self {
+        paletteManager.rotationMultiplier = multiplier
+        return self
+    }
+
 }
 
 // MARK: Internal Methods

@@ -159,7 +159,8 @@ extension ColorPaletteScene {
         guard containerNode != nil else { return }
 
         // Always going to rotate the nodes no matter the circumstance
-        containerNode.rotateNodes(selectedNode: selectedColorNode, isFocused: state.isFocused)
+        containerNode.rotateNodes(exceptFor: state.isFocused ? state.selectedNode : nil,
+                                  multiplier: rotationMultiplier)
         guard let selectedNode = selectedColorNode, state.isFocused else { return }
 
         if state.touchState == .dragged && canMoveFocusedNode {
@@ -344,7 +345,7 @@ extension ColorPaletteScene {
 }
 
 // MARK: - Shared Node Helpers
-private extension ColorPaletteScene {
+public extension ColorPaletteScene {
 
     func isNodeSelected(_ node: ColorNode) -> Bool {
         node == selectedColorNode

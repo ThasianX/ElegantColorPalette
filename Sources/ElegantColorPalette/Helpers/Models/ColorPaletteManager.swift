@@ -16,6 +16,7 @@ class ColorPaletteManager: ObservableObject {
     var focusSettings: FocusSettings = .default
     var canMoveFocusedNode: Bool = true
     var spawnConfiguration: SpawnConfiguration = .default
+    var rotationMultiplier: CGFloat = 1
 
     var didSelectColor: ((PaletteColor) -> Void)?
     
@@ -52,6 +53,7 @@ extension ColorPaletteManagerDirectAccess {
     var selectedColor: PaletteColor? {
         paletteManager.selectedColor
     }
+    
     var nodeStyle: NodeStyle {
         paletteManager.nodeStyle
     }
@@ -66,6 +68,10 @@ extension ColorPaletteManagerDirectAccess {
 
     var spawnConfiguration: SpawnConfiguration {
         paletteManager.spawnConfiguration
+    }
+
+    var rotationMultiplier: CGFloat {
+        paletteManager.rotationMultiplier
     }
 
 }

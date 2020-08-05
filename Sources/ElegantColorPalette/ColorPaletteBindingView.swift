@@ -26,6 +26,7 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
     var focusSettings: FocusSettings = .default
     var canMoveFocusedNode: Bool = true
     var spawnConfiguration: SpawnConfiguration = .default
+    var rotationMultiplier: CGFloat = 1
 
     /// Initializes a new `ColorPaletteBindingView`.
     ///
@@ -47,6 +48,7 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
             .focus(settings: focusSettings)
             .canMoveFocusedNode(canMoveFocusedNode)
             .spawnConfiguration(spawnConfiguration)
+            .rotation(multiplier: rotationMultiplier)
             .update(withColors: colors, selectedColor: selectedColor)
     }
 
@@ -124,6 +126,14 @@ extension ColorPaletteBindingView: Buildable {
     public func spawnConfiguration(widthRatio: CGFloat = 1, heightRatio: CGFloat = 0.65) -> Self {
         mutating(keyPath: \.spawnConfiguration,
                  value: SpawnConfiguration(widthRatio: widthRatio, heightRatio: heightRatio))
+    }
+
+    /// Configures the default rotation multiplier of the nodes around the focus location.
+    ///
+    /// - Parameter multiplier: the factor by which the nodes should speed up their rotation. The higher, the faster.
+    @discardableResult
+    public func rotation(multiplier: CGFloat = 1) -> Self {
+        mutating(keyPath: \.rotationMultiplier, value: multiplier)
     }
 
 }

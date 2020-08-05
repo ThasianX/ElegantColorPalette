@@ -69,30 +69,23 @@ class ColorsContainerNode: SKNode {
         validSpawns.remove(at: spawnIndex)
         node.position = spawnPosition
 
-        let rotationVector = circularVector(for: node)
-        let magnifiedRotationVector = CGVector(dx: rotationVector.dx*6, dy: rotationVector.dy*6)
-        let rotationAction = SKAction.applyForce(magnifiedRotationVector, duration: 0.4)
+        let rotationVector = circularVector(for: node, multiplier: 6)
+        let rotationAction = SKAction.applyForce(rotationVector, duration: 0.4)
 
         node.run(.sequence([.wait(forDuration: 0.25), rotationAction]))
     }
 
-    func rotateNodes(selectedNode: ColorNode?, isFocused: Bool) {
+    func rotateNodes(exceptFor focusedNode: ColorNode?, multiplier: CGFloat) {
         allColorNodes
+            .filter { $0 != focusedNode }
             .forEach { node in
-                let isNodeFocused = node.paletteColor == selectedNode?.paletteColor && isFocused
-                if !isNodeFocused {
-                    applyCircularRotation(for: node)
-                }
-        }
+                node.physicsBody?.applyForce(circularVector(for: node, multiplier: multiplier))
+            }
     }
 
-    private func applyCircularRotation(for child: ColorNode) {
-        child.physicsBody?.applyForce(circularVector(for: child))
-    }
-
-    private func circularVector(for child: ColorNode) -> CGVector {
+    private func circularVector(for child: ColorNode, multiplier: CGFloat) -> CGVector {
         let innerRadius = child.radius * 3
-        let rotationSpeed: CGFloat = child.radius
+        let rotationSpeed: CGFloat = child.radius * multiplier
 
         let positionVector = CGVector(dx: child.position.x,
                                       dy: child.position.y)
