@@ -206,6 +206,13 @@ ColorPaletteBindingView(...)
     .focus(location: .zero, speed: 1600, rate: 0.2)
 ```
 
+For SwiftUI, you can also customize the binding animation that occurs when a new palette color is selected.
+
+```swift
+ColorPaletteBindingView(...)
+    .bindingAnimation(.easeInOut)
+```
+
 ### Events
 
 Use `didSelectColor` to react to any change of the selected palette color:
