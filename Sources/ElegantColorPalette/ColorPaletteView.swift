@@ -16,7 +16,7 @@ import UIKit
 ///
 public class ColorPaletteView: SKView {
 
-    private lazy var paletteScene: ColorPaletteScene = {
+    public lazy var paletteScene: ColorPaletteScene = {
         let scene = ColorPaletteScene(paletteManager: paletteManager)
         scene.scaleMode = .resizeFill
         scene.anchorPoint = .init(x: 0.5, y: 0.5)

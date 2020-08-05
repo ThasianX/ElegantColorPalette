@@ -4,7 +4,7 @@ import Combine
 import SpriteKit
 import UIKit
 
-class ColorPaletteScene: SKScene {
+public class ColorPaletteScene: SKScene {
 
     /// Keeps track of the touch state of the scene
     private enum TouchState {
@@ -51,6 +51,14 @@ class ColorPaletteScene: SKScene {
         var touchState: TouchState = .inactive
     }
 
+    public var selectedColorNode: ColorNode? {
+        state.selectedNode
+    }
+
+    public var allColorNodes: [ColorNode] {
+        containerNode.allColorNodes
+    }
+
     let paletteManager: ColorPaletteManager
 
     private var containerNode: ColorsContainerNode!
@@ -73,7 +81,7 @@ class ColorPaletteScene: SKScene {
 // MARK: - Scene Did Appear
 extension ColorPaletteScene {
 
-    override func didMove(to view: SKView) {
+    public override func didMove(to view: SKView) {
         configureScenePhysics()
 
         paletteManager.$colors
@@ -148,12 +156,12 @@ extension ColorPaletteScene {
 // MARK: - Node Rotation
 extension ColorPaletteScene {
 
-    override func update(_ currentTime: TimeInterval) {
+    public override func update(_ currentTime: TimeInterval) {
         guard containerNode != nil else { return }
 
         // Always going to rotate the nodes no matter the circumstance
-        containerNode.rotateNodes(selectedNode: state.selectedNode, isFocused: state.isFocused)
-        guard let selectedNode = state.selectedNode, state.isFocused else { return }
+        containerNode.rotateNodes(selectedNode: selectedColorNode, isFocused: state.isFocused)
+        guard let selectedNode = selectedColorNode, state.isFocused else { return }
 
         if state.touchState == .dragged && paletteManager.canMoveFocusedNode {
             selectedNode.physicsBody?.isDynamic = true
@@ -218,7 +226,7 @@ extension ColorPaletteScene {
 // MARK: - Touches Began
 extension ColorPaletteScene {
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let location = touches.first?.location(in: self) else { return }
         guard let node = node(at: location) else { return }
 
@@ -245,7 +253,7 @@ fileprivate let dragVelocityMultiplier: CGFloat = 10
 
 extension ColorPaletteScene {
 
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
         if isNodeFocused(activeNode) &&
             !paletteManager.canMoveFocusedNode { return }
@@ -277,7 +285,7 @@ extension ColorPaletteScene {
 // MARK: - Touches Ended
 extension ColorPaletteScene {
 
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
 
         switch state.touchState {
@@ -307,7 +315,7 @@ extension ColorPaletteScene {
             }
         } else {
             // Deselect previously selected node if any
-            if let oldSelectedNode = state.selectedNode {
+            if let oldSelectedNode = selectedColorNode {
                 // Prevents weird bugs that occur when you tap multiple nodes in succession
                 oldSelectedNode.removeAllActions()
                 oldSelectedNode.physicsBody?.isDynamic = true
@@ -331,7 +339,7 @@ extension ColorPaletteScene {
     }
 
     private func notifyNodeSelection() {
-        guard let selectedNode = state.selectedNode else { return }
+        guard let selectedNode = selectedColorNode else { return }
 
         paletteManager.selectedColor = selectedNode.paletteColor
     }
@@ -342,7 +350,7 @@ extension ColorPaletteScene {
 private extension ColorPaletteScene {
 
     func isNodeSelected(_ node: ColorNode) -> Bool {
-        node == state.selectedNode
+        node == selectedColorNode
     }
 
     func isNodeFocused(_ node: ColorNode) -> Bool {
@@ -351,7 +359,7 @@ private extension ColorPaletteScene {
 
 }
 
-// MARK: - Extensions
+// MARK: - CGPoint Extensions
 private extension CGPoint {
 
     func distance(from point: CGPoint) -> CGFloat {

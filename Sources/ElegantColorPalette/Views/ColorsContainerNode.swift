@@ -26,16 +26,14 @@ class ColorsContainerNode: SKNode {
     }
 
     func randomizeColorNodesPositionsWithBubbleAnimation(within size: CGSize) {
-        let largestRadius: CGFloat = children
-            .compactMap { $0 as? ColorNode }
+        let largestRadius: CGFloat = allColorNodes
             .max(by: { $0.radius > $1.radius })!
             .radius
 
         var validSpawnPositions = generateSpawnPositions(within: size,
                                                          nodeLength: largestRadius*2)
 
-        children
-            .compactMap { $0 as? ColorNode }
+        allColorNodes
             .forEach { child in
                 spawnNodeAndBeginRotation(child, validSpawns: &validSpawnPositions)
             }
@@ -79,8 +77,7 @@ class ColorsContainerNode: SKNode {
     }
 
     func rotateNodes(selectedNode: ColorNode?, isFocused: Bool) {
-        children
-            .compactMap { $0 as? ColorNode }
+        allColorNodes
             .forEach { node in
                 let isNodeFocused = node.paletteColor == selectedNode?.paletteColor && isFocused
                 if !isNodeFocused {
@@ -125,6 +122,11 @@ class ColorsContainerNode: SKNode {
 }
 
 extension ColorsContainerNode {
+
+    var allColorNodes: [ColorNode] {
+        children
+            .compactMap { $0 as? ColorNode }
+    }
 
     func node(with color: PaletteColor?) -> ColorNode? {
         for child in children {
