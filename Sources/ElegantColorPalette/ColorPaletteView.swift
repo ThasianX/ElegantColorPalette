@@ -138,6 +138,16 @@ public extension ColorPaletteView {
         return self
     }
 
+    /// Configures the default spawn configuration settings.
+    ///
+    /// - Parameter widthRatio: the ratio of the scene width that a node should be able to spawn on. Value between 0-1
+    /// - Parameter heightRatio: the ratio of the scene height that a node should be able to spawn on. Value between 0-1
+    @discardableResult
+    func spawnConfiguration(widthRatio: CGFloat = 1, heightRatio: CGFloat = 0.65) -> Self {
+        paletteManager.spawnConfiguration = SpawnConfiguration(widthRatio: widthRatio, heightRatio: heightRatio)
+        return self
+    }
+
 }
 
 // MARK: Internal Methods
@@ -146,6 +156,12 @@ extension ColorPaletteView {
     @discardableResult
     func focus(settings: FocusSettings) -> Self {
         paletteManager.focusSettings = settings
+        return self
+    }
+
+    @discardableResult
+    func spawnConfiguration(_ config: SpawnConfiguration) -> Self {
+        paletteManager.spawnConfiguration = config
         return self
     }
 

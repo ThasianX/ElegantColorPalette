@@ -43,15 +43,15 @@ class ColorsContainerNode: SKNode {
         var validPositions = [CGPoint]()
 
         let numberOfRows = Int(size.height*2 / (nodeLength*1.1))
-        let numberOfCols = Int(size.width*2 / nodeLength*1.1)
+        let numberOfCols = Int(size.width*2 / (nodeLength*1.1))
 
         let startingXPos = -size.width
         let startingYPos = -size.height
 
         for row in 0..<numberOfRows {
             for col in 0..<numberOfCols {
-                let point = CGPoint(x: startingXPos + (nodeLength*1.1)*CGFloat(row),
-                                    y: startingYPos + (nodeLength*1.1)*CGFloat(col))
+                let point = CGPoint(x: startingXPos + (nodeLength*1.1)*CGFloat(col),
+                                    y: startingYPos + (nodeLength*1.1)*CGFloat(row))
                 validPositions.append(point)
             }
         }
@@ -73,7 +73,7 @@ class ColorsContainerNode: SKNode {
         let magnifiedRotationVector = CGVector(dx: rotationVector.dx*6, dy: rotationVector.dy*6)
         let rotationAction = SKAction.applyForce(magnifiedRotationVector, duration: 0.4)
 
-        node.run(rotationAction)
+        node.run(.sequence([.wait(forDuration: 0.25), rotationAction]))
     }
 
     func rotateNodes(selectedNode: ColorNode?, isFocused: Bool) {

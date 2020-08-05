@@ -25,6 +25,7 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
     var nodeStyle: NodeStyle = DefaultNodeStyle()
     var focusSettings: FocusSettings = .default
     var canMoveFocusedNode: Bool = true
+    var spawnConfiguration: SpawnConfiguration = .default
 
     /// Initializes a new `ColorPaletteBindingView`.
     ///
@@ -45,6 +46,7 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
             .nodeStyle(nodeStyle)
             .focus(settings: focusSettings)
             .canMoveFocusedNode(canMoveFocusedNode)
+            .spawnConfiguration(spawnConfiguration)
             .update(withColors: colors, selectedColor: selectedColor)
     }
 
@@ -112,6 +114,16 @@ extension ColorPaletteBindingView: Buildable {
     @discardableResult
     public func canMoveFocusedNode(_ canMove: Bool) -> Self {
         mutating(keyPath: \.canMoveFocusedNode, value: canMove)
+    }
+
+    /// Configures the default spawn configuration settings.
+    ///
+    /// - Parameter widthRatio: the ratio of the scene width that a node should be able to spawn on. Value between 0-1
+    /// - Parameter heightRatio: the ratio of the scene height that a node should be able to spawn on. Value between 0-1
+    @discardableResult
+    public func spawnConfiguration(widthRatio: CGFloat = 1, heightRatio: CGFloat = 0.65) -> Self {
+        mutating(keyPath: \.spawnConfiguration,
+                 value: SpawnConfiguration(widthRatio: widthRatio, heightRatio: heightRatio))
     }
 
 }
