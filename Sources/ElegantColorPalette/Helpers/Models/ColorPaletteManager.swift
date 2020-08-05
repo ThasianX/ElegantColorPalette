@@ -14,6 +14,7 @@ class ColorPaletteManager: ObservableObject {
 
     var nodeStyle: NodeStyle = DefaultNodeStyle()
     var focusSettings: FocusSettings = .default
+    var canMoveFocusedNode: Bool = true
 
     var didSelectColor: ((PaletteColor) -> Void)?
     

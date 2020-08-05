@@ -129,6 +129,15 @@ public extension ColorPaletteView {
         return self
     }
 
+    /// Configures whether the focused node can be moved or not.
+    ///
+    /// - Parameter canMove: moveable or not - nodes that collide with the focused node will not move it either
+    @discardableResult
+    func canMoveFocusedNode(_ canMove: Bool) -> Self {
+        paletteManager.canMoveFocusedNode = canMove
+        return self
+    }
+
 }
 
 // MARK: Internal Methods

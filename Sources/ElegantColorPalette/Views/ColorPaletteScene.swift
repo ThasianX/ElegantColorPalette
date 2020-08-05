@@ -155,7 +155,7 @@ extension ColorPaletteScene {
         containerNode.rotateNodes(selectedNode: state.selectedNode, isFocused: state.isFocused)
         guard let selectedNode = state.selectedNode, state.isFocused else { return }
 
-        if state.touchState == .dragged {
+        if state.touchState == .dragged && paletteManager.canMoveFocusedNode {
             selectedNode.physicsBody?.isDynamic = true
         }
 
@@ -247,6 +247,9 @@ extension ColorPaletteScene {
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
+        if isNodeFocused(activeNode) &&
+            !paletteManager.canMoveFocusedNode { return }
+
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
         let previous = touch.previousLocation(in: self)

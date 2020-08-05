@@ -24,6 +24,7 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
     var didSelectColor: ((PaletteColor) -> Void)?
     var nodeStyle: NodeStyle = DefaultNodeStyle()
     var focusSettings: FocusSettings = .default
+    var canMoveFocusedNode: Bool = true
 
     /// Initializes a new `ColorPaletteBindingView`.
     ///
@@ -43,19 +44,20 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
             .didSelectColor(groupedCallback)
             .nodeStyle(nodeStyle)
             .focus(settings: focusSettings)
+            .canMoveFocusedNode(canMoveFocusedNode)
             .update(withColors: colors, selectedColor: selectedColor)
     }
 
     private func groupedCallback(_ color: PaletteColor) {
-        withAnimation(bindingAnimation) {
-            bindingCallback(color)
-        }
+        bindingCallback(color)
         didSelectColor?(color)
     }
 
     private func bindingCallback(_ color: PaletteColor) {
         DispatchQueue.main.async {
-            self.selectedColor = color
+            withAnimation(self.bindingAnimation) {
+                self.selectedColor = color
+            }
         }
     }
 
@@ -97,8 +99,19 @@ extension ColorPaletteBindingView: Buildable {
                                       smoothingRate: rate))
     }
 
+    /// Configures the binding animation
+    ///
+    /// - Parameter animation: the animation that is executed whenever the `selectedColor` changes
     public func bindingAnimation(_ animation: Animation) -> Self {
         mutating(keyPath: \.bindingAnimation, value: animation)
+    }
+
+    /// Configures whether the focused node can be moved or not.
+    ///
+    /// - Parameter canMove: moveable or not - nodes that collide with the focused node will not move it either
+    @discardableResult
+    public func canMoveFocusedNode(_ canMove: Bool) -> Self {
+        mutating(keyPath: \.canMoveFocusedNode, value: canMove)
     }
 
 }
