@@ -295,11 +295,12 @@ extension ColorPaletteScene {
             // Currently focused node is tapped.
             if state.isFocused {
                 paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(node))
+                notifyNodeSelection()
             } else {
                 // This case only happens when you start out with a `selectedColor`.
                 // In that case, the node will initially show its selected state but won't be focused.
                 state.isFocused = true
-                focusSelectedNode()
+                notifyNodeSelection()
             }
         } else {
             // Deselect previously selected node if any
@@ -313,15 +314,12 @@ extension ColorPaletteScene {
             // Store new selected node
             state.isFocused = true
             state.selectedNode = node
-            focusSelectedNode()
+            notifyNodeSelection()
         }
     }
 
     private func handleDrag(for node: ColorNode) {
-        if isNodeFocused(node) {
-            // If the node is already focused, make sure to refocus it
-            focusSelectedNode()
-        } else {
+        if !isNodeFocused(node) {
             paletteManager.nodeStyle.updateNode(
                 configuration: .touchedUp(node,
                                           isSelected: isNodeSelected(node),
@@ -329,7 +327,7 @@ extension ColorPaletteScene {
         }
     }
 
-    private func focusSelectedNode() {
+    private func notifyNodeSelection() {
         guard let selectedNode = state.selectedNode else { return }
 
         paletteManager.selectedColor = selectedNode.paletteColor

@@ -58,7 +58,7 @@ private extension SwiftUIExampleView {
         ColorPaletteBindingView(
             selectedColor: $selectedColor,
             colors: isColorPaletteSelected ? PaletteColor.allColors : PaletteColor.allBwColors)
-            .didSelectColor { print($0) }
+            .didSelectColor { print($0.name) }
             .nodeStyle(isColorPaletteSelected ? DefaultNodeStyle() : CustomNodeStyle())
     }
 
