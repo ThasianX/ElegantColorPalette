@@ -19,6 +19,7 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
 
     let colors: [PaletteColor]
     @Binding var selectedColor: PaletteColor?
+    var bindingAnimation: Animation = .default
 
     var didSelectColor: ((PaletteColor) -> Void)?
     var nodeStyle: NodeStyle = DefaultNodeStyle()
@@ -26,9 +27,9 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
 
     /// Initializes a new `ColorPaletteBindingView`.
     ///
-    /// - Parameter selectedColor: Binding to the selected `PaletteColor`
+    /// - Parameter selectedColor: Binding to the selected `PaletteColor`. This is optional.
     /// - Parameter colors: Array of `PaletteColor` to populate the view
-    public init(selectedColor: Binding<PaletteColor?>, colors: [PaletteColor]) {
+    public init(selectedColor: Binding<PaletteColor?> = .constant(nil), colors: [PaletteColor]) {
         self.colors = colors
         self._selectedColor = selectedColor
     }
@@ -46,7 +47,9 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
     }
 
     private func groupedCallback(_ color: PaletteColor) {
-        bindingCallback(color)
+        withAnimation(bindingAnimation) {
+            bindingCallback(color)
+        }
         didSelectColor?(color)
     }
 
@@ -92,6 +95,10 @@ extension ColorPaletteBindingView: Buildable {
                  value: FocusSettings(location: location,
                                       speed: CGVector(dx: speed, dy: speed),
                                       smoothingRate: rate))
+    }
+
+    public func bindingAnimation(_ animation: Animation) -> Self {
+        mutating(keyPath: \.bindingAnimation, value: animation)
     }
 
 }
