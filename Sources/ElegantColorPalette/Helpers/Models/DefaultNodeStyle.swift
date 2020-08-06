@@ -29,7 +29,7 @@ public extension NodeStyleConfiguration {
     var defaultStyledNode: ColorNode {
         node
             .scaleFade(!isFirstShown,
-                       scale: isPressed ? 0.9 : 1,
+                       scale: isPressed ? 0.9 : (isFocusing ? 1.2 : 1),
                        opacity: isPressed ? 0.3 : 1)
             .highlight(isSelected)
             .label(isFocused)
