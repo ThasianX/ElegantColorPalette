@@ -49,12 +49,12 @@ extension NodeStyleConfiguration {
                                isFocused: isFocused)
     }
 
-    static func touchedUp(_ node: ColorNode, isSelected: Bool, isFocused: Bool) -> NodeStyleConfiguration {
+    static func touchedUp(_ node: ColorNode, isSelected: Bool, isFocusing: Bool, isFocused: Bool) -> NodeStyleConfiguration {
         NodeStyleConfiguration(node: node,
                                isFirstShown: false,
                                isPressed: false,
                                isSelected: isSelected,
-                               isFocusing: true,
+                               isFocusing: isFocusing,
                                isFocused: isFocused)
     }
 

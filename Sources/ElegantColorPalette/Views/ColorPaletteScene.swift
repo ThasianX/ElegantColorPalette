@@ -288,14 +288,11 @@ extension ColorPaletteScene {
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
 
-        nodeStyle.updateNode(
-            configuration: .touchedUp(activeNode,
-                                      isSelected: isNodeSelected(activeNode),
-                                      isFocused: isNodeFocused(activeNode)))
-
         switch state.touchState {
         case .touched:
             handleTouch(for: activeNode)
+        case .dragged:
+            handleDrag(for: activeNode)
         default:
             ()
         }
@@ -314,6 +311,11 @@ extension ColorPaletteScene {
                 // This case only happens when you start out with a `selectedColor`.
                 // In that case, the node will initially show its selected state but won't be focused.
                 state.isFocused = true
+                nodeStyle.updateNode(
+                    configuration: .touchedUp(node,
+                                              isSelected: true,
+                                              isFocusing: true,
+                                              isFocused: false))
                 notifyNodeSelection()
             }
         } else {
@@ -328,8 +330,23 @@ extension ColorPaletteScene {
             // Store new selected node
             state.isFocused = true
             state.selectedNode = node
+
+            nodeStyle.updateNode(
+                configuration: .touchedUp(node,
+                                          isSelected: true,
+                                          isFocusing: true,
+                                          isFocused: false))
+
             notifyNodeSelection()
         }
+    }
+
+    private func handleDrag(for node: ColorNode) {
+        nodeStyle.updateNode(
+            configuration: .touchedUp(node,
+                                      isSelected: isNodeSelected(node),
+                                      isFocusing: isNodeFocused(node),
+                                      isFocused: false))
     }
 
     private func notifyNodeSelection() {
