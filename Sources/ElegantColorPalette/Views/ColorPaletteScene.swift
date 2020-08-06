@@ -181,7 +181,6 @@ extension ColorPaletteScene {
             if !state.didReachFocusPoint {
                 // very hacky. it's best to never mix physics with actions but it works so....
                 selectedNode.physicsBody?.isDynamic = false
-                selectedNode.run(SKAction.move(to: focusSettings.location, duration: 0.25))
                 selectedNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
                 nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
             }
@@ -225,8 +224,6 @@ extension ColorPaletteScene {
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let location = touches.first?.location(in: self) else { return }
         guard let node = node(at: location) else { return }
-
-        print(location)
 
         state.activeNode = nodeStyle.updateNode(
             configuration: .touchedDown(node,
@@ -286,11 +283,14 @@ extension ColorPaletteScene {
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
 
+        nodeStyle.updateNode(
+            configuration: .touchedUp(activeNode,
+                                      isSelected: isNodeSelected(activeNode),
+                                      isFocused: isNodeFocused(activeNode)))
+
         switch state.touchState {
         case .touched:
             handleTouch(for: activeNode)
-        case .dragged:
-            handleDrag(for: activeNode)
         default:
             ()
         }
@@ -324,15 +324,6 @@ extension ColorPaletteScene {
             state.isFocused = true
             state.selectedNode = node
             notifyNodeSelection()
-        }
-    }
-
-    private func handleDrag(for node: ColorNode) {
-        if !isNodeFocused(node) {
-            nodeStyle.updateNode(
-                configuration: .touchedUp(node,
-                                          isSelected: isNodeSelected(node),
-                                          isFocused: false))
         }
     }
 

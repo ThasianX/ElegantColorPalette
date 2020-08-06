@@ -17,9 +17,14 @@ public struct NodeStyleConfiguration {
     /// Whether or not the node matches the selected `PaletteColor`.
     public let isSelected: Bool
 
+    /// Whether or not the node is currently in the process of moving towards
+    /// its focused location.
+    public let isFocusing: Bool
+
     /// Whether or not the node is currently focused.
     ///
-    /// Focused means that this node is the node the user most recently tapped on.
+    /// Focused means that this node is the node the user most recently tapped on
+    /// and it has arrived at its focus location.
     public let isFocused: Bool
 
 }
@@ -27,23 +32,48 @@ public struct NodeStyleConfiguration {
 extension NodeStyleConfiguration {
 
     static func firstShown(_ node: ColorNode, isSelected: Bool) -> NodeStyleConfiguration {
-        NodeStyleConfiguration(node: node, isFirstShown: true, isPressed: false, isSelected: isSelected, isFocused: false)
+        NodeStyleConfiguration(node: node,
+                               isFirstShown: true,
+                               isPressed: false,
+                               isSelected: isSelected,
+                               isFocusing: false,
+                               isFocused: false)
     }
 
     static func touchedDown(_ node: ColorNode, isSelected: Bool, isFocused: Bool) -> NodeStyleConfiguration {
-        NodeStyleConfiguration(node: node, isFirstShown: false, isPressed: true, isSelected: isSelected, isFocused: isFocused)
+        NodeStyleConfiguration(node: node,
+                               isFirstShown: false,
+                               isPressed: true,
+                               isSelected: isSelected,
+                               isFocusing: false,
+                               isFocused: isFocused)
     }
 
     static func touchedUp(_ node: ColorNode, isSelected: Bool, isFocused: Bool) -> NodeStyleConfiguration {
-        NodeStyleConfiguration(node: node, isFirstShown: false, isPressed: false, isSelected: isSelected, isFocused: isFocused)
+        NodeStyleConfiguration(node: node,
+                               isFirstShown: false,
+                               isPressed: false,
+                               isSelected: isSelected,
+                               isFocusing: true,
+                               isFocused: isFocused)
     }
 
     static func unselected(_ node: ColorNode) -> NodeStyleConfiguration {
-        NodeStyleConfiguration(node: node, isFirstShown: false, isPressed: false, isSelected: false, isFocused: false)
+        NodeStyleConfiguration(node: node,
+                               isFirstShown: false,
+                               isPressed: false,
+                               isSelected: false,
+                               isFocusing: false,
+                               isFocused: false)
     }
 
     static func selectedAndFocused(_ node: ColorNode) -> NodeStyleConfiguration {
-        NodeStyleConfiguration(node: node, isFirstShown: false, isPressed: false, isSelected: true, isFocused: true)
+        NodeStyleConfiguration(node: node,
+                               isFirstShown: false,
+                               isPressed: false,
+                               isSelected: true,
+                               isFocusing: false,
+                               isFocused: true)
     }
 
 }
