@@ -176,12 +176,17 @@ extension ColorPaletteScene {
         let distanceFromCenter = selectedNode.position.distance(from: focusSettings.location)
         // 10 is an arbitrary number that compensates for the frames at which is the scene is running at.
         if distanceFromCenter < 10 {
+            if distanceFromCenter > 5 {
+                selectedNode.physicsBody!.velocity = selectedNode.physicsBody!.velocity / 2
+                return
+            }
             // The body of the if only ever gets executed if previously, the selected node
             // wasn't focused. Prevents unnecessary calls to `updateNode`
             if !state.didReachFocusPoint {
                 // very hacky. it's best to never mix physics with actions but it works so....
-                selectedNode.physicsBody?.isDynamic = false
+                selectedNode.physicsBody!.isDynamic = false
                 selectedNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
+                selectedNode.run(.move(to: focusSettings.location, duration: 0.05))
                 nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
             }
             state.didReachFocusPoint = true
