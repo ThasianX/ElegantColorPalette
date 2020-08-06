@@ -26,16 +26,14 @@ class ColorsContainerNode: SKNode {
     }
 
     func randomizeColorNodesPositionsWithBubbleAnimation(within size: CGSize) {
-        let largestRadius: CGFloat = children
-            .compactMap { $0 as? ColorNode }
+        let largestRadius: CGFloat = allColorNodes
             .max(by: { $0.radius > $1.radius })!
             .radius
 
         var validSpawnPositions = generateSpawnPositions(within: size,
                                                          nodeLength: largestRadius*2)
 
-        children
-            .compactMap { $0 as? ColorNode }
+        allColorNodes
             .forEach { child in
                 spawnNodeAndBeginRotation(child, validSpawns: &validSpawnPositions)
             }
@@ -45,15 +43,15 @@ class ColorsContainerNode: SKNode {
         var validPositions = [CGPoint]()
 
         let numberOfRows = Int(size.height*2 / (nodeLength*1.1))
-        let numberOfCols = Int(size.width*2 / nodeLength*1.1)
+        let numberOfCols = Int(size.width*2 / (nodeLength*1.1))
 
         let startingXPos = -size.width
         let startingYPos = -size.height
 
         for row in 0..<numberOfRows {
             for col in 0..<numberOfCols {
-                let point = CGPoint(x: startingXPos + (nodeLength*1.1)*CGFloat(row),
-                                    y: startingYPos + (nodeLength*1.1)*CGFloat(col))
+                let point = CGPoint(x: startingXPos + (nodeLength*1.1)*CGFloat(col),
+                                    y: startingYPos + (nodeLength*1.1)*CGFloat(row))
                 validPositions.append(point)
             }
         }
@@ -71,31 +69,23 @@ class ColorsContainerNode: SKNode {
         validSpawns.remove(at: spawnIndex)
         node.position = spawnPosition
 
-        let rotationVector = circularVector(for: node)
-        let magnifiedRotationVector = CGVector(dx: rotationVector.dx*6, dy: rotationVector.dy*6)
-        let rotationAction = SKAction.applyForce(magnifiedRotationVector, duration: 0.4)
+        let rotationVector = circularVector(for: node, multiplier: 6)
+        let rotationAction = SKAction.applyForce(rotationVector, duration: 0.4)
 
-        node.run(rotationAction)
+        node.run(.sequence([.wait(forDuration: 0.25), rotationAction]))
     }
 
-    func rotateNodes(selectedNode: ColorNode?, isFocused: Bool) {
-        children
-            .compactMap { $0 as? ColorNode }
+    func rotateNodes(exceptFor focusedNode: ColorNode?, multiplier: CGFloat) {
+        allColorNodes
+            .filter { $0 != focusedNode }
             .forEach { node in
-                let isNodeFocused = node.paletteColor == selectedNode?.paletteColor && isFocused
-                if !isNodeFocused {
-                    applyCircularRotation(for: node)
-                }
-        }
+                node.physicsBody?.applyForce(circularVector(for: node, multiplier: multiplier))
+            }
     }
 
-    private func applyCircularRotation(for child: ColorNode) {
-        child.physicsBody?.applyForce(circularVector(for: child))
-    }
-
-    private func circularVector(for child: ColorNode) -> CGVector {
+    private func circularVector(for child: ColorNode, multiplier: CGFloat) -> CGVector {
         let innerRadius = child.radius * 3
-        let rotationSpeed: CGFloat = child.radius
+        let rotationSpeed: CGFloat = child.radius * multiplier
 
         let positionVector = CGVector(dx: child.position.x,
                                       dy: child.position.y)
@@ -125,6 +115,11 @@ class ColorsContainerNode: SKNode {
 }
 
 extension ColorsContainerNode {
+
+    var allColorNodes: [ColorNode] {
+        children
+            .compactMap { $0 as? ColorNode }
+    }
 
     func node(with color: PaletteColor?) -> ColorNode? {
         for child in children {

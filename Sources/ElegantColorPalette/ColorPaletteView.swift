@@ -16,7 +16,7 @@ import UIKit
 ///
 public class ColorPaletteView: SKView {
 
-    private lazy var paletteScene: ColorPaletteScene = {
+    public lazy var paletteScene: ColorPaletteScene = {
         let scene = ColorPaletteScene(paletteManager: paletteManager)
         scene.scaleMode = .resizeFill
         scene.anchorPoint = .init(x: 0.5, y: 0.5)
@@ -129,6 +129,34 @@ public extension ColorPaletteView {
         return self
     }
 
+    /// Configures whether the focused node can be moved or not.
+    ///
+    /// - Parameter canMove: moveable or not - nodes that collide with the focused node will not move it either
+    @discardableResult
+    func canMoveFocusedNode(_ canMove: Bool) -> Self {
+        paletteManager.canMoveFocusedNode = canMove
+        return self
+    }
+
+    /// Configures the default spawn configuration settings.
+    ///
+    /// - Parameter widthRatio: the ratio of the scene width that a node should be able to spawn on. Value between 0-1
+    /// - Parameter heightRatio: the ratio of the scene height that a node should be able to spawn on. Value between 0-1
+    @discardableResult
+    func spawnConfiguration(widthRatio: CGFloat = 1, heightRatio: CGFloat = 0.65) -> Self {
+        paletteManager.spawnConfiguration = SpawnConfiguration(widthRatio: widthRatio, heightRatio: heightRatio)
+        return self
+    }
+
+    /// Configures the default rotation multiplier of the nodes around the focus location.
+    ///
+    /// - Parameter multiplier: the factor by which the nodes should speed up their rotation. The higher, the faster.
+    @discardableResult
+    func rotation(multiplier: CGFloat = 1) -> Self {
+        paletteManager.rotationMultiplier = multiplier
+        return self
+    }
+
 }
 
 // MARK: Internal Methods
@@ -137,6 +165,12 @@ extension ColorPaletteView {
     @discardableResult
     func focus(settings: FocusSettings) -> Self {
         paletteManager.focusSettings = settings
+        return self
+    }
+
+    @discardableResult
+    func spawnConfiguration(_ config: SpawnConfiguration) -> Self {
+        paletteManager.spawnConfiguration = config
         return self
     }
 

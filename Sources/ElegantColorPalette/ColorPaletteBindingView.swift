@@ -24,6 +24,9 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
     var didSelectColor: ((PaletteColor) -> Void)?
     var nodeStyle: NodeStyle = DefaultNodeStyle()
     var focusSettings: FocusSettings = .default
+    var canMoveFocusedNode: Bool = true
+    var spawnConfiguration: SpawnConfiguration = .default
+    var rotationMultiplier: CGFloat = 1
 
     /// Initializes a new `ColorPaletteBindingView`.
     ///
@@ -43,19 +46,22 @@ public struct ColorPaletteBindingView: UIViewRepresentable {
             .didSelectColor(groupedCallback)
             .nodeStyle(nodeStyle)
             .focus(settings: focusSettings)
+            .canMoveFocusedNode(canMoveFocusedNode)
+            .spawnConfiguration(spawnConfiguration)
+            .rotation(multiplier: rotationMultiplier)
             .update(withColors: colors, selectedColor: selectedColor)
     }
 
     private func groupedCallback(_ color: PaletteColor) {
-        withAnimation(bindingAnimation) {
-            bindingCallback(color)
-        }
+        bindingCallback(color)
         didSelectColor?(color)
     }
 
     private func bindingCallback(_ color: PaletteColor) {
         DispatchQueue.main.async {
-            self.selectedColor = color
+            withAnimation(self.bindingAnimation) {
+                self.selectedColor = color
+            }
         }
     }
 
@@ -97,8 +103,37 @@ extension ColorPaletteBindingView: Buildable {
                                       smoothingRate: rate))
     }
 
+    /// Configures the binding animation
+    ///
+    /// - Parameter animation: the animation that is executed whenever the `selectedColor` changes
     public func bindingAnimation(_ animation: Animation) -> Self {
         mutating(keyPath: \.bindingAnimation, value: animation)
+    }
+
+    /// Configures whether the focused node can be moved or not.
+    ///
+    /// - Parameter canMove: moveable or not - nodes that collide with the focused node will not move it either
+    @discardableResult
+    public func canMoveFocusedNode(_ canMove: Bool) -> Self {
+        mutating(keyPath: \.canMoveFocusedNode, value: canMove)
+    }
+
+    /// Configures the default spawn configuration settings.
+    ///
+    /// - Parameter widthRatio: the ratio of the scene width that a node should be able to spawn on. Value between 0-1
+    /// - Parameter heightRatio: the ratio of the scene height that a node should be able to spawn on. Value between 0-1
+    @discardableResult
+    public func spawnConfiguration(widthRatio: CGFloat = 1, heightRatio: CGFloat = 0.65) -> Self {
+        mutating(keyPath: \.spawnConfiguration,
+                 value: SpawnConfiguration(widthRatio: widthRatio, heightRatio: heightRatio))
+    }
+
+    /// Configures the default rotation multiplier of the nodes around the focus location.
+    ///
+    /// - Parameter multiplier: the factor by which the nodes should speed up their rotation. The higher, the faster.
+    @discardableResult
+    public func rotation(multiplier: CGFloat = 1) -> Self {
+        mutating(keyPath: \.rotationMultiplier, value: multiplier)
     }
 
 }

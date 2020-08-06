@@ -4,7 +4,7 @@ import Combine
 import SpriteKit
 import UIKit
 
-class ColorPaletteScene: SKScene {
+public class ColorPaletteScene: SKScene, ColorPaletteManagerDirectAccess {
 
     /// Keeps track of the touch state of the scene
     private enum TouchState {
@@ -51,6 +51,14 @@ class ColorPaletteScene: SKScene {
         var touchState: TouchState = .inactive
     }
 
+    public var selectedColorNode: ColorNode? {
+        state.selectedNode
+    }
+
+    public var allColorNodes: [ColorNode] {
+        containerNode.allColorNodes
+    }
+
     let paletteManager: ColorPaletteManager
 
     private var containerNode: ColorsContainerNode!
@@ -73,7 +81,7 @@ class ColorPaletteScene: SKScene {
 // MARK: - Scene Did Appear
 extension ColorPaletteScene {
 
-    override func didMove(to view: SKView) {
+    public override func didMove(to view: SKView) {
         configureScenePhysics()
 
         paletteManager.$colors
@@ -97,8 +105,7 @@ extension ColorPaletteScene {
 
     private func colorsChanged(_ colors: [PaletteColor]) {
         if let containerNode = containerNode, containerNode.parent != nil {
-            containerNode.children
-                .compactMap { $0 as? ColorNode }
+            containerNode.allColorNodes
                 .forEach { node in
                     node.physicsBody?.isDynamic = false
                     let scaleDownAction = SKAction.scale(to: 0, duration: 0.3)
@@ -119,16 +126,16 @@ extension ColorPaletteScene {
 
         guard colors.count > 0 else { return }
 
-        let newContainer = ColorsContainerNode(colors: colors, style: paletteManager.nodeStyle)
+        let newContainer = ColorsContainerNode(colors: colors, style: nodeStyle)
         addChild(newContainer)
 
-        if let selectedNode = newContainer.node(with: paletteManager.selectedColor) {
-            state.selectedNode = paletteManager.nodeStyle.updateNode(
+        if let selectedNode = newContainer.node(with: selectedColor) {
+            state.selectedNode = nodeStyle.updateNode(
                 configuration: .firstShown(selectedNode, isSelected: true))
         }
 
-        let smallerLength = min(size.width, size.height)
-        let spawnSize = CGSize(width: (smallerLength/2)-40, height: (smallerLength/2)-40)
+        let spawnSize = CGSize(width: ((size.width/2)*spawnConfiguration.widthRatio) - 40,
+                               height: ((size.height/2)*spawnConfiguration.heightRatio) - 40)
         newContainer.randomizeColorNodesPositionsWithBubbleAnimation(within: spawnSize)
         
         containerNode = newContainer
@@ -148,14 +155,15 @@ extension ColorPaletteScene {
 // MARK: - Node Rotation
 extension ColorPaletteScene {
 
-    override func update(_ currentTime: TimeInterval) {
+    public override func update(_ currentTime: TimeInterval) {
         guard containerNode != nil else { return }
 
         // Always going to rotate the nodes no matter the circumstance
-        containerNode.rotateNodes(selectedNode: state.selectedNode, isFocused: state.isFocused)
-        guard let selectedNode = state.selectedNode, state.isFocused else { return }
+        containerNode.rotateNodes(exceptFor: state.isFocused ? state.selectedNode : nil,
+                                  multiplier: rotationMultiplier)
+        guard let selectedNode = selectedColorNode, state.isFocused else { return }
 
-        if state.touchState == .dragged {
+        if state.touchState == .dragged && canMoveFocusedNode {
             selectedNode.physicsBody?.isDynamic = true
         }
 
@@ -172,10 +180,10 @@ extension ColorPaletteScene {
             // wasn't focused. Prevents unnecessary calls to `updateNode`
             if !state.didReachFocusPoint {
                 // very hacky. it's best to never mix physics with actions but it works so....
-                selectedNode.physicsBody?.isDynamic = false
-                selectedNode.run(SKAction.move(to: focusSettings.location, duration: 0.25))
+                selectedNode.physicsBody!.isDynamic = false
                 selectedNode.physicsBody!.velocity = CGVector(dx: 0, dy: 0)
-                paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
+                selectedNode.run(.move(to: focusSettings.location, duration: 0.2))
+                nodeStyle.updateNode(configuration: .selectedAndFocused(selectedNode))
             }
             state.didReachFocusPoint = true
         } else {
@@ -209,20 +217,16 @@ extension ColorPaletteScene {
                                                       dy: currentVelocity.dy + relVel.dy*rate)
     }
 
-    private var focusSettings: FocusSettings {
-        paletteManager.focusSettings
-    }
-
 }
 
 // MARK: - Touches Began
 extension ColorPaletteScene {
 
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let location = touches.first?.location(in: self) else { return }
         guard let node = node(at: location) else { return }
 
-        state.activeNode = paletteManager.nodeStyle.updateNode(
+        state.activeNode = nodeStyle.updateNode(
             configuration: .touchedDown(node,
                                         isSelected: isNodeSelected(node),
                                         isFocused: isNodeFocused(node)))
@@ -245,8 +249,11 @@ fileprivate let dragVelocityMultiplier: CGFloat = 10
 
 extension ColorPaletteScene {
 
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
+        if isNodeFocused(activeNode) &&
+            !canMoveFocusedNode { return }
+
         guard let touch = touches.first else { return }
         let location = touch.location(in: self)
         let previous = touch.previousLocation(in: self)
@@ -274,7 +281,7 @@ extension ColorPaletteScene {
 // MARK: - Touches Ended
 extension ColorPaletteScene {
 
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let activeNode = state.activeNode else { return }
 
         switch state.touchState {
@@ -294,43 +301,52 @@ extension ColorPaletteScene {
         if isNodeSelected(node) {
             // Currently focused node is tapped.
             if state.isFocused {
-                paletteManager.nodeStyle.updateNode(configuration: .selectedAndFocused(node))
+                nodeStyle.updateNode(configuration: .selectedAndFocused(node))
+                notifyNodeSelection()
             } else {
                 // This case only happens when you start out with a `selectedColor`.
                 // In that case, the node will initially show its selected state but won't be focused.
                 state.isFocused = true
-                focusSelectedNode()
+                nodeStyle.updateNode(
+                    configuration: .touchedUp(node,
+                                              isSelected: true,
+                                              isFocusing: true,
+                                              isFocused: false))
+                notifyNodeSelection()
             }
         } else {
             // Deselect previously selected node if any
-            if let oldSelectedNode = state.selectedNode {
+            if let oldSelectedNode = selectedColorNode {
                 // Prevents weird bugs that occur when you tap multiple nodes in succession
                 oldSelectedNode.removeAllActions()
                 oldSelectedNode.physicsBody?.isDynamic = true
-                paletteManager.nodeStyle.updateNode(configuration: .unselected(oldSelectedNode))
+                nodeStyle.updateNode(configuration: .unselected(oldSelectedNode))
             }
 
             // Store new selected node
             state.isFocused = true
             state.selectedNode = node
-            focusSelectedNode()
+
+            nodeStyle.updateNode(
+                configuration: .touchedUp(node,
+                                          isSelected: true,
+                                          isFocusing: true,
+                                          isFocused: false))
+
+            notifyNodeSelection()
         }
     }
 
     private func handleDrag(for node: ColorNode) {
-        if isNodeFocused(node) {
-            // If the node is already focused, make sure to refocus it
-            focusSelectedNode()
-        } else {
-            paletteManager.nodeStyle.updateNode(
-                configuration: .touchedUp(node,
-                                          isSelected: isNodeSelected(node),
-                                          isFocused: false))
-        }
+        nodeStyle.updateNode(
+            configuration: .touchedUp(node,
+                                      isSelected: isNodeSelected(node),
+                                      isFocusing: isNodeFocused(node),
+                                      isFocused: false))
     }
 
-    private func focusSelectedNode() {
-        guard let selectedNode = state.selectedNode else { return }
+    private func notifyNodeSelection() {
+        guard let selectedNode = selectedColorNode else { return }
 
         paletteManager.selectedColor = selectedNode.paletteColor
     }
@@ -338,10 +354,10 @@ extension ColorPaletteScene {
 }
 
 // MARK: - Shared Node Helpers
-private extension ColorPaletteScene {
+public extension ColorPaletteScene {
 
     func isNodeSelected(_ node: ColorNode) -> Bool {
-        node == state.selectedNode
+        node == selectedColorNode
     }
 
     func isNodeFocused(_ node: ColorNode) -> Bool {
@@ -350,7 +366,7 @@ private extension ColorPaletteScene {
 
 }
 
-// MARK: - Extensions
+// MARK: - CGPoint Extensions
 private extension CGPoint {
 
     func distance(from point: CGPoint) -> CGFloat {

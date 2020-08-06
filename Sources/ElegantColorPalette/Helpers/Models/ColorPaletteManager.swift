@@ -14,6 +14,9 @@ class ColorPaletteManager: ObservableObject {
 
     var nodeStyle: NodeStyle = DefaultNodeStyle()
     var focusSettings: FocusSettings = .default
+    var canMoveFocusedNode: Bool = true
+    var spawnConfiguration: SpawnConfiguration = .default
+    var rotationMultiplier: CGFloat = 1
 
     var didSelectColor: ((PaletteColor) -> Void)?
     
@@ -35,6 +38,40 @@ class ColorPaletteManager: ObservableObject {
             .sink { [unowned self] color in
                 self.didSelectColor?(color)
             }
+    }
+
+}
+
+protocol ColorPaletteManagerDirectAccess {
+
+    var paletteManager: ColorPaletteManager { get }
+
+}
+
+extension ColorPaletteManagerDirectAccess {
+
+    var selectedColor: PaletteColor? {
+        paletteManager.selectedColor
+    }
+    
+    var nodeStyle: NodeStyle {
+        paletteManager.nodeStyle
+    }
+
+    var focusSettings: FocusSettings {
+        paletteManager.focusSettings
+    }
+
+    var canMoveFocusedNode: Bool {
+        paletteManager.canMoveFocusedNode
+    }
+
+    var spawnConfiguration: SpawnConfiguration {
+        paletteManager.spawnConfiguration
+    }
+
+    var rotationMultiplier: CGFloat {
+        paletteManager.rotationMultiplier
     }
 
 }

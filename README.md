@@ -25,7 +25,7 @@ This example GIF is from [ElegantTimeline](https://github.com/ThasianX/ElegantTi
 
 `ElegantColorPalette` comes with 24 different themes and is inspired by [TimePage](https://us.moleskine.com/timepage/p0486) and is part of a larger repository of elegant demonstrations like this: [TimePage Clone](https://github.com/ThasianX/TimePage-Clone).
 
-The top level view is an `SKView` that presents an `SKScene` of colors nodes. The color nodes are `SKShapeNode` subclasses. When using this library, you are only interacting with the `SKView`: all you have to do is configure the size of the view either through autolayout or size constraints and the view does the rest.
+The top level view is an `SKView` that presents an `SKScene` of colors nodes. The color nodes are `SKShapeNode` subclasses. For more experienced developers that are or want to learn SpriteKit, the `SKScene` that contains the color nodes is exposed for greater fine tuning on your end.
 
 Features
 * Dynamic color nodes - passing in a dynamic `UIColor` will allow the color node to properly adjust to light or dark mode
@@ -206,11 +206,52 @@ ColorPaletteBindingView(...)
     .focus(location: .zero, speed: 1600, rate: 0.2)
 ```
 
+Use `canMoveFocusedNode` to customize whether the focused node is movable or not.
+
+```swift
+// For UIKit
+ColorPaletteView(...)
+    .canMoveFocusedNode(false)
+     
+// For SwiftUI
+ColorPaletteBindingView(...)
+    .canMoveFocusedNode(false)
+```
+
+
 For SwiftUI, you can also customize the binding animation that occurs when a new palette color is selected.
 
 ```swift
 ColorPaletteBindingView(...)
     .bindingAnimation(.easeInOut)
+```
+
+### Scene Customization
+
+Like mentioned in the introduction, the `SKScene` that drives the view is exposed through a property called `paletteScene`. If you are experienced with SpriteKit, you may tamper with the scene for greater flexibility.
+
+Use `spawnConfiguration` to customize the allowable area of where nodes can spawn:
+
+```swift
+// For UIKit
+ColorPaletteView(...)
+    .spawnConfiguration(widthRatio: 1, heightRatio: 1)
+     
+// For SwiftUI
+ColorPaletteBindingView(...)
+    .spawnConfiguration(widthRatio: 1, heightRatio: 1)
+```
+
+Use `rotation` to customize how fast you want the nodes to rotate around your focus location:
+
+```swift
+// For UIKit
+ColorPaletteView(...)
+    .rotation(multiplier: 4)
+     
+// For SwiftUI
+ColorPaletteBindingView(...)
+    .rotation(multiplier: 4)
 ```
 
 ### Events
@@ -258,7 +299,7 @@ Inside `Sources`, drag the `ElegantColorPalette` folder into your project.
 use_frameworks!
 
 target 'YOUR_TARGET_NAME' do
-    pod 'ElegantColorPalette', '~> 1.1'
+    pod 'ElegantColorPalette', '~> 1.2'
 end
 ```
 
@@ -273,7 +314,7 @@ $ pod install
 Add this to `Cartfile`
 
 ```
-github "ThasianX/ElegantColorPalette" ~> 1.1.0
+github "ThasianX/ElegantColorPalette" ~> 1.2.0
 ```
 
 ```bash
@@ -294,7 +335,7 @@ import PackageDescription
 let package = Package(
   name: "TestProject",
   dependencies: [
-    .package(url: "https://github.com/ThasianX/ElegantColorPalette", from: "1.1.0")
+    .package(url: "https://github.com/ThasianX/ElegantColorPalette", from: "1.2.0")
   ],
   targets: [
     .target(name: "TestProject", dependencies: ["ElegantColorPalette"])
