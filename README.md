@@ -8,9 +8,9 @@
 
 The elegant color picker missed in UIKit and SwiftUI.
 
-<img src="https://github.com/ThasianX/GIFs/blob/master/ElegantColorPalette/demo.gif" width="320"/> <img src="https://github.com/ThasianX/GIFs/blob/master/ElegantColorPalette/fun_demo.gif" width="320"/>
+<img src="https://github.com/ThasianX/GIFs/blob/master/ElegantColorPalette/demo.gif" width="320"/> <img src="https://github.com/ThasianX/GIFs/blob/master/ElegantColorPalette/menu_demo.gif" width="320"/>
 
-This example GIF is from [ElegantTimeline](https://github.com/ThasianX/ElegantTimeline-SwiftUI). For a simpler demonstration, you can look at either of the 3 demo projects in this repository. And haha, that 2nd gif just me trying to tap as many nodes as fast as possible. And as you can see, there's no side effects.
+These GIFs are from [ElegantTimeline](https://github.com/ThasianX/ElegantTimeline-SwiftUI). For simpler demonstrations, you can look at either of the 3 demo projects in this repository.
 
 - [Introduction](#introduction)
 - [Basic Usage](#basic-usage)
